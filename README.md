@@ -1,4 +1,24 @@
-# Why The Military Makes Movies
+# military-media-test
 
-### [Project Brief](https://drive.google.com/file/d/17T8L_pR7qA1_b6CIUlNovaQrmzLdQJ6t/view?usp=sharing)
+## Project setup
+```
+yarn install
+```
 
+### Compiles and hot-reloads for development
+```
+yarn serve
+```
+
+### Compiles and minifies for production
+```
+yarn build
+```
+
+### Lints and fixes files
+```
+yarn lint
+```
+
+### Customize configuration
+See [Configuration Reference](https://cli.vuejs.org/config/).
