@@ -1,6 +1,10 @@
 <template>
 <div id="app">
-  <h1 class='app-title'>Military Movie Database</h1>
+  <div class='title-wrapper'>
+    <div><b class='app-title first-word'>ASSISTANCE</b><b class='app-title second-word'>DENIED</b></div>
+    <div class='app-subtitle'>HOW THE <b style='color: var(--approved)'>MILITARY</b> & <b style='color: var(--denied)'>HOLLYWOOD</b> WORK TOGETHER</div>
+  </div>
+  
   <div class='filter-container'>
     <select v-model="filterStatus" placeholder='ALL'>
       <option v-for="status in statusOptions" :key="status">
@@ -14,11 +18,17 @@
 
   <div class='movie-container'>
   <MovieCard v-for="movie in filteredFilms"
-      :key="movie.Title + movie.Year"
-      :Title="movie.Title"
+      :key="movie.TitleClean + movie.Year"
+      :Title="movie.TitleClean"
       :Remarks="movie.Remarks"
       :Year="movie.Year"
-      :Status="movie.Status">
+      :Status="movie.Status"
+      :Poster="movie.Poster"
+      :Genre="movie.Genre"
+      :ratingImdb="movie.ratingImdb"
+      :imdbVotes="movie.imdbVotes"
+      :FilmReleased="movie.FilmReleased"
+      :Plot="movie.Plot">
   </MovieCard>
     </div>
   </div>
@@ -42,6 +52,7 @@ export default {
   },
   mounted() {
     Promise.all([d3.csv("./movies.csv", d3.autoType)]).then(([data]) => {
+
     function getColByName(arr, columnName) {
         const col = [];
         for (let row = 0; row < arr.length - 1; row++) {
@@ -50,7 +61,8 @@ export default {
         }
           return col;
       }
-      const parsed = data.filter(el => {return el.Status != null && el.Title != null}).sort((a, b) => {return a.Title - b.Title});
+
+      const parsed = data.filter(el => {return el.Status != null && el.TitleForSorting != null}).sort((a, b) => {return a.TitleForSorting - b.TitleForSorting});
       this.movies = parsed
       const options = Array.from(new Set(getColByName(parsed, "Status")))
       options.push("ALL")
@@ -70,11 +82,11 @@ export default {
         })
       } else if (this.filterStatus === "ALL" && this.searchTerm != "") {
         return this.movies.filter(el => {
-          return el.Title.toString().match(termFilter)
+          return el.TitleForSorting.toString().match(termFilter)
         })
       } else {
         return this.movies.filter(el => {
-          return el.Status.match(statusFilter) && el.Title.toString().match(termFilter)
+          return el.Status.match(statusFilter) && el.TitleForSorting.toString().match(termFilter)
         })
       }
     },
@@ -89,15 +101,66 @@ export default {
 </script>
 
 <style>
-#app {
-  font-family: 'IBM Plex Sans', sans-serif;
+:root {
+  /* Colors */
+  --bg-color: #212121;
+  --accent: #2e2e2e;
+  --approved: #AABA4F;
+  --denied: #ED6B86;
+  --limited: #769FB6;
+  --other: #DCDCDC;
+  --text:white;
+  --subtitle: #696969;
+
+  /* Fonts */
+  --title-font: 'Chakra Petch', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  --body-font: 'IBM Plex Sans', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Font Sizes */
+  --root-size: 12px;
+  --h1-size: 3.8em;
+  --h2-size: 1.8em;
+  --subtitle-size: 0.6em;
+}
+
+html {
+  background-color: var(--bg-color);
+  color: white;
+}
+
+#app {
+  font-family: 'IBM Plex Sans', sans-serif;
   margin: 0;
 }
 
-.app-title {
+.title-wrapper {
   text-align: center;
+}
+
+.app-title {
+  font-family: var(--title-font);
+  font-size: var(--h1-size);
+  color: white;
+}
+
+.app-subtitle {
+  font-size: 23.5px;
+  color: var(--subtitle);
+  transform: translateY(-8px)
+}
+
+.first-word {
+  text-shadow: 0px 4px var(--approved);
+}
+
+.second-word {
+  text-shadow: 0px 4px var(--denied);
+  margin: 0px 0px 0px 10px;
 }
 
 .movie-container {
@@ -116,10 +179,8 @@ export default {
 
 .filter-container {
   font-family: 'IBM Plex Sans', sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
   position: sticky;
-  background-color: white;
+  background-color: var(--bg-color);
   opacity: 0.9;
   top: 0;
   text-align: center;
@@ -128,13 +189,13 @@ export default {
 
 .filter-btn {
   padding: 10px;
-  background-color: lightgray;
+  background-color: var(--bg-color);
   border: none;
   margin: 10px;
 }
 
 .filter-btn:hover {
-  background-color: gray;
+  background-color: var(--bg-color);
   cursor: pointer;
 }
 
