@@ -1,5 +1,5 @@
 <template>
-<div class='movie-card' :class="cardStyle">
+<div class='movie-container' :class="[cardStyle, modalStatus]" v-on:click="handleClick">
   <div class='col1'>
     <div v-if="Poster != null" class='image-wrapper'>
       <div><img :src="posterUrl"></div>
@@ -23,13 +23,13 @@
 
       <div class='remarks-wrapper'>
         <div class='movie-label'>DOD REMARKS</div>
-        <div class='movie-remarks'>"{{ Remarks }}"</div>
+        <div class='movie-remarks'>"{{ movieRemarks }}"</div>
       </div>
 
 
       <div v-if="Plot != null" class='plot-wrapper'>
         <div class='movie-label'>PLOT</div>
-        <div v-if="Plot != null" class='movie-remarks'><i>{{ moviePlot }}</i></div>
+        <div v-if="Plot != null" class='movie-plot'><i>{{ moviePlot }}</i></div>
       </div>
       <div v-else></div>
       
@@ -42,17 +42,24 @@
 <script>
 export default {
   props: ['Title', 'Remarks', 'Year', 'FilmReleased', 'Genre', 'ratingImdb', 'imdbVotes', 'Status', 'Poster', 'Plot'],
+  data: function () {
+    return {
+      openStatus: false,
+    }
+  },
   methods: {
     handleClick() {
-      this.count++;
-      if (this.count === 1) {
-        this.plural = "time"
-      } else {
-        this.plural = "times"
-      }
+      this.openStatus = !this.openStatus;
     },
   },
   computed: {
+    modalStatus() {
+      if (this.openStatus === true) {
+        return "movie-card-modal"
+      } else {
+        return "movie-card"
+      }
+    },
     movieStatus() {
       if (this.Status === "APPROVED") {
         return "approved"
@@ -77,16 +84,38 @@ export default {
     },
     moviePlot() {
       let wordLimit = 15;
-      let plotSplit = this.Plot.split(' ');
-
-      if (plotSplit.length <= wordLimit) {
+      if (this.openStatus === true) {
         return this.Plot;
-      } else {
-        const selectedWords = plotSplit.slice(0, wordLimit)
-        selectedWords.push("...")
-        const shortPlot = selectedWords.join(' ')
-        return shortPlot;
       }
+       else {
+        let plotSplit = this.Plot.split(' ');
+        if (plotSplit.length <= wordLimit) {
+          return this.Plot;
+        } else {
+          const selectedWords = plotSplit.slice(0, wordLimit)
+          selectedWords.push("...")
+          const shortPlot = selectedWords.join(' ')
+          return shortPlot;
+        }
+       }
+    },
+
+    movieRemarks() {
+      let wordLimit = 45;
+      if (this.openStatus === true) {
+        return this.Remarks;
+      }
+       else {
+        let remarksSplit = this.Remarks.split(' ');
+        if (remarksSplit.length <= wordLimit) {
+          return this.Remarks;
+        } else {
+          const selectedWords = remarksSplit.slice(0, wordLimit)
+          selectedWords.push("...")
+          const shortRemarks = selectedWords.join(' ')
+          return shortRemarks;
+        }
+       }
     },
       
     posterUrl() {
@@ -99,6 +128,16 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 
+.movie-container {
+  padding: 10px;
+  margin: 10px auto;
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  background-color: var(--accent);
+  color: var(--text);
+  border-radius: 5px;
+}
+
 .movie-card {
   padding: 10px;
   margin: 10px;
@@ -107,6 +146,33 @@ export default {
   background-color: var(--accent);
   color: var(--text);
   border-radius: 5px;
+}
+
+.movie-card:hover {
+  cursor: pointer;
+}
+
+.movie-card-modal {
+  padding: 10px;
+  margin: 10px auto;
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  background-color: var(--accent);
+  color: var(--text);
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+  width: 80%;
+  max-width: 600px;
+  height: 50%;
+  overflow: auto;
+}
+
+.movie-card-modal:hover {
+  cursor: pointer;
 }
 
 .card-approved, .card-denied, .card-limited, .card-other {
@@ -183,22 +249,51 @@ export default {
   margin: 15px 0px 2px 0px;
 }
 
-.movie-remarks {
+.movie-remarks, .movie-plot {
   font-size: 12px;
   text-align: left;
 }
 
 img {
-  max-width: 85%;
-  max-height: 200px;
-  margin: 0px 20px 0px 0px;
-  border: 0.5px solid var(--bg-color);
+  width: 85%;
+  margin: 0px 20px 10px 0px;
+  border: 0.5px solid grey;
 }
 
 .poster-placeholder {
   width: 85%;
   height: 200px;
   background-color: var(--bg-color);
+}
+
+@media only screen and (max-width: 900px) { 
+  .movie-container {
+    padding: 10px;
+    margin: 5px 0px 5px 0px;
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    background-color: var(--accent);
+    color: var(--text);
+    border-radius: 5px;
+  }
+
+  .movie-card-modal {
+    padding: 10px;
+    margin: 20px auto;
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    background-color: var(--accent);
+    color: var(--text);
+    position: fixed;
+    top: 5;
+    bottom: 0;
+    z-index: 1;
+    width: 80%;
+    max-width: 600px;
+    height: 70%;
+    overflow: auto;
+  }
+
 }
 
 

@@ -1,7 +1,7 @@
 <template>
 <div id="app">
   <div class='title-wrapper'>
-    <div><b class='app-title first-word'>ASSISTANCE</b><b class='app-title second-word'>DENIED</b></div>
+    <div class='title-container'><b class='app-title first-word'>ASSISTANCE</b><b class='app-title second-word'>DENIED</b></div>
     <div class='app-subtitle'>HOW THE <b style='color: var(--approved)'>MILITARY</b> & <b style='color: var(--denied)'>HOLLYWOOD</b> WORK TOGETHER</div>
   </div>
   
@@ -16,7 +16,7 @@
     <div class='film-count' v-else>Showing {{listLength}} films</div>
   </div>
 
-  <div class='movie-container'>
+  <div class='movie-wrapper'>
   <MovieCard v-for="movie in filteredFilms"
       :key="movie.TitleClean + movie.Year"
       :Title="movie.TitleClean"
@@ -151,7 +151,7 @@ html {
 .app-subtitle {
   font-size: 23.5px;
   color: var(--subtitle);
-  transform: translateY(-8px)
+  transform: translateY(-8px);
 }
 
 .first-word {
@@ -163,7 +163,7 @@ html {
   margin: 0px 0px 0px 10px;
 }
 
-.movie-container {
+.movie-wrapper {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   column-gap: 10px;
@@ -217,12 +217,29 @@ input {
 }
 
 @media only screen and (max-width: 900px) { 
-.movie-container {
-  display: grid;
-  grid-template-columns: 1fr;
-  column-gap: 10px;
-  row-gap: 10px;
-}
+
+  .movie-wrapper {
+    display: grid;
+    grid-template-columns: 1fr;
+    margin: 0px 10px;
+  }
+
+
+  .title-container {
+    display: grid;
+  }
+
+  .second-word {
+    text-shadow: 0px 4px var(--denied);
+    margin: 0px 0px 0px 10px;
+    transform: translateY(-22px);
+  }
+
+  .app-subtitle {
+    font-size: 23.5px;
+    color: var(--subtitle);
+    transform: translateY(-18px);
+  }
 
 }
 
