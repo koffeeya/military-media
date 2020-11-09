@@ -67,13 +67,20 @@
         <div v-if="Plot != null" class='movie-plot'><i>{{ moviePlotModal }}</i></div>
       </div>
       <div v-else></div>
+      <!-- Genres -->
+      <div class='genre-wrapper'>
+        <GenreButton v-for="genre in genreList" :key="genre" :genre="genre" :movieStatus="movieStatus"></GenreButton>
+      </div>
+      
     </div>
+
   </div>
 </div>
 
 </template>
 
 <script>
+import GenreButton from './GenreButton.vue'
 export default {
   props: ['Title', 'Remarks', 'Year', 'FilmReleased', 'Genre', 'ratingImdb', 'imdbVotes', 'Status', 'Poster', 'Plot'],
   data: function () {
@@ -90,6 +97,14 @@ export default {
     }
   },
   computed: {
+    genreList() {
+      if (this.Genre != null) {
+        const genreArray = this.Genre.split(", ");
+        return genreArray;
+      } else {
+        return "";
+      }
+    },
     modalStatus() {
       if (this.openStatus === true) {
         return "movie-card-modal"
@@ -153,6 +168,9 @@ export default {
       return this.Poster
     },
   },
+  components: {
+    GenreButton
+  }
 };
 </script>
 
@@ -303,6 +321,13 @@ img {
   background-color: var(--bg-color);
 }
 
+.genre-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  row-gap: 10px;
+  margin: 15px 3px;
+}
+
 @media only screen and (max-width: 900px) { 
   .movie-container {
     padding: 10px;
@@ -329,6 +354,13 @@ img {
     max-width: 600px;
     height: 70%;
     overflow: auto;
+  }
+
+  .genre-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    row-gap: 10px;
+    margin: 15px 3px;
   }
 
 }
