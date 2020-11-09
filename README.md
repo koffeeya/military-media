@@ -1,4 +1,4 @@
-# military-media-test
+# Assistance Denied: How the Military & Hollywood Work Together
 
 ## Project setup
 ```
