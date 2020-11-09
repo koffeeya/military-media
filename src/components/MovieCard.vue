@@ -1,42 +1,76 @@
 <template>
-<div class='movie-container' :class="[cardStyle, modalStatus]" v-on:click="handleClick">
+<!-- If open status is false -->
+<div class='movie-card' :class="[cardStyle]" v-on:click="openModal">
   <div class='col1'>
     <div v-if="Poster != null" class='image-wrapper'>
       <div><img :src="posterUrl"></div>
     </div>
     <div v-else class='poster-placeholder'></div>
-
   </div>
   <div class='col2'>
     <div class='card-wrapper'>
-
+      <!-- Movie Status -->
       <div class='movie-status-wrapper'>
         <div class='movie-status' :class="movieStatus">{{ Status }}</div>
       </div>
-
+      <!-- Title -->
       <div class='movie-title'>{{ Title }}</div>
-
+      <!-- Subtitle -->
       <div class='movie-subtitle-wrapper'>
         <div v-if="FilmReleased === 'TRUE'" class='movie-subtitle'><b>{{ Year }}</b> &nbsp;|&nbsp; <b>{{ ratingImdb }}</b> / 10&nbsp; (IMDb, {{ imdbVotes }} votes) &nbsp;|&nbsp; <b>{{ Genre }}</b></div>
         <div v-else class='movie-subtitle'><b>FILM NOT RELEASED</b></div>
       </div>
-
+      <!-- Remarks -->
       <div class='remarks-wrapper'>
         <div class='movie-label'>DOD REMARKS</div>
         <div class='movie-remarks'>"{{ movieRemarks }}"</div>
       </div>
-
-
+      <!-- Plot -->
       <div v-if="Plot != null" class='plot-wrapper'>
         <div class='movie-label'>PLOT</div>
         <div v-if="Plot != null" class='movie-plot'><i>{{ moviePlot }}</i></div>
       </div>
       <div v-else></div>
-      
     </div>
   </div>
-  
 </div>
+
+<!-- Movie card modal version -->
+<div class='movie-card-modal' :class="[cardStyle, modalStatus]" v-on:click="closeModal">
+  <div class='col1'>
+    <div v-if="Poster != null" class='image-wrapper'>
+      <div><img :src="posterUrl"></div>
+    </div>
+    <div v-else class='poster-placeholder'></div>
+  </div>
+  <div class='col2'>
+    <div class='card-wrapper'>
+      <!-- Movie Status -->
+      <div class='movie-status-wrapper'>
+        <div class='movie-status' :class="movieStatus">{{ Status }}</div>
+      </div>
+      <!-- Title -->
+      <div class='movie-title'>{{ Title }}</div>
+      <!-- Subtitle -->
+      <div class='movie-subtitle-wrapper'>
+        <div v-if="FilmReleased === 'TRUE'" class='movie-subtitle'><b>{{ Year }}</b> &nbsp;|&nbsp; <b>{{ ratingImdb }}</b> / 10&nbsp; (IMDb, {{ imdbVotes }} votes) &nbsp;|&nbsp; <b>{{ Genre }}</b></div>
+        <div v-else class='movie-subtitle'><b>FILM NOT RELEASED</b></div>
+      </div>
+      <!-- Remarks -->
+      <div class='remarks-wrapper'>
+        <div class='movie-label'>DOD REMARKS</div>
+        <div class='movie-remarks'>"{{ movieRemarksModal }}"</div>
+      </div>
+      <!-- Plot -->
+      <div v-if="Plot != null" class='plot-wrapper'>
+        <div class='movie-label'>PLOT</div>
+        <div v-if="Plot != null" class='movie-plot'><i>{{ moviePlotModal }}</i></div>
+      </div>
+      <div v-else></div>
+    </div>
+  </div>
+</div>
+
 </template>
 
 <script>
@@ -48,16 +82,19 @@ export default {
     }
   },
   methods: {
-    handleClick() {
-      this.openStatus = !this.openStatus;
+    openModal() {
+      this.openStatus = true;
     },
+    closeModal() {
+      this.openStatus = false;
+    }
   },
   computed: {
     modalStatus() {
       if (this.openStatus === true) {
         return "movie-card-modal"
       } else {
-        return "movie-card"
+        return "movie-card-modal hide"
       }
     },
     movieStatus() {
@@ -84,40 +121,34 @@ export default {
     },
     moviePlot() {
       let wordLimit = 15;
-      if (this.openStatus === true) {
+      let plotSplit = this.Plot.split(' ');
+      if (plotSplit.length <= wordLimit) {
         return this.Plot;
+      } else {
+        const selectedWords = plotSplit.slice(0, wordLimit)
+        selectedWords.push("...")
+        const shortPlot = selectedWords.join(' ')
+        return shortPlot;
       }
-       else {
-        let plotSplit = this.Plot.split(' ');
-        if (plotSplit.length <= wordLimit) {
-          return this.Plot;
-        } else {
-          const selectedWords = plotSplit.slice(0, wordLimit)
-          selectedWords.push("...")
-          const shortPlot = selectedWords.join(' ')
-          return shortPlot;
-        }
-       }
     },
-
+    moviePlotModal() {
+      return this.Plot;
+    },
     movieRemarks() {
       let wordLimit = 45;
-      if (this.openStatus === true) {
+      let remarksSplit = this.Remarks.split(' ');
+      if (remarksSplit.length <= wordLimit) {
         return this.Remarks;
+      } else {
+        const selectedWords = remarksSplit.slice(0, wordLimit)
+        selectedWords.push("...")
+        const shortRemarks = selectedWords.join(' ')
+        return shortRemarks;
       }
-       else {
-        let remarksSplit = this.Remarks.split(' ');
-        if (remarksSplit.length <= wordLimit) {
-          return this.Remarks;
-        } else {
-          const selectedWords = remarksSplit.slice(0, wordLimit)
-          selectedWords.push("...")
-          const shortRemarks = selectedWords.join(' ')
-          return shortRemarks;
-        }
-       }
     },
-      
+    movieRemarksModal() {
+      return this.Remarks;
+    },
     posterUrl() {
       return this.Poster
     },
@@ -127,6 +158,12 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
+.hide {
+  position: absolute !important;
+  top: -9999px !important;
+  left: -9999px !important;
+}
 
 .movie-container {
   padding: 10px;

@@ -1,5 +1,4 @@
 <template>
-<div id="app">
   <div class='title-wrapper'>
     <div class='title-container'><b class='app-title first-word'>ASSISTANCE</b><b class='app-title second-word'>DENIED</b></div>
     <div class='app-subtitle'>HOW THE <b style='color: var(--approved)'>MILITARY</b> & <b style='color: var(--denied)'>HOLLYWOOD</b> WORK TOGETHER</div>
@@ -31,7 +30,6 @@
       :Plot="movie.Plot">
   </MovieCard>
     </div>
-  </div>
 </template>
 
 <script>
