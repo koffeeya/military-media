@@ -1,45 +1,62 @@
 <template>
-    <div class='btn' :class="movieStatus">{{ genre.toUpperCase() }}</div>
+    <div class='btn' :class="genreStyle"> {{ genre.toUpperCase() }}</div>
 </template>
 
 <script>
 export default {
-    props: ['genre', 'movieStatus']
+    name: 'GenreButton',
+    props: ['genre', 'movieStatus'],
+    computed: {
+        genreStyle() {
+            if (this.movieStatus === "APPROVED") {
+                return "genre-approved"
+            } else if (this.movieStatus === "DENIED") {
+                return "genre-denied"
+            } else if (this.movieStatus === "LIMITED") {
+                return "genre-limited"
+            } else {
+                return "genre-other"
+            }
+        }
+    }
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
     .btn {
-        margin: 0px 10px 0px 0px;
+        margin: 5px 10px 0px 0px;
         padding: 5px 8px;
         width: fit-content;
-        color: var(--bg-color);
+        color: gray;
         font-family: var(--body-font);
         font-size: var(--subtitle-size);
-        background-color: var(--accent);
         font-weight: 800;
         border-radius: 5px;
     }
 
-    .approved, .denied, .limited, .other {
-        background-color: var(--accent);
+    .genre-approved, .genre-denied, .genre-limited, .genre-other {
+        background-color: var(--bg-color);
     }
 
-    /* .approved:hover {
+    .genre-approved:hover {
+        color: var(--bg-color);
         background-color: var(--approved);
     }
 
-    .denied:hover {
+    .genre-denied:hover {
+        color: var(--bg-color);
         background-color: var(--denied);
     }
 
-    .limited:hover {
+    .genre-limited:hover {
+        color: var(--bg-color);
         background-color: var(--limited);
     }
 
-    .other:hover {
+    .genre-other:hover {
+        color: var(--bg-color);
         background-color: var(--other);
-    } */
+    }
 
 </style>

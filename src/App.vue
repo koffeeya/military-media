@@ -1,56 +1,26 @@
 <template>
-  <div class='title-wrapper'>
-    <div class='title-container'><b class='app-title first-word'>ASSISTANCE</b><b class='app-title second-word'>DENIED</b></div>
-    <div class='app-subtitle'>HOW THE <b style='color: var(--approved)'>MILITARY</b> & <b style='color: var(--denied)'>HOLLYWOOD</b> WORK TOGETHER</div>
-  </div>
-  
-  <div class='filter-container'>
-    <select v-model="filterStatus" placeholder='ALL'>
-      <option v-for="status in statusOptions" :key="status">
-        {{status}}
-      </option>
-    </select>
-      <input v-model='searchTerm' placeholder='Search for a film by name'>
-    <div class='film-count' v-if="listLength === 1">Showing {{listLength}} film</div>
-    <div class='film-count' v-else>Showing {{listLength}} films</div>
-  </div>
-
-  <div class='movie-wrapper'>
-  <MovieCard v-for="movie in filteredFilms"
-      :key="movie.TitleClean + movie.Year"
-      :Title="movie.TitleClean"
-      :Remarks="movie.Remarks"
-      :Year="movie.Year"
-      :Status="movie.Status"
-      :Poster="movie.Poster"
-      :Genre="movie.Genre"
-      :ratingImdb="movie.ratingImdb"
-      :imdbVotes="movie.imdbVotes"
-      :FilmReleased="movie.FilmReleased"
-      :Plot="movie.Plot">
-  </MovieCard>
-    </div>
+  <AppTitle></AppTitle>
+  <IntroSection :carouselData="carouselData" :movies="movies"></IntroSection>
+  <BrowseFilms :movies="movies" :statusOptions="statusOptions"></BrowseFilms>
 </template>
 
 <script>
-import MovieCard from './components/MovieCard.vue'
+import AppTitle from './sections/AppTitle.vue'
+import IntroSection from './sections/IntroSection.vue'
+import BrowseFilms from './sections/BrowseFilms.vue'
 import * as d3 from "d3";
 
 export default {
   name: 'App',
   data() {
     return {
-      searchTerm: "",
-      searchTopic: "",
-      filterStatus: "ALL",
       movies: [],
       statusOptions: [],
-      pluralFilms: "films",
+      carouselData: [],
     }
   },
-  mounted() {
+  created() {
     Promise.all([d3.csv("./movies.csv", d3.autoType)]).then(([data]) => {
-
     function getColByName(arr, columnName) {
         const col = [];
         for (let row = 0; row < arr.length - 1; row++) {
@@ -59,41 +29,19 @@ export default {
         }
           return col;
       }
-
-      const parsed = data.filter(el => {return el.Status != null && el.TitleForSorting != null}).sort((a, b) => {return a.TitleForSorting - b.TitleForSorting});
-      this.movies = parsed
-      const options = Array.from(new Set(getColByName(parsed, "Status")))
+      this.movies = data.filter(el => {return el.Status != null && el.TitleForSorting != null}).sort((a, b) => {return a.TitleForSorting - b.TitleForSorting});
+      /* Status options */
+      const options = Array.from(new Set(getColByName(this.movies, "Status")))
       options.push("ALL")
       this.statusOptions = options.sort();
+      /* Carousel fields */
+      this.carouselData = data.filter(el => {return el.Status != null && el.TitleForSorting != null && el.CarouselFlag === "TRUE"}).sort((a, b) => {return a.CarouselOrder - b.CarouselOrder});
   });
   },
-  computed: {
-    filteredFilms() {
-      let termFilter = new RegExp(this.searchTerm, 'i')
-      let statusFilter = new RegExp(this.filterStatus, 'i')
-
-      if (this.filterStatus === "ALL" && this.searchTerm === "") {
-        return this.movies
-      } else if (this.filterStatus != "ALL" && this.searchTerm === "") {
-        return this.movies.filter(el => {
-          return el.Status.match(statusFilter)
-        })
-      } else if (this.filterStatus === "ALL" && this.searchTerm != "") {
-        return this.movies.filter(el => {
-          return el.TitleForSorting.toString().match(termFilter)
-        })
-      } else {
-        return this.movies.filter(el => {
-          return el.Status.match(statusFilter) && el.TitleForSorting.toString().match(termFilter)
-        })
-      }
-    },
-    listLength() {
-      return this.filteredFilms.length
-    }
-  },
   components: {
-    MovieCard
+    AppTitle,
+    IntroSection,
+    BrowseFilms
   }
 }
 </script>
@@ -123,6 +71,7 @@ export default {
   --root-size: 12px;
   --h1-size: 3.8em;
   --h2-size: 1.8em;
+  --h3-size: 1.3em;
   --subtitle-size: 0.6em;
 }
 
@@ -134,111 +83,6 @@ html {
 #app {
   font-family: 'IBM Plex Sans', sans-serif;
   margin: 0;
-}
-
-.title-wrapper {
-  text-align: center;
-}
-
-.app-title {
-  font-family: var(--title-font);
-  font-size: var(--h1-size);
-  color: white;
-}
-
-.app-subtitle {
-  font-size: 23.5px;
-  color: var(--subtitle);
-  transform: translateY(-8px);
-}
-
-.first-word {
-  text-shadow: 0px 4px var(--approved);
-}
-
-.second-word {
-  text-shadow: 0px 4px var(--denied);
-  margin: 0px 0px 0px 10px;
-}
-
-.movie-wrapper {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  column-gap: 10px;
-  row-gap: 10px;
-  margin: 0px 40px;
-}
-
-.film-count {
-  font-weight: 900;
-  padding: 10px;
-  font-size: 18px;
-}
-
-.filter-container {
-  font-family: 'IBM Plex Sans', sans-serif;
-  position: sticky;
-  background-color: var(--bg-color);
-  opacity: 0.9;
-  top: 0;
-  text-align: center;
-  padding: 10px 0px 20px 0px;
-}
-
-.filter-btn {
-  padding: 10px;
-  background-color: var(--bg-color);
-  border: none;
-  margin: 10px;
-}
-
-.filter-btn:hover {
-  background-color: var(--bg-color);
-  cursor: pointer;
-}
-
-select {
-  font-family: 'IBM Plex Sans', sans-serif;
-  font-size: 16px;
-  padding: 10px;
-  margin: 10px;
-  font-weight: 900;
-}
-
-input {
-  font-family: 'IBM Plex Sans', sans-serif;
-  font-size: 16px;
-  padding: 10px;
-  margin: 10px;
-  width: 60%;
-  font-weight: 900;
-}
-
-@media only screen and (max-width: 900px) { 
-
-  .movie-wrapper {
-    display: grid;
-    grid-template-columns: 1fr;
-    margin: 0px 10px;
-  }
-
-
-  .title-container {
-    display: grid;
-  }
-
-  .second-word {
-    text-shadow: 0px 4px var(--denied);
-    margin: 0px 0px 0px 10px;
-    transform: translateY(-22px);
-  }
-
-  .app-subtitle {
-    font-size: 23.5px;
-    color: var(--subtitle);
-    transform: translateY(-18px);
-  }
-
 }
 
 </style>

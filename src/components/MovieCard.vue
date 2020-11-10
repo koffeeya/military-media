@@ -1,11 +1,11 @@
 <template>
-<!-- If open status is false -->
+<!-- Movie card standard -->
 <div class='movie-card' :class="[cardStyle]" v-on:click="openModal">
   <div class='col1'>
     <div v-if="Poster != null" class='image-wrapper'>
       <div><img :src="posterUrl"></div>
     </div>
-    <div v-else class='poster-placeholder'></div>
+    <div v-else class='poster-placeholder'>NO POSTER<br>AVAILABLE</div>
   </div>
   <div class='col2'>
     <div class='card-wrapper'>
@@ -17,20 +17,24 @@
       <div class='movie-title'>{{ Title }}</div>
       <!-- Subtitle -->
       <div class='movie-subtitle-wrapper'>
-        <div v-if="FilmReleased === 'TRUE'" class='movie-subtitle'><b>{{ Year }}</b> &nbsp;|&nbsp; <b>{{ ratingImdb }}</b> / 10&nbsp; (IMDb, {{ imdbVotes }} votes) &nbsp;|&nbsp; <b>{{ Genre }}</b></div>
+        <div v-if="FilmReleased === 'TRUE'" class='movie-subtitle'><b :class="textStyle">{{ Year }}</b> &nbsp;|&nbsp; <b :class="textStyle">{{ ratingImdb }} / 10</b>&nbsp; (IMDb, {{ imdbVotes }} votes)</div>
         <div v-else class='movie-subtitle'><b>FILM NOT RELEASED</b></div>
       </div>
       <!-- Remarks -->
       <div class='remarks-wrapper'>
-        <div class='movie-label'>DOD REMARKS</div>
+        <div class='movie-label' :class="textStyle">DOD REMARKS</div>
         <div class='movie-remarks'>"{{ movieRemarks }}"</div>
       </div>
       <!-- Plot -->
       <div v-if="Plot != null" class='plot-wrapper'>
-        <div class='movie-label'>PLOT</div>
+        <div class='movie-label' :class="textStyle">PLOT</div>
         <div v-if="Plot != null" class='movie-plot'><i>{{ moviePlot }}</i></div>
       </div>
       <div v-else></div>
+      <!-- Genres -->
+      <div class='genre-wrapper'>
+        <GenreButton v-for="genre in genreList" :key="genre" :genre="genre" :movieStatus="Status"></GenreButton>
+      </div>
     </div>
   </div>
 </div>
@@ -41,7 +45,7 @@
     <div v-if="Poster != null" class='image-wrapper'>
       <div><img :src="posterUrl"></div>
     </div>
-    <div v-else class='poster-placeholder'></div>
+    <div v-else class='poster-placeholder'>NO POSTER<br>AVAILABLE</div>
   </div>
   <div class='col2'>
     <div class='card-wrapper'>
@@ -53,35 +57,35 @@
       <div class='movie-title'>{{ Title }}</div>
       <!-- Subtitle -->
       <div class='movie-subtitle-wrapper'>
-        <div v-if="FilmReleased === 'TRUE'" class='movie-subtitle'><b>{{ Year }}</b> &nbsp;|&nbsp; <b>{{ ratingImdb }}</b> / 10&nbsp; (IMDb, {{ imdbVotes }} votes) &nbsp;|&nbsp; <b>{{ Genre }}</b></div>
+        <div v-if="FilmReleased === 'TRUE'" class='movie-subtitle'><b>{{ Year }}</b> &nbsp;|&nbsp; <b>{{ ratingImdb }} / 10</b>&nbsp; (IMDb, {{ imdbVotes }} votes)</div>
         <div v-else class='movie-subtitle'><b>FILM NOT RELEASED</b></div>
       </div>
       <!-- Remarks -->
       <div class='remarks-wrapper'>
-        <div class='movie-label'>DOD REMARKS</div>
+        <div class='movie-label' :class="textStyle">DOD REMARKS</div>
         <div class='movie-remarks'>"{{ movieRemarksModal }}"</div>
       </div>
       <!-- Plot -->
       <div v-if="Plot != null" class='plot-wrapper'>
-        <div class='movie-label'>PLOT</div>
+        <div class='movie-label' :class="textStyle">PLOT</div>
         <div v-if="Plot != null" class='movie-plot'><i>{{ moviePlotModal }}</i></div>
       </div>
       <div v-else></div>
       <!-- Genres -->
       <div class='genre-wrapper'>
-        <GenreButton v-for="genre in genreList" :key="genre" :genre="genre" :movieStatus="movieStatus"></GenreButton>
+        <GenreButton v-for="genre in genreList" :key="genre" :genre="genre" :movieStatus="Status"></GenreButton>
       </div>
-      
     </div>
-
   </div>
 </div>
 
 </template>
 
 <script>
+/* import * as d3 from "d3"; */
 import GenreButton from './GenreButton.vue'
 export default {
+  name: 'MovieCard',
   props: ['Title', 'Remarks', 'Year', 'FilmReleased', 'Genre', 'ratingImdb', 'imdbVotes', 'Status', 'Poster', 'Plot'],
   data: function () {
     return {
@@ -134,6 +138,17 @@ export default {
         return "card-other"
       }
     },
+    textStyle() {
+      if (this.Status === "APPROVED") {
+        return "text-approved"
+      } else if (this.Status === "DENIED") {
+        return "text-denied"
+      } else if (this.Status === "LIMITED") {
+        return "text-limited"
+      } else {
+        return "text-other"
+      }
+    },
     moviePlot() {
       let wordLimit = 15;
       let plotSplit = this.Plot.split(' ');
@@ -150,7 +165,7 @@ export default {
       return this.Plot;
     },
     movieRemarks() {
-      let wordLimit = 45;
+      let wordLimit = 35;
       let remarksSplit = this.Remarks.split(' ');
       if (remarksSplit.length <= wordLimit) {
         return this.Remarks;
@@ -272,6 +287,22 @@ export default {
   background-color: var(--other);
 }
 
+.text-approved {
+  color: var(--approved);
+}
+
+.text-denied {
+  color: var(--denied);
+}
+
+.text-limited {
+  color: var(--limited);
+}
+
+.text-other {
+  color: rgb(153, 151, 151);
+}
+
 .movie-title {
   font-family: var(--title-font);
   font-size: var(--h2-size);
@@ -300,7 +331,6 @@ export default {
 
 .movie-label {
   font-size: var(--subtitle-size);
-  color: var(--subtitle);
   margin: 15px 0px 2px 0px;
 }
 
@@ -316,15 +346,21 @@ img {
 }
 
 .poster-placeholder {
-  width: 85%;
-  height: 200px;
+  width: 80%;
+  height: 50%;
   background-color: var(--bg-color);
+  color: var(--accent);
+  font-size: var(--root-size);
+  font-weight: 900;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .genre-wrapper {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-  row-gap: 10px;
+  display: flex;
+  flex-flow: row wrap;
   margin: 15px 3px;
 }
 
@@ -354,13 +390,6 @@ img {
     max-width: 600px;
     height: 70%;
     overflow: auto;
-  }
-
-  .genre-wrapper {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    row-gap: 10px;
-    margin: 15px 3px;
   }
 
 }
