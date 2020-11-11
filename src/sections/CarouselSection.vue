@@ -1,6 +1,6 @@
 <template>
     <div class='carousel-text-wrapper center'>
-      <div class='carousel-text'>Some examples:</div>
+      <div class='carousel-text'>A few examples of films in the database:</div>
     </div>
     <div class='carousel-icon-wrapper center'>
       <div class='carousel-icons'>{{ icons }}</div>
@@ -9,7 +9,7 @@
       <div class='spacer'></div>
       <button class='carousel-button' @click="previousCard">&#x25C1;</button>
       <CarouselMovieCard v-for="movie in carouselData"
-          :key="movie.TitleClean + movie.Year"
+          :key="movie.CarouselOrder + movie.TitleClean + movie.Year"
           :CarouselOrder="movie.CarouselOrder"
           :Title="movie.TitleClean"
           :Remarks="movie.Remarks"
@@ -167,19 +167,20 @@ export default {
 .carousel-button:hover {
   color: var(--bg-color);
   background-color: var(--accent);
+  cursor: pointer;
 }
 
 .carousel-button:focus {
   outline: none;
 }
 
-@media only screen and (max-width: 700px) { 
+@media only screen and (max-width: 900px) { 
     .carousel-wrapper {
       grid-template-columns: 0.1fr 0.5fr 5fr 0.5fr 0.1fr;
     }
 }
 
-@media only screen and (min-width: 1000px) { 
+@media only screen and (min-width: 1400px) { 
     .carousel-wrapper {
       grid-template-columns: 7fr 0.5fr 5fr 0.5fr 7fr;
     }

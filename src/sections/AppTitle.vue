@@ -15,7 +15,7 @@ export default {
 
 .title-wrapper {
   text-align: center;
-  margin: 10% 0% 5% 0%;
+  margin: 1% 0% 2% 0%;
 }
 
 .app-title {

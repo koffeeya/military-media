@@ -1,13 +1,13 @@
 <template>
   <AppTitle></AppTitle>
   <IntroSection :carouselData="carouselData" :movies="movies"></IntroSection>
-  <BrowseFilms :movies="movies" :statusOptions="statusOptions"></BrowseFilms>
+  <!-- <BrowseFilms :movies="movies" :statusOptions="statusOptions"></BrowseFilms> -->
 </template>
 
 <script>
 import AppTitle from './sections/AppTitle.vue'
 import IntroSection from './sections/IntroSection.vue'
-import BrowseFilms from './sections/BrowseFilms.vue'
+//import BrowseFilms from './sections/BrowseFilms.vue'
 import * as d3 from "d3";
 
 export default {
@@ -19,7 +19,7 @@ export default {
       carouselData: [],
     }
   },
-  created() {
+  mounted() {
     Promise.all([d3.csv("./movies.csv", d3.autoType)]).then(([data]) => {
     function getColByName(arr, columnName) {
         const col = [];
@@ -41,7 +41,7 @@ export default {
   components: {
     AppTitle,
     IntroSection,
-    BrowseFilms
+    //BrowseFilms
   }
 }
 </script>
@@ -77,6 +77,10 @@ export default {
 
 html {
   background-color: var(--bg-color);
+  color: white;
+}
+
+a {
   color: white;
 }
 
