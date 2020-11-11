@@ -40,8 +40,11 @@ export default {
 }
 
 
-@media only screen and (max-width: 900px) { 
+@media only screen and (max-width: 900px) {
 
+  .app-title {
+    font-size: 50px;
+  }
 
   .title-container {
     display: grid;
@@ -54,9 +57,9 @@ export default {
   }
 
   .app-subtitle {
-    font-size: 23.5px;
+    font-size: 18px;
     color: var(--subtitle);
-    transform: translateY(-18px);
+    transform: translateY(-20px);
   }
 
 }

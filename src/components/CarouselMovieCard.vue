@@ -1,6 +1,6 @@
 <template>
 <!-- Movie card standard -->
-<div class='movie-card' :class="[cardStyle, carouselClass]" v-on:click="openModal">
+<div class='movie-card-carousel' :class="[cardStyle, carouselClass, isHiddenAtStart]" v-on:click="openModal">
   <div class='col1'>
     <div v-if="Poster != null" class='image-wrapper'>
       <div><img class='img-poster' :src="posterUrl"></div>
@@ -42,6 +42,11 @@ export default {
   computed: {
     carouselClass() {
         return "order" + this.CarouselOrder
+    },
+    isHiddenAtStart() {
+      if (this.CarouselOrder === 1) {
+        return ""
+      } else return "hide"
     },
     movieStatus() {
       if (this.Status === "APPROVED") {
@@ -86,18 +91,13 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
-.movie-container {
-  padding: 10px;
-  margin: 10px auto;
-  display: grid;
-  grid-template-columns: 1fr 1.5fr;
-  background-color: var(--accent);
-  color: var(--text);
-  border-radius: 5px;
+.hide {
+  position: absolute !important;
+  top: -9999px !important;
+  left: -9999px !important;
 }
 
-.movie-card {
+.movie-card-carousel {
   padding: 10px;
   margin: 10px;
   display: grid;
@@ -175,34 +175,23 @@ img {
   border: 0.5px solid grey;
 }
 
-@media only screen and (max-width: 900px) { 
-  .movie-container {
-    padding: 10px;
-    margin: 5px 0px 5px 0px;
-    display: grid;
-    grid-template-columns: 1fr 1.5fr;
-    background-color: var(--accent);
-    color: var(--text);
-    border-radius: 5px;
+@media only screen and (max-width: 400px) {
+  .image-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
-  .movie-card-modal {
-    padding: 10px;
-    margin: 20px auto;
-    display: grid;
-    grid-template-columns: 1fr 1.5fr;
-    background-color: var(--accent);
-    color: var(--text);
-    position: fixed;
-    top: 5;
-    bottom: 0;
-    z-index: 1;
-    width: 80%;
-    max-width: 600px;
-    height: 70%;
-    overflow: auto;
+  img {
+    height: 125px;
+    width: auto;
+    margin: 0px 20px 10px 0px;
+    border: 0.5px solid grey;
   }
 
+  .movie-card-carousel {
+    grid-template-columns: 1fr;
+  }
 }
 
 
