@@ -57,7 +57,7 @@
       <div class='movie-title'>{{ Title }}</div>
       <!-- Subtitle -->
       <div class='movie-subtitle-wrapper'>
-        <div v-if="FilmReleased === 'TRUE'" class='movie-subtitle'><b>{{ Year }}</b> &nbsp;|&nbsp; <b>{{ ratingImdb }} / 10</b>&nbsp; (IMDb, {{ imdbVotes }} votes)</div>
+        <div v-if="FilmReleased === 'TRUE'" class='movie-subtitle'><b :class="textStyle">{{ Year }}</b> &nbsp;|&nbsp; <b :class="textStyle">{{ ratingImdb }} / 10</b>&nbsp; (IMDb, {{ imdbVotes }} votes)</div>
         <div v-else class='movie-subtitle'><b>FILM NOT RELEASED</b></div>
       </div>
       <!-- Remarks -->
@@ -68,13 +68,27 @@
       <!-- Plot -->
       <div v-if="Plot != null" class='plot-wrapper'>
         <div class='movie-label' :class="textStyle">PLOT</div>
-        <div v-if="Plot != null" class='movie-plot'><i>{{ moviePlotModal }}</i></div>
+        <div v-if="Plot != null" class='movie-plot'>{{ moviePlotModal }}</div>
+      </div>
+      <div v-else></div>
+      <!-- Awards -->
+      <div v-if="Awards != null" class='movie-subtitle-wrapper'>
+        <div class='movie-label' :class="textStyle">AWARDS</div>
+        <div class='movie-plot'>{{ Awards }}</div>
+      </div>
+      <div v-else></div>
+      <!-- Cast & Crew -->
+      <div v-if="Actors != null" class='movie-subtitle-wrapper'>
+        <div class='movie-label' :class="textStyle">CAST & CREW</div>
+        <div class='movie-plot'><b style='color:gray; font-weight:400;'>Starring:&nbsp;</b> {{ Actors }}</div>
+        <div class='movie-plot'><b style='color:gray; font-weight:400;'>Directed By:&nbsp;</b> {{ Director }}</div>
       </div>
       <div v-else></div>
       <!-- Genres -->
       <div class='genre-wrapper'>
         <GenreButton v-for="genre in genreList" :key="genre" :genre="genre" :movieStatus="Status"></GenreButton>
       </div>
+      
     </div>
   </div>
 </div>
@@ -82,11 +96,11 @@
 </template>
 
 <script>
-/* import * as d3 from "d3"; */
+import * as d3 from "d3";
 import GenreButton from './GenreButton.vue'
 export default {
   name: 'MovieCard',
-  props: ['Title', 'Remarks', 'Year', 'FilmReleased', 'Genre', 'ratingImdb', 'imdbVotes', 'Status', 'Poster', 'Plot'],
+  props: ['Title', 'Remarks', 'Year', 'FilmReleased', 'Genre', 'ratingImdb', 'imdbVotes', 'Status', 'Poster', 'Plot', 'Awards', 'Actors', 'Director'],
   data: function () {
     return {
       openStatus: false,
@@ -94,9 +108,12 @@ export default {
   },
   methods: {
     openModal() {
+      d3.selectAll(".movie-card-modal").classed("hide", true);
+      d3.select(".page-wrapper").classed('bg-open appear-bg', true)
       this.openStatus = true;
     },
     closeModal() {
+      d3.select(".page-wrapper").classed('bg-open appear-bg', false)
       this.openStatus = false;
     }
   },
@@ -111,9 +128,9 @@ export default {
     },
     modalStatus() {
       if (this.openStatus === true) {
-        return "movie-card-modal"
+        return "movie-card-modal appear"
       } else {
-        return "movie-card-modal hide"
+        return "movie-card-modal hide disappear"
       }
     },
     movieStatus() {
@@ -189,7 +206,7 @@ export default {
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
+
 <style scoped>
 
 .hide {
@@ -230,16 +247,39 @@ export default {
   background-color: var(--accent);
   color: var(--text);
   position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 1;
+  left: 33%;
+  top: 25%;
+  z-index: 2;
   width: 80%;
   max-width: 600px;
-  height: 50%;
+  max-height: 600px;
   overflow: auto;
+  opacity: 1;
 }
+
+.appear-bg {
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.disappear-bg {
+  opacity: 0.7;
+  transition: opacity 0.3s;
+  opacity: 0;
+}
+
+.appear {
+  opacity: 0;
+  transition: opacity 0.3s;
+  opacity: 1;
+}
+
+.disappear {
+  opacity: 1;
+  transition: opacity 0.3s;
+  opacity: 0;
+}
+
 
 .movie-card-modal:hover {
   cursor: pointer;
@@ -376,20 +416,12 @@ img {
   }
 
   .movie-card-modal {
-    padding: 10px;
     margin: 20px auto;
-    display: grid;
-    grid-template-columns: 1fr 1.5fr;
-    background-color: var(--accent);
-    color: var(--text);
     position: fixed;
-    top: 5;
-    bottom: 0;
-    z-index: 1;
-    width: 80%;
-    max-width: 600px;
-    height: 70%;
-    overflow: auto;
+    left: 5%;
+    top: 25%;
+    width: 85%;
+    max-height: 400px;
   }
 
 }

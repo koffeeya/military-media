@@ -1,47 +1,17 @@
 <template>
-  <AppTitle></AppTitle>
-  <IntroSection :carouselData="carouselData" :movies="movies"></IntroSection>
-  <!-- <BrowseFilms :movies="movies" :statusOptions="statusOptions"></BrowseFilms> -->
+    <HomePage></HomePage>
 </template>
 
 <script>
-import AppTitle from './sections/AppTitle.vue'
-import IntroSection from './sections/IntroSection.vue'
-//import BrowseFilms from './sections/BrowseFilms.vue'
-import * as d3 from "d3";
+import HomePage from './sections/HomePage.vue'
 
 export default {
   name: 'App',
   data() {
-    return {
-      movies: [],
-      statusOptions: [],
-      carouselData: [],
-    }
-  },
-  mounted() {
-    Promise.all([d3.csv("./movies.csv", d3.autoType)]).then(([data]) => {
-    function getColByName(arr, columnName) {
-        const col = [];
-        for (let row = 0; row < arr.length - 1; row++) {
-          const value = Object.values(arr)[row][columnName];
-          col.push(value);
-        }
-          return col;
-      }
-      this.movies = data.filter(el => {return el.Status != null && el.TitleForSorting != null}).sort((a, b) => {return a.TitleForSorting - b.TitleForSorting});
-      /* Status options */
-      const options = Array.from(new Set(getColByName(this.movies, "Status")))
-      options.push("ALL")
-      this.statusOptions = options.sort();
-      /* Carousel fields */
-      this.carouselData = data.filter(el => {return el.Status != null && el.TitleForSorting != null && el.CarouselFlag === "TRUE"}).sort((a, b) => {return a.CarouselOrder - b.CarouselOrder});
-  });
+    return {}
   },
   components: {
-    AppTitle,
-    IntroSection,
-    //BrowseFilms
+    HomePage
   }
 }
 </script>
@@ -84,9 +54,32 @@ a {
   color: white;
 }
 
+.bg-open {
+  background-color: var(--bg-color);
+  height: 100vh;
+  width: 98vw;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  opacity: 0.7;
+}
+
 #app {
   font-family: 'IBM Plex Sans', sans-serif;
   margin: 0;
+}
+
+#nav {
+  padding: 30px;
+}
+
+#nav a {
+  font-weight: bold;
+  color: #2c3e50;
+}
+
+#nav a.router-link-exact-active {
+  color: #42b983;
 }
 
 </style>

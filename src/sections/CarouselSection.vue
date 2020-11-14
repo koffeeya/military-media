@@ -21,7 +21,7 @@
           :ratingImdb="movie.ratingImdb"
           :imdbVotes="movie.imdbVotes"
           :FilmReleased="movie.FilmReleased"
-          :Plot="movie.Plot">
+          >
         </CarouselMovieCard>
       <button class='carousel-button' id='next-button' @click="nextCard">&#x25B7;</button>
       <div class='spacer'></div>
@@ -32,7 +32,7 @@
 import CarouselMovieCard from '../components/CarouselMovieCard.vue'
 import * as d3 from "d3";
 export default {
-    name: 'IntroSection',
+    name: 'CarouselSection',
     props: ['carouselData'],
     data () {
       return {

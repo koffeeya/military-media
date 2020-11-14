@@ -15,11 +15,11 @@
       <div class='movie-title'>{{ Title }} &nbsp;<b style='color:gray;'>({{ Year }})</b></div>
       <!-- Remarks -->
       <div class='movie-status-wrapper'>
-          <div class='movie-label'>Military response to assistance request:</div>
+          <div class='movie-label'>DoD response to assistance request:</div>
         <div class='movie-status' :class="movieStatus">{{ Status }}</div>
       </div>
       <div class='remarks-wrapper'>
-          <div class='movie-label'>Additional remarks from the military:</div>
+          <div class='movie-label'>DoD Remarks:</div>
         <div class='movie-remarks'>"{{ Snippet }}"</div>
       </div>
     </div>

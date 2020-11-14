@@ -1,5 +1,5 @@
 <template>
-    <div class='filter-container'>
+  <div class='filter-container'>
     <h2>BROWSE FILMS</h2>
     <select v-model="filterStatus" placeholder='ALL'>
       <option v-for="status in statusOptions" :key="status">
@@ -23,7 +23,10 @@
             :ratingImdb="movie.ratingImdb"
             :imdbVotes="movie.imdbVotes"
             :FilmReleased="movie.FilmReleased"
-            :Plot="movie.Plot">
+            :Plot="movie.PlotShort"
+            :Awards="movie.Awards"
+            :Actors="movie.Actors"
+            :Director="movie.Director">
         </MovieCard>
     </div>
 </template>
@@ -87,14 +90,6 @@ export default {
 </script>
 
 <style scoped>
-
-.hide {
-  opacity: 0;
-}
-
-.show {
-  opacity: 1;
-}
 
 .movie-wrapper {
   display: grid;
