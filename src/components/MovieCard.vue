@@ -215,16 +215,6 @@ export default {
   left: -9999px !important;
 }
 
-.movie-container {
-  padding: 10px;
-  margin: 10px auto;
-  display: grid;
-  grid-template-columns: 1fr 1.5fr;
-  background-color: var(--accent);
-  color: var(--text);
-  border-radius: 5px;
-}
-
 .movie-card {
   padding: 10px;
   margin: 10px;
@@ -252,7 +242,7 @@ export default {
   z-index: 2;
   width: 80%;
   max-width: 600px;
-  max-height: 600px;
+  max-height: 80vh;
   overflow: auto;
   opacity: 1;
 }
@@ -418,10 +408,23 @@ img {
   .movie-card-modal {
     margin: 20px auto;
     position: fixed;
-    left: 5%;
+    left: 12%;
     top: 25%;
-    width: 85%;
-    max-height: 400px;
+    width: 70%;
+    max-height: 60vh;
+  }
+
+}
+
+@media only screen and (max-height: 411px) { 
+
+  .movie-card-modal {
+    margin: 20px auto;
+    position: fixed;
+    left: 10%;
+    top: 10%;
+    width: 90%;
+    max-height: 70vh;
   }
 
 }

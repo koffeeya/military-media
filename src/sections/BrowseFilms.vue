@@ -151,12 +151,24 @@ input {
   font-weight: 900;
 }
 
+@media only screen and (max-width: 1150px) { 
+  .movie-wrapper {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        column-gap: 0px;
+        row-gap: 0px;
+        margin: 0px;
+    }
+}
+
 @media only screen and (max-width: 900px) { 
 
     .movie-wrapper {
         display: grid;
-        grid-template-columns: 1fr;
-        margin: 0px 10px;
+        grid-template-columns: 1fr 1fr;
+        column-gap: 0px;
+        row-gap: 0px;
+        margin: 0px;
     }
 
     .filter-wrap{
@@ -190,5 +202,27 @@ input {
       font-size: 14px;
     }
   }
+
+  @media only screen and (max-width: 700px) { 
+  .movie-wrapper {
+        display: grid;
+        grid-template-columns: 1fr;
+        column-gap: 0px;
+        row-gap: 0px;
+        margin: 0px;
+    }
+}
+
+  @media only screen and (max-height: 411px) { 
+
+  .movie-wrapper {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        column-gap: 0px;
+        row-gap: 0px;
+        margin: 0px;
+    }
+
+}
 
 </style>
