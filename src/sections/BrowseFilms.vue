@@ -1,12 +1,16 @@
-<template>
+d<template>
+<div class='browse-title'>
+  <h2>BROWSE FILMS</h2>
+</div>
   <div class='filter-container'>
-    <h2>BROWSE FILMS</h2>
+    <div class='filter-wrap'>
     <select v-model="filterStatus" placeholder='ALL'>
       <option v-for="status in statusOptions" :key="status">
         {{status}}
       </option>
     </select>
       <input v-model='searchTerm' placeholder='Search for a film by name'>
+      </div>
     <div class='film-count' v-if="listLength === 1">Showing {{listLength}} film</div>
     <div class='film-count' v-else>Showing {{listLength}} films</div>
   </div>
@@ -90,6 +94,9 @@ export default {
 </script>
 
 <style scoped>
+.browse-title {
+  text-align: center;
+}
 
 .movie-wrapper {
   display: grid;
@@ -152,6 +159,36 @@ input {
         margin: 0px 10px;
     }
 
+    .filter-wrap{
+      display: grid;
+      grid-template-columns: 1fr 4fr;
+      column-gap: 5px;
+      margin:0px 10px 0px 10px;
+    }
+
+    select {
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-size: 12px;
+      padding: 5px;
+      margin: 5px;
+      font-weight: 900;
+      width: 100%;
+    }
+
+    input {
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-size: 12px;
+      padding: 5px;
+      margin: 5px;
+      font-weight: 900;
+      width: 90%;
+    }
+
+    .film-count {
+      font-weight: 900;
+      padding: 0px;
+      font-size: 14px;
+    }
   }
 
 </style>
