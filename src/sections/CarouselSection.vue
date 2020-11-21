@@ -9,7 +9,7 @@
       <div class='spacer'></div>
       <button class='carousel-button' @click="previousCard">&#x25C1;</button>
       <CarouselMovieCard v-for="movie in carouselData"
-          :key="movie.CarouselOrder + movie.TitleClean + movie.Year"
+          :key="movie.CarouselOrder + movie.TitleClean + movie.Year + ' carouselItem'"
           :CarouselOrder="movie.CarouselOrder"
           :Title="movie.TitleClean"
           :Remarks="movie.Remarks"

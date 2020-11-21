@@ -8,45 +8,24 @@
               The U.S. Department of Defense (DoD) and Hollywood have a <a href='https://en.wikipedia.org/wiki/Military-entertainment_complex' target='_new'>history of collaboration</a> that has spanned the last century of entertainment. Films that need military resources must submit (and often revise) their scripts to meet <b style='color: var(--denied)'>criteria for approval</b> that implicitly reflect the values and interests of each branch of service.
             </div>
             <div class='intro-text'>
-              This project explores a database -- acquired through a <a href='https://www.spyculture.com/dod-hollywood-collaboration-database-excerpts/' target='_new'>2016 FOIA request</a> -- of <b style='color: var(--denied)'>{{ totalLength }} film productions</b> that asked the DoD for assistance in the last 100 years. What kind of help does the military provide? What films make the cut? And what does it reveal about the kinds of stories that get told?
+              This project explores a database -- acquired through a <a href='https://www.spyculture.com/dod-hollywood-collaboration-database-excerpts/' target='_new'>2016 FOIA request</a> -- of <b style='color: var(--denied)'>549 film productions</b> that asked the DoD for assistance in the last 100 years. What kind of help does the military provide? What films make the cut? And what does it reveal about the kinds of stories that get told?
             </div>
           </div>
         </div>
         <div class='spacer'></div>
     </div>
-    <CarouselSection :carouselData="carouselData"></CarouselSection>
 </div>
 </template>
 
 <script>
-import CarouselSection from './CarouselSection.vue';
-import * as d3 from "d3";
+
 export default {
     name: 'IntroSection',
-    props: ['carouselData', 'movies'],
     data() {
       return {
-        textBoxLoaded: false,
-        carouselLoaded: false,
+
       }
     },
-    methods: {
-      onLoaded() {
-        this.textBoxLoaded = true;
-        this.carouselLoaded = true;
-      }
-    },
-    computed: {
-      totalLength() {
-        return this.movies.length
-      }
-    },
-    mounted() {
-      d3.selectAll(".intro-text-section").classed("show", true)
-    },
-    components: {
-      CarouselSection,
-    }
 }
 </script>
 

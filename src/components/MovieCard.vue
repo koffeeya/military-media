@@ -109,11 +109,11 @@ export default {
   methods: {
     openModal() {
       d3.selectAll(".movie-card-modal").classed("hide", true);
-      d3.select(".page-wrapper").classed('bg-open appear-bg', true)
+      d3.select(".page-wrapper").classed('bg-open', true)
       this.openStatus = true;
     },
     closeModal() {
-      d3.select(".page-wrapper").classed('bg-open appear-bg', false)
+      d3.select(".page-wrapper").classed('bg-open', false)
       this.openStatus = false;
     }
   },
@@ -130,7 +130,7 @@ export default {
       if (this.openStatus === true) {
         return "movie-card-modal appear"
       } else {
-        return "movie-card-modal hide disappear"
+        return "movie-card-modal disappear hide"
       }
     },
     movieStatus() {
@@ -245,17 +245,7 @@ export default {
   max-height: 80vh;
   overflow: auto;
   opacity: 1;
-}
-
-.appear-bg {
-  opacity: 0;
-  transition: opacity 0.3s;
-}
-
-.disappear-bg {
-  opacity: 0.7;
-  transition: opacity 0.3s;
-  opacity: 0;
+  border-radius: 5px;
 }
 
 .appear {

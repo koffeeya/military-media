@@ -1,17 +1,83 @@
 <template>
-    <HomePage></HomePage>
+  <div class='page-wrapper'></div>
+  <div>
+      <div class="step" data-step="a">
+        <AppTitle />
+      </div>
+      <div class="step" data-step="b">
+        <IntroText />
+      </div>
+      <div class="step" data-step="c">
+        <CarouselSection :carouselData="carouselData"></CarouselSection>
+      </div>
+      
+      <WaffleChart :filmsByYear='filmsByYear'></WaffleChart>
+      <!-- <BrowseFilms :movies="movies" :statusOptions="statusOptions"></BrowseFilms> -->
+  </div>
 </template>
 
 <script>
-import HomePage from './sections/HomePage.vue'
+import AppTitle from './components/AppTitle.vue'
+import IntroText from './sections/IntroText.vue'
+import CarouselSection from './sections/CarouselSection.vue'
+import WaffleChart from './components/WaffleChart.vue'
+import BrowseFilms from './sections/BrowseFilms.vue'
+import * as d3 from "d3";
+import "intersection-observer";
+import Scrollama from "scrollama";
 
 export default {
   name: 'App',
   data() {
-    return {}
+    return {
+      movies: [],
+      statusOptions: [],
+      carouselData: [],
+      filmsByYear: {},
+    }
   },
+  methods: {
+    stepEnterHandler ({element, index, direction}) {
+      // handle the step-event as required here
+      console.log(element, index, direction)
+    }
+  },
+  created() {
+    Promise.all([d3.csv("./movies.csv", d3.autoType)]).then(([data]) => {
+    function getColByName(arr, columnName) {
+        const col = [];
+        for (let row = 0; row < arr.length - 1; row++) {
+          const value = Object.values(arr)[row][columnName];
+          col.push(value);
+        }
+          return col;
+      }
+      this.movies = data.filter(el => {return el.Status != null && el.TitleForSorting != null}).sort((a, b) => {return a.TitleForSorting - b.TitleForSorting});
+      /* Status options */
+      const options = Array.from(new Set(getColByName(this.movies, "Status")))
+      options.push("ALL")
+      this.statusOptions = options.sort();
+      /* Carousel fields */
+      this.carouselData = data.filter(el => {return el.Status != null && el.TitleForSorting != null && el.CarouselFlag === "TRUE"}).sort((a, b) => {return a.CarouselOrder - b.CarouselOrder});
+      /* Count By Year */
+      const yearData = data.filter(el => {return el.Year != null}).sort((a, b) => {return a.Status - b.Status}).sort((a, b) => {return a.Year - b.Year});
+      const yearGrouped = d3.group(yearData, d => d.Year)
+      this.filmsByYear = []
+      Array.from(yearGrouped, ([key, values]) => {
+        this.filmsByYear.push({Year: key,
+                               Films: values});
+      })
+  });
+  },
+  mounted () {
+    },
   components: {
-    HomePage
+    AppTitle,
+    IntroText,
+    BrowseFilms,
+    WaffleChart,
+    CarouselSection,
+    Scrollama
   }
 }
 </script>

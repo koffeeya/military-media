@@ -10,7 +10,7 @@ d<template>
       </option>
     </select>
       <input v-model='searchTerm' placeholder='Search for a film by name'>
-      </div>
+    </div>
     <div class='film-count' v-if="listLength === 1">Showing {{listLength}} film</div>
     <div class='film-count' v-else>Showing {{listLength}} films</div>
   </div>
