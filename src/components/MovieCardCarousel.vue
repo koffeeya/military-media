@@ -32,7 +32,7 @@
 <script>
 /* import * as d3 from "d3"; */
 export default {
-  name: 'CarouselMovieCard',
+  name: 'MovieCardCarousel',
   props: ['Title', 'Remarks', 'Snippet', 'CarouselOrder', 'Year', 'FilmReleased', 'Genre', 'ratingImdb', 'imdbVotes', 'Status', 'Poster', 'Plot'],
   data: function () {
     return {

@@ -11,8 +11,8 @@
         <CarouselSection :carouselData="carouselData"></CarouselSection>
       </div>
       
-      <WaffleChart :filmsByYear='filmsByYear'></WaffleChart>
-      <!-- <BrowseFilms :movies="movies" :statusOptions="statusOptions"></BrowseFilms> -->
+      <WaffleChart :filmsByYear='filmsByYear' :rawData='rawData'></WaffleChart>
+      <BrowseFilms :movies="movies" :statusOptions="statusOptions"></BrowseFilms>
   </div>
 </template>
 
@@ -30,6 +30,7 @@ export default {
   name: 'App',
   data() {
     return {
+      rawData: [],
       movies: [],
       statusOptions: [],
       carouselData: [],
@@ -44,14 +45,15 @@ export default {
   },
   created() {
     Promise.all([d3.csv("./movies.csv", d3.autoType)]).then(([data]) => {
-    function getColByName(arr, columnName) {
-        const col = [];
-        for (let row = 0; row < arr.length - 1; row++) {
-          const value = Object.values(arr)[row][columnName];
-          col.push(value);
+      this.rawData = data;
+      function getColByName(arr, columnName) {
+          const col = [];
+          for (let row = 0; row < arr.length - 1; row++) {
+            const value = Object.values(arr)[row][columnName];
+            col.push(value);
+          }
+            return col;
         }
-          return col;
-      }
       this.movies = data.filter(el => {return el.Status != null && el.TitleForSorting != null}).sort((a, b) => {return a.TitleForSorting - b.TitleForSorting});
       /* Status options */
       const options = Array.from(new Set(getColByName(this.movies, "Status")))
@@ -64,8 +66,7 @@ export default {
       const yearGrouped = d3.group(yearData, d => d.Year)
       this.filmsByYear = []
       Array.from(yearGrouped, ([key, values]) => {
-        this.filmsByYear.push({Year: key,
-                               Films: values});
+        this.filmsByYear.push({Year: key, Films: values});
       })
   });
   },

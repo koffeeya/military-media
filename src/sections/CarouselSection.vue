@@ -8,7 +8,7 @@
     <div class='carousel-wrapper'>
       <div class='spacer'></div>
       <button class='carousel-button' @click="previousCard">&#x25C1;</button>
-      <CarouselMovieCard v-for="movie in carouselData"
+      <MovieCardCarousel v-for="movie in carouselData"
           :key="movie.CarouselOrder + movie.TitleClean + movie.Year + ' carouselItem'"
           :CarouselOrder="movie.CarouselOrder"
           :Title="movie.TitleClean"
@@ -22,14 +22,14 @@
           :imdbVotes="movie.imdbVotes"
           :FilmReleased="movie.FilmReleased"
           >
-        </CarouselMovieCard>
+        </MovieCardCarousel>
       <button class='carousel-button' id='next-button' @click="nextCard">&#x25B7;</button>
       <div class='spacer'></div>
     </div>
 </template>
 
 <script>
-import CarouselMovieCard from '../components/CarouselMovieCard.vue'
+import MovieCardCarousel from '../components/MovieCardCarousel.vue'
 import * as d3 from "d3";
 export default {
     name: 'CarouselSection',
@@ -123,7 +123,7 @@ export default {
       }
     },
     components: {
-      CarouselMovieCard,
+      MovieCardCarousel,
     }
 }
 </script>
