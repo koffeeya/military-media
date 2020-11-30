@@ -29,7 +29,7 @@ export default {
         padding: 5px 8px;
         width: fit-content;
         color: gray;
-        font-family: var(--body-font);
+        font-family: var(--card-font);
         font-size: var(--subtitle-size);
         font-weight: 800;
         border-radius: 5px;

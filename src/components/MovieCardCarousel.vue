@@ -150,6 +150,7 @@ export default {
 
 .movie-status {
   font-size: 16px;
+  font-family: var(--card-font);
   width: fit-content;
   margin: 5px 0px 10px 0px;
   padding: 2px 4px 2px 4px;
@@ -159,6 +160,7 @@ export default {
 
 .movie-label {
   font-size: 13px;
+  font-family: var(--card-font);
   font-weight: 600;
   margin: 15px 0px 2px 0px;
   color: gray;
@@ -166,11 +168,13 @@ export default {
 
 .movie-remarks {
   font-size: 12px;
+  font-family: var(--card-font);
   text-align: left;
 }
 
 img {
-  width: 85%;
+  width: auto;
+  height: 300px;
   margin: 0px 20px 10px 0px;
   border: 0.5px solid grey;
 }

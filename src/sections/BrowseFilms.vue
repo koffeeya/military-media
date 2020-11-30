@@ -1,38 +1,40 @@
 d<template>
-<div class='browse-title'>
-  <h2>BROWSE FILMS</h2>
-</div>
-  <div class='filter-container'>
-    <div class='filter-wrap'>
-    <select v-model="filterStatus" placeholder='ALL'>
-      <option v-for="status in statusOptions" :key="status">
-        {{status}}
-      </option>
-    </select>
-      <input v-model='searchTerm' placeholder='Search for a film by name'>
-    </div>
-    <div class='film-count' v-if="listLength === 1">Showing {{listLength}} film</div>
-    <div class='film-count' v-else>Showing {{listLength}} films</div>
+<div class='browse-container' :data-index='index' >
+  <div class='browse-title'>
+    <h2>BROWSE FILMS</h2>
   </div>
-
-  <div class='movie-wrapper'>
-        <MovieCard v-for="movie in filteredFilms"
-            :key="movie.TitleClean + movie.Year"
-            :Title="movie.TitleClean"
-            :Remarks="movie.Remarks"
-            :Year="movie.Year"
-            :Status="movie.Status"
-            :Poster="movie.Poster"
-            :Genre="movie.Genre"
-            :ratingImdb="movie.ratingImdb"
-            :imdbVotes="movie.imdbVotes"
-            :FilmReleased="movie.FilmReleased"
-            :Plot="movie.PlotShort"
-            :Awards="movie.Awards"
-            :Actors="movie.Actors"
-            :Director="movie.Director">
-        </MovieCard>
+    <div class='filter-container'>
+      <div class='filter-wrap'>
+      <select v-model="filterStatus" placeholder='ALL'>
+        <option v-for="status in statusOptions" :key="status">
+          {{status}}
+        </option>
+      </select>
+        <input v-model='searchTerm' placeholder='Search for a film by name'>
+      </div>
+      <div class='film-count' v-if="listLength === 1">Showing {{listLength}} film</div>
+      <div class='film-count' v-else>Showing {{listLength}} films</div>
     </div>
+
+    <div class='movie-wrapper hide'>
+          <MovieCard v-for="movie in filteredFilms"
+              :key="movie.TitleClean + movie.Year"
+              :Title="movie.TitleClean"
+              :Remarks="movie.Remarks"
+              :Year="movie.Year"
+              :Status="movie.Status"
+              :Poster="movie.Poster"
+              :Genre="movie.Genre"
+              :ratingImdb="movie.ratingImdb"
+              :imdbVotes="movie.imdbVotes"
+              :FilmReleased="movie.FilmReleased"
+              :Plot="movie.PlotShort"
+              :Awards="movie.Awards"
+              :Actors="movie.Actors"
+              :Director="movie.Director">
+          </MovieCard>
+      </div>
+  </div>
 </template>
 
 <script>
@@ -40,14 +42,15 @@ import MovieCard from '../components/MovieCard.vue'
 
 export default {
     name: 'BrowseFilms',
-    props: ['movies', 'statusOptions'],
+    props: ['observer', 'stepList', 'index', 'movies', 'statusOptions'],
     data() {
         return {
-        searchTerm: "",
-        searchTopic: "",
-        filterStatus: "ALL",
-        pluralFilms: "films",
-        sectionOpen: true,
+          thisStep: this.stepList[this.index],
+          searchTerm: "",
+          searchTopic: "",
+          filterStatus: "ALL",
+          pluralFilms: "films",
+          sectionOpen: true,
     }
   },
   method: {
@@ -86,6 +89,9 @@ export default {
     listLength() {
       return this.filteredFilms.length
     }
+  },
+  mounted() {
+    this.observer.observe(this.$el);
   },
   components: {
     MovieCard

@@ -1,49 +1,56 @@
 <template>
-  <div class='waffle' id='waffle-chart'>
-    <h2>WAFFLE CHART</h2>
-  </div>
-  <div class='filter-buttons'>
-    <div> FILTER BY &nbsp;</div>
-    <div class='btn' :class="approvedButtonStyle" @click="toggleApprovedFilter">APPROVED</div>
-    <div class='btn' :class="deniedButtonStyle" @click="toggleDeniedFilter">DENIED</div>
-    <div class='btn'>LIMITED</div>
-    <div class='btn'>OTHER</div>
-  </div>
-  <div class='chart-wrapper'>
-    <div class='group-wrapper'>
-        <div class='group-title' v-for="movie in filmsByYear" :key="movie">
-            <WaffleItem v-for="film in movie.Films"
-              :key="film.TitleClean + film.Year + ' waffleItem'"
-              :Title="film.TitleClean"
-              :Remarks="film.Remarks"
-              :Year="film.Year"
-              :Status="film.Status"
-              :Poster="film.Poster"
-              :Genre="film.Genre"
-              :ratingImdb="film.ratingImdb"
-              :imdbVotes="film.imdbVotes"
-              :FilmReleased="film.FilmReleased"
-              :Plot="film.PlotShort"
-              :Awards="film.Awards"
-              :Actors="film.Actors"
-              :Director="film.Director">
-            </WaffleItem>
-            <div class='year-val'><b>{{movie.Year}}</b></div>
+  <div class='waffle-chart-container' :data-index='index'>
+    <div class='waffle-col-container'>
+      <div class='first-col'>
+        <WaffleText />
+      </div>
+      <div class='second-col'>
+          <div class='filter-buttons'>
+          <div> FILTER BY &nbsp;</div>
+          <div class='btn' :class="approvedButtonStyle" @click="toggleApprovedFilter">APPROVED</div>
+          <div class='btn' :class="deniedButtonStyle" @click="toggleDeniedFilter">DENIED</div>
+          <div class='btn'>LIMITED</div>
+          <div class='btn'>OTHER</div>
         </div>
+        <div class='chart-wrapper'>
+          <div class='group-wrapper'>
+              <div class='group-title' v-for="movie in filmsByYear" :key="movie">
+                  <WaffleItem v-for="film in movie.Films"
+                    :key="film.TitleClean + film.Year + ' waffleItem'"
+                    :Title="film.TitleClean"
+                    :Remarks="film.Remarks"
+                    :Year="film.Year"
+                    :Status="film.Status"
+                    :Poster="film.Poster"
+                    :Genre="film.Genre"
+                    :ratingImdb="film.ratingImdb"
+                    :imdbVotes="film.imdbVotes"
+                    :FilmReleased="film.FilmReleased"
+                    :Plot="film.PlotShort"
+                    :Awards="film.Awards"
+                    :Actors="film.Actors"
+                    :Director="film.Director">
+                  </WaffleItem>
+                  <div class='year-val'><b>{{movie.Year}}</b></div>
+              </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-  
 </template>
 
 <script>
 import * as d3 from 'd3'
-import WaffleItem from './WaffleItem.vue'
+import WaffleItem from '../components/WaffleItem.vue'
+import WaffleText from '../components/WaffleText.vue'
 
 export default {
     name: 'WaffleChart',
-    props: ['filmsByYear', 'rawData'],
+    props: ['observer', 'stepList', 'index', 'filmsByYear', 'rawData'],
     data () {
         return {
+          thisStep: this.stepList[this.index],
           filterByStatusApproved: false,
           filterByStatusDenied: false,
           filterByStatusLimited: false,
@@ -108,51 +115,72 @@ export default {
         }
       }
 
-    },
-    methods:{
-      groupDataByYear(dataToGroup) {
-          const yearData = dataToGroup.filter(el => {return el.Year != null}).sort((a, b) => {return a.Status - b.Status}).sort((a, b) => {return a.Year - b.Year});
-          const yearGrouped = d3.group(yearData, d => d.Year)
-          const yearArray = []
-          const yearPushed = Array.from(yearGrouped, ([key, values]) => {
-            yearArray.push({Year: key, Films: values});
-          })
-          return yearArray;
-        },
-
-      toggleApprovedFilter() {
-        this.filterByStatusApproved = !this.filterByStatusApproved;
+  },
+  methods:{
+    groupDataByYear(dataToGroup) {
+        const yearData = dataToGroup.filter(el => {return el.Year != null}).sort((a, b) => {return a.Status - b.Status}).sort((a, b) => {return a.Year - b.Year});
+        const yearGrouped = d3.group(yearData, d => d.Year)
+        const yearArray = []
+        const yearPushed = Array.from(yearGrouped, ([key, values]) => {
+          yearArray.push({Year: key, Films: values});
+        })
+        return yearArray;
       },
 
-      toggleDeniedFilter() {
-        this.filterByStatusDenied = !this.filterByStatusDenied;
-      }
-
+    toggleApprovedFilter() {
+      this.filterByStatusApproved = !this.filterByStatusApproved;
     },
+
+    toggleDeniedFilter() {
+      this.filterByStatusDenied = !this.filterByStatusDenied;
+    }
+
+  },
+  mounted() {
+    this.observer.observe(this.$el);
+  },
   components: {
-    WaffleItem
+    WaffleItem,
+    WaffleText
   }
 }
 </script>
 
 <style scoped>
 
+.waffle-chart-container {
+  padding: 0px 0px 100px 0px;
+}
+
+.waffle-col-container {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+}
+
 .btn {
-        margin: 5px 10px 0px 0px;
-        padding: 5px 8px;
-        width: fit-content;
-        color: gray;
-        font-family: var(--body-font);
-        font-size: var(--subtitle-size);
-        font-weight: 800;
-        border-radius: 5px;
-        background-color: var(--accent);
-    }
+    margin: 5px 10px 0px 0px;
+    padding: 5px 8px;
+    width: fit-content;
+    color: gray;
+    font-family: var(--card-font);
+    font-size: var(--subtitle-size);
+    font-weight: 800;
+    border-radius: 5px;
+    background-color: var(--accent);
+}
 
 .btn:hover {
   background-color: gray;
   color: var(--accent);
   cursor: pointer;
+}
+
+.first-col {
+  margin: 0px 60px;
+}
+
+.second-col {
+  margin: 40px 0px;
 }
 
 .active-btn {
@@ -174,10 +202,12 @@ export default {
   display: flex;
   flex-flow: row wrap;
   margin: 15px 3px;
+  font-family: var(--card-font);
 }
 
 .group-wrapper{
-  width: 75%;
+  width: 90%;
+  height: 400px;
   display: flex;
   flex-direction: row;
   align-items: flex-end;

@@ -1,41 +1,50 @@
 <template>
-    <div class='carousel-text-wrapper center'>
-      <div class='carousel-text'>A few examples of films in the database:</div>
+  <div class='intro-container' :data-index='index'>
+    <div class='first-col'>
+      <IntroText />
     </div>
-    <div class='carousel-icon-wrapper center'>
-      <div class='carousel-icons'>{{ icons }}</div>
+    <div class='second-col'>
+      <div class='carousel-text-wrapper center'>
+        <div class='carousel-text'>Examples of films in the database:</div>
+      </div>
+      <div class='carousel-icon-wrapper center'>
+        <div class='carousel-icons'>{{ icons }}</div>
+      </div>
+      <div class='carousel-wrapper'>
+        <button class='carousel-button' @click="previousCard">&#x25C1;</button>
+        <div>
+        <MovieCardCarousel v-for="movie in carouselData"
+            :key="movie.CarouselOrder + movie.TitleClean + movie.Year + ' carouselItem'"
+            :CarouselOrder="movie.CarouselOrder"
+            :Title="movie.TitleClean"
+            :Remarks="movie.Remarks"
+            :Snippet="movie.CarouselSnippet"
+            :Year="movie.Year"
+            :Status="movie.Status"
+            :Poster="movie.Poster"
+            :Genre="movie.Genre"
+            :ratingImdb="movie.ratingImdb"
+            :imdbVotes="movie.imdbVotes"
+            :FilmReleased="movie.FilmReleased"
+            >
+          </MovieCardCarousel>
+          </div>
+        <button class='carousel-button' id='next-button' @click="nextCard">&#x25B7;</button>
+      </div>
     </div>
-    <div class='carousel-wrapper'>
-      <div class='spacer'></div>
-      <button class='carousel-button' @click="previousCard">&#x25C1;</button>
-      <MovieCardCarousel v-for="movie in carouselData"
-          :key="movie.CarouselOrder + movie.TitleClean + movie.Year + ' carouselItem'"
-          :CarouselOrder="movie.CarouselOrder"
-          :Title="movie.TitleClean"
-          :Remarks="movie.Remarks"
-          :Snippet="movie.CarouselSnippet"
-          :Year="movie.Year"
-          :Status="movie.Status"
-          :Poster="movie.Poster"
-          :Genre="movie.Genre"
-          :ratingImdb="movie.ratingImdb"
-          :imdbVotes="movie.imdbVotes"
-          :FilmReleased="movie.FilmReleased"
-          >
-        </MovieCardCarousel>
-      <button class='carousel-button' id='next-button' @click="nextCard">&#x25B7;</button>
-      <div class='spacer'></div>
-    </div>
+  </div>
 </template>
 
 <script>
 import MovieCardCarousel from '../components/MovieCardCarousel.vue'
+import IntroText from '../components/IntroText.vue'
 import * as d3 from "d3";
 export default {
-    name: 'CarouselSection',
-    props: ['carouselData'],
+    name: 'IntroSection',
+    props: ['observer', 'stepList', 'index', 'carouselData'],
     data () {
       return {
+        thisStep: this.stepList[this.index],
         activeCard: 1,
       }
     },
@@ -122,8 +131,12 @@ export default {
         return remaining;
       }
     },
+    mounted() {
+      this.observer.observe(this.$el);
+    },
     components: {
       MovieCardCarousel,
+      IntroText
     }
 }
 </script>
@@ -142,18 +155,32 @@ export default {
   left: -9999px !important;
 }
 
+.intro-container {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+}
+
+.first-col {
+  margin: 0px 60px;
+}
+
+.second-col {
+  margin: 40px 0px;
+}
+
 .carousel-icon-wrapper {
   color: rgb(153, 151, 151);
 }
 
 .carousel-wrapper {
   display: grid;
-  grid-template-columns: 3fr 1fr 5fr 1fr 3fr;
-  margin: 0px 0px 40px 0px;
+  grid-template-columns: 0.5fr 5fr 0.5fr;
+  margin: 10px 100px;
 }
 
 .carousel-text {
   margin: 0px 0px 10px 0px;
+  color: var(--subtitle);
 }
 
 .carousel-button {
@@ -173,17 +200,4 @@ export default {
 .carousel-button:focus {
   outline: none;
 }
-
-@media only screen and (max-width: 900px) { 
-    .carousel-wrapper {
-      grid-template-columns: 0.1fr 0.5fr 5fr 0.5fr 0.1fr;
-    }
-}
-
-@media only screen and (min-width: 1400px) { 
-    .carousel-wrapper {
-      grid-template-columns: 7fr 0.5fr 5fr 0.5fr 7fr;
-    }
-}
-
 </style>

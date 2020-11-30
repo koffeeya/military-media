@@ -26,7 +26,7 @@
 
 <script>
 import * as d3 from 'd3'
-import MovieCardChart from './MovieCardChart.vue'
+import MovieCardChart from '../components/MovieCardChart.vue'
 export default {
   name: "WaffleItem",
   props: [
@@ -124,7 +124,8 @@ export default {
 .hover-message {
   position: absolute;
   background-color: var(--bg-color);
-  transform: translate(-200px, -400px);
+  font-family: var(--card-font);
+  transform: translate(-415px, -40px);
 }
 
 .active {
@@ -133,7 +134,7 @@ export default {
 }
 
 .waffle-item {
-  height: 25px;
+  height: 15px;
   border: 1px solid var(--bg-color);
 }
 

@@ -165,6 +165,7 @@ export default {
 
 .movie-subtitle {
   font-size: var(--root-size);
+  font-family: var(--card-font);
   padding: 5px 0px 10px 0px;
   color: var(--subtitle);
   line-height: 12px;
@@ -172,6 +173,7 @@ export default {
 
 .movie-status {
   font-size: 16px;
+  font-family: var(--card-font);
   width: fit-content;
   margin: 0px 0px 10px 0px;
   padding: 2px 4px 2px 4px;
@@ -181,11 +183,13 @@ export default {
 
 .movie-label {
   font-size: var(--subtitle-size);
+  font-family: var(--card-font);
   margin: 15px 0px 2px 0px;
 }
 
 .movie-remarks-chart {
   font-size: 10px;
+  font-family: var(--card-font);
   text-align: left;
 }
 
