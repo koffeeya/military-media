@@ -1,34 +1,55 @@
 <template>
-  
   <!-- Sections -->
-  <div ref='sections'>
-    <div class="step step0" >
-      <AppTitle :observer="observer" :stepList="stepList" :index='0' />
+  <div ref="sections" class="sections">
+    <div class="step step0">
+      <AppTitle 
+        :observer="observer"
+        :stepList="stepList"
+        :index="0" 
+      />
     </div>
-    <div class="step step1" >
-      <IntroSection :observer="observer" :stepList="stepList" :index='1' :carouselData="carouselData"></IntroSection>
+    <div class="step step1">
+      <IntroSection
+        :observer="observer"
+        :stepList="stepList"
+        :index="1"
+        :carouselData="carouselData"
+      ></IntroSection>
     </div>
-    <div class='step step2' >
-      <WaffleChart :observer="observer" :stepList="stepList" :index='2' :filmsByYear='filmsByYear' :rawData='rawData'></WaffleChart>
+    <div class="step step2">
+      <WaffleChart
+        :observer="observer"
+        :stepList="stepList"
+        :index="2"
+        :filmsByYear="filmsByYear"
+        :rawData="rawData"
+      ></WaffleChart>
     </div>
-    <div class='step step3' >
-      <BrowseFilms class='hide' :observer="observer" :stepList="stepList" :index='3' :movies="movies" :statusOptions="statusOptions"></BrowseFilms>
-    </div>
+    <div> Hello next section</div>
+    <!-- <div class="step step3">
+      <BrowseFilms
+        :observer="observer"
+        :stepList="stepList"
+        :index="3"
+        :movies="movies"
+        :statusOptions="statusOptions"
+      ></BrowseFilms>
+    </div> -->
   </div>
-  
+
   <!-- Faded background -->
-  <div class='page-wrapper'></div>
+  <!-- <div class="page-wrapper"></div> -->
 </template>
 
 <script>
-import AppTitle from './sections/AppTitle.vue'
-import IntroSection from './sections/IntroSection.vue'
-import WaffleChart from './sections/WaffleChart.vue'
-import BrowseFilms from './sections/BrowseFilms.vue'
+import AppTitle from "./sections/AppTitle.vue";
+import IntroSection from "./sections/IntroSection.vue";
+import WaffleChart from "./sections/WaffleChart.vue";
+//import BrowseFilms from "./sections/BrowseFilms.vue";
 import * as d3 from "d3";
 
 export default {
-  name: 'App',
+  name: "App",
   data() {
     return {
       rawData: [],
@@ -38,76 +59,195 @@ export default {
       filmsByYear: {},
       observer: null,
       stepList: [
-        { name: 'AppTitle', index: 0, active: false, ratio: null, direction: null, target: null },
-        { name: 'IntroSection', index: 1, active: false, ratio: null, direction: null, target: null },
-        { name: 'WaffleChart', index: 2, active: false, ratio: null, direction: null, target: null },
-        { name: 'BrowseFilms', index: 3, active: false, ratio: null, direction: null, target: null }
+        {
+          name: "AppTitle",
+          index: 0,
+          active: true,
+          ratio: null,
+          direction: null,
+          target: null,
+        },
+        {
+          name: "IntroSection",
+          index: 1,
+          active: false,
+          ratio: null,
+          direction: null,
+          target: null,
+        },
+        {
+          name: "WaffleChart",
+          index: 2,
+          active: false,
+          ratio: null,
+          direction: null,
+          target: null,
+        },
+        {
+          name: "BrowseFilms",
+          index: 3,
+          active: false,
+          ratio: null,
+          direction: null,
+          target: null,
+        },
       ],
       activeStep: 0,
       prevRatio: 0.0,
-    }
+    };
   },
   methods: {
     handleIntersect(entries) {
       entries.forEach((entry) => {
+        // Get data
         const entryIndex = Number(entry.target.getAttribute("data-index"));
         const entryData = this.stepList[entryIndex];
         entryData.ratio = entry.intersectionRatio;
-        entryData.target = entry.target.className.split(" ")[0] // get the first class name
+        entryData.target = entry.target.className.split(" ")[0];
+
         // Record the scrolling direction
         if (entry.intersectionRatio > this.prevRatio) {
-          entryData.direction = "up"
+          entryData.direction = "up";
         } else {
-          entryData.direction = "down"
+          entryData.direction = "down";
         }
+
         // Set the visible step to active, and the remaining to inactive
-        if (entry.intersectionRatio > 0.9) {
+        if (entry.intersectionRatio > 0.7) {
           this.hideRemainingSteps(entryIndex);
           this.activeStep = entryIndex;
           entryData.active = true;
-          console.log(`step ${this.activeStep} ${entryData.name} ${entryData.direction}`);
+          console.log(`${this.activeStep} ${entryData.name} ${entryData.target} ${entryData.ratio}`);
         } else {
           entryData.active = false;
         }
+
+        // Set the previous ratio to indicate direction
         this.prevRatio = entry.intersectionRatio;
+
+        // Animate step 1: Title
+        if (entryIndex === 0 && entryData.active === true) {
+          //console.log('Animating Step 1');
+          this.stepOneAnimation();
+        }
+
+        // Animate step 2: Intro
+        if (entryIndex === 1 && entryData.active === true) {
+          //console.log('Animating Step 2');
+          this.stepTwoAnimation();
+        }
+
+        // Animate step 3: Waffle
+        if (entryIndex === 2 && entryData.active === true) {
+          //console.log('Animating Step 3');
+          this.stepThreeAnimation();
+        }
+
+        // Animate step 4: Browse
+        if (entryIndex === 3 && entryData.active === true) {
+          //console.log('Animating Step 4');
+          this.stepFourAnimation();
+        }
+
       });
     },
     hideRemainingSteps(index) {
       const stepNum = this.stepList.length;
-      const allStepArr = [...Array(stepNum).keys()]
-      const remainingSteps = allStepArr.filter((d) => {return d != index})
-      const activeStepData = this.stepList[index]
+      const allStepArr = [...Array(stepNum).keys()];
+      const remainingSteps = allStepArr.filter((d) => {
+        return d != index;
+      });
+      const activeStepData = this.stepList[index];
       // Make the active step visible and sticky
       d3.select(`.${activeStepData.target}`)
-          .transition()
-          .duration(200)
-          .style("opacity", "1");
-      d3.select(`.step${index}`).classed('title-sticky', true)
-      d3.select(`.step${index}`).classed('hide-sticky', false)
+        .transition()
+        .duration(200)
+        .style("opacity", "1");
+      d3.select(`.step${index}`).classed("title-sticky", true);
+      d3.select(`.step${index}`).classed("hide-sticky", false);
       // Make all inactive steps invisible and hidden
       remainingSteps.map((value) => {
-        const inactiveStepData = this.stepList[value]
+        const inactiveStepData = this.stepList[value];
         inactiveStepData.active = false;
         d3.select(`.${inactiveStepData.target}`)
           .transition()
           .duration(200)
           .style("opacity", "0");
-        d3.select(`.step${value}`).classed('title-sticky', false)
-        d3.select(`.step${value}`).classed('hide-sticky', true)
-      })
+        d3.select(`.step${value}`).classed("title-sticky", false);
+        d3.select(`.step${value}`).classed("hide-sticky", true);
+      });
     },
+    stepOneAnimation() {
+      d3.select(`.subtitle-first`)
+        .style("opacity", "0")
+        .transition()
+        .duration(200)
+        .delay(400)
+        .style("opacity", "1");
+
+      d3.select(`.subtitle-second`)
+        .style("opacity", "0")
+        .transition()
+        .duration(200)
+        .delay(600)
+        .style("opacity", "1");
+
+      d3.select(`.subtitle-third`)
+        .style("opacity", "0")
+        .transition()
+        .duration(200)
+        .delay(800)
+        .style("opacity", "1");
+    },
+    stepTwoAnimation() {},
+    stepThreeAnimation() {
+      d3.selectAll(".waffle-item")
+        .style("opacity", "0")
+        .transition()
+        .duration(200)
+        .delay(100)
+        .style("opacity", "1")
+    },
+    stepFourAnimation() {},
     getMovieData(data) {
-      this.movies = data.filter(el => {return el.Status != null && el.TitleForSorting != null}).sort((a, b) => {return a.TitleForSorting - b.TitleForSorting});
-      const options = Array.from(new Set(this.getColByName(this.movies, "Status")))
-      options.push("ALL")
+      this.movies = data
+        .filter((el) => {
+          return el.Status != null && el.TitleForSorting != null;
+        })
+        .sort((a, b) => {
+          return a.TitleForSorting - b.TitleForSorting;
+        });
+      const options = Array.from(
+        new Set(this.getColByName(this.movies, "Status"))
+      );
+      options.push("ALL");
       this.statusOptions = options.sort();
-      this.carouselData = data.filter(el => {return el.Status != null && el.TitleForSorting != null && el.CarouselFlag === "TRUE"}).sort((a, b) => {return a.CarouselOrder - b.CarouselOrder});
-      const yearData = data.filter(el => {return el.Year != null}).sort((a, b) => {return a.Status - b.Status}).sort((a, b) => {return a.Year - b.Year});
-      const yearGrouped = d3.group(yearData, d => d.Year)
-      this.filmsByYear = []
+      this.carouselData = data
+        .filter((el) => {
+          return (
+            el.Status != null &&
+            el.TitleForSorting != null &&
+            el.CarouselFlag === "TRUE"
+          );
+        })
+        .sort((a, b) => {
+          return a.CarouselOrder - b.CarouselOrder;
+        });
+      const yearData = data
+        .filter((el) => {
+          return el.Year != null;
+        })
+        .sort((a, b) => {
+          return a.Status - b.Status;
+        })
+        .sort((a, b) => {
+          return a.Year - b.Year;
+        });
+      const yearGrouped = d3.group(yearData, (d) => d.Year);
+      this.filmsByYear = [];
       Array.from(yearGrouped, ([key, values]) => {
-        this.filmsByYear.push({Year: key, Films: values});
-      })
+        this.filmsByYear.push({ Year: key, Films: values });
+      });
     },
     getColByName(arr, columnName) {
       const col = [];
@@ -115,30 +255,28 @@ export default {
         const value = Object.values(arr)[row][columnName];
         col.push(value);
       }
-        return col;
+      return col;
     },
     buildThresholdList() {
       let thresholds = [];
-      let numSteps = 5;
-      let arr = [...Array(numSteps).keys()]
+      let numSteps = 10;
+      let arr = [...Array(numSteps).keys()];
       arr.map((value, index) => {
         let ratio = (value + 1) / numSteps;
-        thresholds.push(ratio)
-      })
-      thresholds.push(0)
+        thresholds.push(ratio);
+      });
+      thresholds.push(0);
       return thresholds;
     },
     setUpObserver() {
       let options = {
         root: this.$refs.sections,
-        threshold: 1.0,
-      }
-      this.observer = new IntersectionObserver(this.handleIntersect, options)
+        threshold: this.buildThresholdList(),
+      };
+      this.observer = new IntersectionObserver(this.handleIntersect, options);
     },
   },
-  computed: {
-
-  },
+  computed: {},
   created() {
     // Set up the intersection observer
     this.setUpObserver();
@@ -153,35 +291,35 @@ export default {
   },
   components: {
     AppTitle,
-    BrowseFilms,
+    //BrowseFilms,
     WaffleChart,
-    IntroSection
-  }
-}
+    IntroSection,
+  },
+};
 </script>
 
 <style>
 :root {
   /* Colors */
-  --bg-color: #212121;
+  --bg-color: #141414;
   --accent: #2e2e2e;
-  --approved: #AABA4F;
-  --denied: #ED6B86;
-  --limited: #769FB6;
-  --other: #DCDCDC;
-  --text:white;
+  --approved: #aaba4f;
+  --denied: #ed6b86;
+  --limited: #769fb6;
+  --other: #dcdcdc;
+  --text: white;
   --subtitle: #696969;
 
   /* Fonts */
-  --title-font: 'Chakra Petch', sans-serif;
+  --title-font: "Chakra Petch", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  --body-font: 'IBM Plex Serif', serif;
+  --body-font: "IBM Plex Serif", serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  --card-font: 'IBM Plex Sans', sans-serif;
+  --card-font: "IBM Plex Sans", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
@@ -191,6 +329,7 @@ export default {
   --h2-size: 1.8em;
   --h3-size: 1.3em;
   --subtitle-size: 0.6em;
+  --body-size: 25px;
 }
 
 html {
@@ -204,7 +343,7 @@ a {
 
 .title-sticky {
   position: sticky;
-  top: 15%;
+  top: 60px;
 }
 
 .hide {
@@ -234,7 +373,7 @@ a {
 }
 
 #app {
-  font-family: 'IBM Plex Serif', sans-serif;
+  font-family: "IBM Plex Serif", sans-serif;
   margin: 0;
 }
 
@@ -251,4 +390,14 @@ a {
   color: #42b983;
 }
 
+@media only screen and (max-width: 500px) { 
+  .intro-container {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  :root {
+    --body-size: 20px;
+  }
+}
 </style>

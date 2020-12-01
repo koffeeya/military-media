@@ -1,39 +1,42 @@
-d<template>
-<div class='browse-container' :data-index='index' >
+<template>
+<div class='browse-container' :data-index='index'>
+  <div>Hello I am Step 3</div>
+
   <div class='browse-title'>
     <h2>BROWSE FILMS</h2>
   </div>
-    <div class='filter-container'>
-      <div class='filter-wrap'>
-      <select v-model="filterStatus" placeholder='ALL'>
-        <option v-for="status in statusOptions" :key="status">
-          {{status}}
-        </option>
-      </select>
-        <input v-model='searchTerm' placeholder='Search for a film by name'>
-      </div>
-      <div class='film-count' v-if="listLength === 1">Showing {{listLength}} film</div>
-      <div class='film-count' v-else>Showing {{listLength}} films</div>
-    </div>
 
-    <div class='movie-wrapper hide'>
-          <MovieCard v-for="movie in filteredFilms"
-              :key="movie.TitleClean + movie.Year"
-              :Title="movie.TitleClean"
-              :Remarks="movie.Remarks"
-              :Year="movie.Year"
-              :Status="movie.Status"
-              :Poster="movie.Poster"
-              :Genre="movie.Genre"
-              :ratingImdb="movie.ratingImdb"
-              :imdbVotes="movie.imdbVotes"
-              :FilmReleased="movie.FilmReleased"
-              :Plot="movie.PlotShort"
-              :Awards="movie.Awards"
-              :Actors="movie.Actors"
-              :Director="movie.Director">
-          </MovieCard>
-      </div>
+  <div class='filter-container'>
+    <div class='filter-wrap'>
+    <select v-model="filterStatus" placeholder='ALL'>
+      <option v-for="status in statusOptions" :key="status">
+        {{status}}
+      </option>
+    </select>
+      <input v-model='searchTerm' placeholder='Search for a film by name'>
+    </div>
+    <div class='film-count' v-if="listLength === 1">Showing {{listLength}} film</div>
+    <div class='film-count' v-else>Showing {{listLength}} films</div>
+  </div>
+
+  <div class='movie-wrapper' :data-index='index'>
+        <MovieCard v-for="movie in filteredFilms"
+            :key="movie.TitleClean + movie.Year"
+            :Title="movie.TitleClean"
+            :Remarks="movie.Remarks"
+            :Year="movie.Year"
+            :Status="movie.Status"
+            :Poster="movie.Poster"
+            :Genre="movie.Genre"
+            :ratingImdb="movie.ratingImdb"
+            :imdbVotes="movie.imdbVotes"
+            :FilmReleased="movie.FilmReleased"
+            :Plot="movie.PlotShort"
+            :Awards="movie.Awards"
+            :Actors="movie.Actors"
+            :Director="movie.Director">
+        </MovieCard>
+    </div>
   </div>
 </template>
 
@@ -104,6 +107,10 @@ export default {
   text-align: center;
 }
 
+.browse-container {
+  margin: 300px 0px 0px 0px;
+}
+
 .movie-wrapper {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
@@ -120,10 +127,8 @@ export default {
 
 .filter-container {
   font-family: 'IBM Plex Sans', sans-serif;
-  position: sticky;
   background-color: var(--bg-color);
   opacity: 0.9;
-  top: 0;
   text-align: center;
   padding: 10px 0px 20px 0px;
 }

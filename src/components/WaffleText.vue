@@ -1,10 +1,7 @@
 <template>
   <div class='waffle-text-container'>
     <div class='waffle-text'>
-      The U.S. Department of Defense (DoD) and Hollywood have a <a href='https://en.wikipedia.org/wiki/Military-entertainment_complex' target='_new'>history of cooperation</a> that has spanned the last century of entertainment. Films that need military resources must submit (and often revise) their scripts to meet <b style='color: var(--denied)'>criteria for approval</b> that implicitly reflect the values and interests of each branch of service.
-    </div>
-    <div class='waffle-text'>
-      This project explores a database -- acquired through a <a href='https://www.spyculture.com/dod-hollywood-collaboration-database-excerpts/' target='_new'>2016 FOIA request</a> -- of <b style='color: var(--denied)'>549 film productions</b> that asked the DoD for assistance in the last 100 years. What kind of help does the military provide? What films make the cut? And what does it reveal about the kinds of stories that get told?
+      A Hollywood film producer approaches the DoD to request <b>assistance</b>. The DoD then reviews the request along with the script, and can fully <button class='waffle-btn waffle-approve-btn'>APPROVE</button> the request, approve <button class='waffle-btn waffle-limited-btn'>LIMITED</button> assistance, or <button class='waffle-btn waffle-deny-btn'>DENY</button> the request. Interestingly, the database also includes films in an <button class='waffle-btn waffle-other-btn'>OTHER</button> category that did not require DoD assistance, but portrayed the military anyway.
     </div>
   </div>
 </template>
@@ -13,29 +10,29 @@
 
 export default {
     name: 'WaffleText',
+    
 }
 </script>
 
 <style scoped>
 
-a {
-  color: var(--denied);
-  font-weight: 600;
-  text-decoration-color: var(--denied);
-  text-decoration-thickness: .125em;
-  text-underline-offset: 1.5px;
+.waffle-btn {
+    margin: 5px;
+    padding: 5px 8px;
+    width: fit-content;
+    color: gray;
+    font-family: var(--card-font);
+    font-size: var(--subtitle-size);
+    font-weight: 800;
+    border-radius: 5px;
+    background-color: var(--accent);
+    border: none;
 }
 
-a:hover {
-  color: white;
-  text-decoration-color: white;
+.waffle-btn:hover {
+  background-color: gray;
+  color: var(--accent);
   cursor: pointer;
-}
-
-.hide {
-  position: absolute !important;
-  top: -9999px !important;
-  left: -9999px !important;
 }
 
 .waffle-text-container {
@@ -44,7 +41,7 @@ a:hover {
 
 .waffle-text {
   margin: 45px 0px;
-  font-size: 25px;
+  font-size: var(--body-size);
 }
 
 

@@ -1,9 +1,9 @@
 <template>
   <div class='intro-text-container'>
-    <div class='intro-text'>
+    <div class='intro-text intro-first'>
       The U.S. Department of Defense (DoD) and Hollywood have a <a href='https://en.wikipedia.org/wiki/Military-entertainment_complex' target='_new'>history of cooperation</a> that has spanned the last century of entertainment. Films that need military resources must submit (and often revise) their scripts to meet <b style='color: var(--denied)'>criteria for approval</b> that implicitly reflect the values and interests of each branch of service.
     </div>
-    <div class='intro-text'>
+    <div class='intro-text intro-second'>
       This project explores a database -- acquired through a <a href='https://www.spyculture.com/dod-hollywood-collaboration-database-excerpts/' target='_new'>2016 FOIA request</a> -- of <b style='color: var(--denied)'>549 film productions</b> that asked the DoD for assistance in the last 100 years. What kind of help does the military provide? What films make the cut? And what does it reveal about the kinds of stories that get told?
     </div>
   </div>
@@ -44,7 +44,11 @@ a:hover {
 
 .intro-text {
   margin: 45px 0px;
-  font-size: 25px;
+  font-size: var(--body-size);
+}
+
+.intro-first, .intro-second {
+  opacity: 1;
 }
 
 

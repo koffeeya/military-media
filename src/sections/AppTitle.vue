@@ -29,26 +29,6 @@ export default {
     },
     mounted() {
       this.observer.observe(this.$el);
-      d3.select(".subtitle-first")
-        .style("opacity", "0")
-        .transition()
-        .duration(200)
-        .delay(200)
-        .style("opacity", "1");
-
-      d3.select(".subtitle-second")
-        .style("opacity", "0")
-        .transition()
-        .duration(200)
-        .delay(400)
-        .style("opacity", "1");
-
-      d3.select(".subtitle-third")
-        .style("opacity", "0")
-        .transition()
-        .duration(200)
-        .delay(800)
-        .style("opacity", "1");
     },
 }
 </script>
@@ -62,6 +42,10 @@ export default {
   to {
     text-shadow: 2px 0.5px 2px var(--denied), -1px -0.5px 2px var(--denied);
   }
+}
+
+.title-wrapper {
+  margin: 300px 0px 300px 0px;
 }
 
 
@@ -110,14 +94,17 @@ export default {
 
 .subtitle-first {
   margin: 0px 10px 0px 10px;
+  opacity: 0;
 }
 
 .subtitle-second {
   margin: 0px 10px 0px 10px;
+  opacity: 0;
 }
 
 .subtitle-third {
   margin: 0px 10px 0px 10px;
+  opacity: 0;
 }
 
 .content-btn {

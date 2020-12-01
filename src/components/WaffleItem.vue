@@ -1,6 +1,6 @@
 <template>
   <div class="waffle-item" @mouseover=onMouseOver @mouseleave=onMouseLeave :class="[{ active: hover }, movieStatus]"></div>
-  <div class="hover-message" :style="{ x: +tooltipLocation[0] + 'px', y: +tooltipLocation[1] + 'px' }" v-if="hover">
+  <div class="hover-message" :class="tooltipTranslate" v-if="hover">
     <div class='movie-card-chart'>
       <MovieCardChart
             :key="Title + Year + 'chart'"
@@ -66,33 +66,20 @@ export default {
       }
     },
 
-    tooltipLocation() {
-      if (this.hover === false) {
-        return [0, 0];
-      } else {
-        return [this.x, this.y];
-      }
-    },
-
     tooltipTranslate() {
       const waffleChart = document.getElementById("waffle-chart")
       const waffleRect = waffleChart.getBoundingClientRect();
       const waffleWidth = waffleRect.width;
-      const minWidth = waffleWidth * 0.3;
-      const maxWidth = waffleWidth * 0.9;
-      const yHeight = 350;
-      if (this.x > maxWidth) {
-        return `translate(-350px, -${yHeight}px);`
-      } else if (this.x < minWidth) {
-        return `translate(-100px, -${yHeight}px);`
+      const minWidth = waffleWidth * 0.5;
+      if (this.x < minWidth) {
+        return "transformMinWidth"
       } else {
-        return `translate(-275px, -${yHeight}px)`
+        return "transformNormal"
       }
     }
   },
   methods: {
     onClick() {
-      console.log("clicked");
       this.click = true;
     },
     onMouseOver() {
@@ -125,7 +112,14 @@ export default {
   position: absolute;
   background-color: var(--bg-color);
   font-family: var(--card-font);
-  transform: translate(-415px, -40px);
+}
+
+.transformMinWidth {
+  transform: translate(25px, -250px);
+}
+
+.transformNormal {
+  transform: translate(-415px, -250px);
 }
 
 .active {
@@ -134,8 +128,13 @@ export default {
 }
 
 .waffle-item {
-  height: 15px;
+  height: 20px;
   border: 1px solid var(--bg-color);
+  opacity: 0;
+}
+
+.waffle-item:hover {
+  border: 1px solid white;
 }
 
 .approved-waffle {

@@ -1,6 +1,6 @@
 <template>
-<!-- Movie card standard -->
-<div class='movie-card' :class="[cardStyle]" v-on:click="openModal">
+<!-- Movie card standard v-on:click="openModal" -->
+<div class='movie-card' :class="[cardStyle]">
   <div class='col1'>
     <div v-if="Poster != null" class='image-wrapper'>
       <div><img :src="posterUrl"></div>
@@ -39,60 +39,6 @@
   </div>
 </div>
 
-<!-- Movie card modal version -->
-<div class='movie-card-modal' :class="[cardStyle, modalStatus]" v-on:click="closeModal">
-  <div class='col1'>
-    <div v-if="Poster != null" class='image-wrapper'>
-      <div><img :src="posterUrl"></div>
-    </div>
-    <div v-else class='poster-placeholder'>NO POSTER<br>AVAILABLE</div>
-  </div>
-  <div class='col2'>
-    <div class='card-wrapper'>
-      <!-- Movie Status -->
-      <div class='movie-status-wrapper'>
-        <div class='movie-status' :class="movieStatus">{{ Status }}</div>
-      </div>
-      <!-- Title -->
-      <div class='movie-title'>{{ Title }}</div>
-      <!-- Subtitle -->
-      <div class='movie-subtitle-wrapper'>
-        <div v-if="FilmReleased === 'TRUE'" class='movie-subtitle'><b :class="textStyle">{{ Year }}</b> &nbsp;|&nbsp; <b :class="textStyle">{{ ratingImdb }} / 10</b>&nbsp; (IMDb, {{ imdbVotes }} votes)</div>
-        <div v-else class='movie-subtitle'><b>FILM NOT RELEASED</b></div>
-      </div>
-      <!-- Remarks -->
-      <div class='remarks-wrapper'>
-        <div class='movie-label' :class="textStyle">DOD REMARKS</div>
-        <div class='movie-remarks'>"{{ movieRemarksModal }}"</div>
-      </div>
-      <!-- Plot -->
-      <div v-if="Plot != null" class='plot-wrapper'>
-        <div class='movie-label' :class="textStyle">PLOT</div>
-        <div v-if="Plot != null" class='movie-plot'>{{ moviePlotModal }}</div>
-      </div>
-      <div v-else></div>
-      <!-- Awards -->
-      <div v-if="Awards != null" class='movie-subtitle-wrapper'>
-        <div class='movie-label' :class="textStyle">AWARDS</div>
-        <div class='movie-plot'>{{ Awards }}</div>
-      </div>
-      <div v-else></div>
-      <!-- Cast & Crew -->
-      <div v-if="Actors != null" class='movie-subtitle-wrapper'>
-        <div class='movie-label' :class="textStyle">CAST & CREW</div>
-        <div class='movie-plot'><b style='color:gray; font-weight:400;'>Starring:&nbsp;</b> {{ Actors }}</div>
-        <div class='movie-plot'><b style='color:gray; font-weight:400;'>Directed By:&nbsp;</b> {{ Director }}</div>
-      </div>
-      <div v-else></div>
-      <!-- Genres -->
-      <div class='genre-wrapper'>
-        <GenreButton v-for="genre in genreList" :key="genre" :genre="genre" :movieStatus="Status"></GenreButton>
-      </div>
-      
-    </div>
-  </div>
-</div>
-
 </template>
 
 <script>
@@ -126,13 +72,13 @@ export default {
         return "";
       }
     },
-    modalStatus() {
+    /* modalStatus() {
       if (this.openStatus === true) {
         return "movie-card-modal appear"
       } else {
         return "movie-card-modal disappear hide"
       }
-    },
+    }, */
     movieStatus() {
       if (this.Status === "APPROVED") {
         return "approved"
@@ -229,7 +175,7 @@ export default {
   cursor: pointer;
 }
 
-.movie-card-modal {
+/* .movie-card-modal {
   padding: 10px;
   margin: 10px auto;
   display: grid;
@@ -246,19 +192,7 @@ export default {
   overflow: auto;
   opacity: 1;
   border-radius: 5px;
-}
-
-.appear {
-  opacity: 0;
-  transition: opacity 0.3s;
-  opacity: 1;
-}
-
-.disappear {
-  opacity: 1;
-  transition: opacity 0.3s;
-  opacity: 0;
-}
+} */
 
 
 .movie-card-modal:hover {

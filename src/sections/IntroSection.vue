@@ -11,7 +11,7 @@
         <div class='carousel-icons'>{{ icons }}</div>
       </div>
       <div class='carousel-wrapper'>
-        <button class='carousel-button' @click="previousCard">&#x25C1;</button>
+        <button class='carousel-button' @click="previousCard">&#x25C0;</button>
         <div>
         <MovieCardCarousel v-for="movie in carouselData"
             :key="movie.CarouselOrder + movie.TitleClean + movie.Year + ' carouselItem'"
@@ -29,7 +29,7 @@
             >
           </MovieCardCarousel>
           </div>
-        <button class='carousel-button' id='next-button' @click="nextCard">&#x25B7;</button>
+        <button class='carousel-button' id='next-button' @click="nextCard">&#x25B6;</button>
       </div>
     </div>
   </div>
@@ -52,10 +52,8 @@ export default {
       previousCard() {
         if (this.activeCard > 1) {
           this.activeCard -= 1
-          console.log(this.activeCard, this.carouselHidden)
         } else if (this.activeCard === 1) {
           this.activeCard = 6
-          console.log(this.activeCard)
         }
 
         d3.selectAll(`.order${this.activeCard}`)
@@ -79,10 +77,8 @@ export default {
       nextCard() {
         if (this.activeCard < this.carouselLength)  {
           this.activeCard += 1
-          console.log(this.activeCard)
         } else if (this.activeCard === this.carouselLength) {
           this.activeCard = 1
-          console.log(this.activeCard)
         }
 
         d3.selectAll(`.order${this.activeCard}`)
@@ -161,11 +157,11 @@ export default {
 }
 
 .first-col {
-  margin: 0px 60px;
+  margin: 0px 60px 0px 100px;
 }
 
 .second-col {
-  margin: 40px 0px;
+  margin: 15vh 0px;
 }
 
 .carousel-icon-wrapper {
@@ -199,5 +195,12 @@ export default {
 
 .carousel-button:focus {
   outline: none;
+}
+
+@media only screen and (max-width: 500px) { 
+  .intro-container {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
 }
 </style>
