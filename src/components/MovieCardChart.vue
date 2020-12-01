@@ -25,6 +25,7 @@
         <div class='movie-label' :class="textStyle">DOD REMARKS</div>
         <div class='movie-remarks-chart'>"{{ movieRemarks }}"</div>
       </div>
+      <div class='click-callout'>CLICK FOR MORE DETAILS</div>
     </div>
   </div>
 </div>
@@ -85,7 +86,7 @@ export default {
       }
     },
     movieRemarks() {
-      let wordLimit = 55;
+      let wordLimit = 45;
       let remarksSplit = this.Remarks.split(' ');
       if (remarksSplit.length <= wordLimit) {
         return this.Remarks;
@@ -164,6 +165,14 @@ export default {
 }
 
 .movie-subtitle {
+  font-size: var(--root-size);
+  font-family: var(--card-font);
+  padding: 5px 0px 10px 0px;
+  color: var(--subtitle);
+  line-height: 12px;
+}
+
+.click-callout {
   font-size: var(--root-size);
   font-family: var(--card-font);
   padding: 5px 0px 10px 0px;

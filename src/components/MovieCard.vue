@@ -23,18 +23,32 @@
       <!-- Remarks -->
       <div class='remarks-wrapper'>
         <div class='movie-label' :class="textStyle">DOD REMARKS</div>
-        <div class='movie-remarks'>"{{ movieRemarks }}"</div>
+        <div class='movie-remarks'>"{{ Remarks }}"</div>
       </div>
       <!-- Plot -->
       <div v-if="Plot != null" class='plot-wrapper'>
         <div class='movie-label' :class="textStyle">PLOT</div>
-        <div v-if="Plot != null" class='movie-plot'><i>{{ moviePlot }}</i></div>
+        <div v-if="Plot != null" class='movie-plot'>{{ Plot }}</div>
+      </div>
+      <div v-else></div>
+      <!-- Awards -->
+      <div v-if="Awards != null" class='movie-subtitle-wrapper'>
+        <div class='movie-label' :class="textStyle">AWARDS</div>
+        <div class='movie-plot'>{{ Awards }}</div>
+      </div>
+      <div v-else></div>
+      <!-- Cast & Crew -->
+      <div v-if="Actors != null" class='movie-subtitle-wrapper'>
+        <div class='movie-label' :class="textStyle">CAST & CREW</div>
+        <div class='movie-plot'><b style='color:gray; font-weight:400;'>Starring:&nbsp;</b> {{ Actors }}</div>
+        <div class='movie-plot'><b style='color:gray; font-weight:400;'>Directed By:&nbsp;</b> {{ Director }}</div>
       </div>
       <div v-else></div>
       <!-- Genres -->
       <div class='genre-wrapper'>
         <GenreButton v-for="genre in genreList" :key="genre" :genre="genre" :movieStatus="Status"></GenreButton>
       </div>
+      
     </div>
   </div>
 </div>
