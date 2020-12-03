@@ -23,6 +23,7 @@
         <MovieCard v-for="movie in filteredFilms"
             :key="movie.TitleClean + movie.Year"
             :Title="movie.TitleClean"
+            :TitleClass="movie.TitleClass"
             :Remarks="movie.Remarks"
             :Year="movie.Year"
             :Status="movie.Status"

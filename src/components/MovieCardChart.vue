@@ -36,7 +36,7 @@
 import * as d3 from "d3";
 export default {
   name: 'MovieCardChart',
-  props: ['Title', 'Remarks', 'Year', 'FilmReleased', 'Genre', 'ratingImdb', 'imdbVotes', 'Status', 'Poster', 'Plot', 'Awards', 'Actors', 'Director'],
+  props: ['Title', 'TitleClass', 'Remarks', 'Year', 'FilmReleased', 'Genre', 'ratingImdb', 'imdbVotes', 'Status', 'Poster', 'Plot', 'Awards', 'Actors', 'Director'],
   data: function () {
     return {
     }

@@ -33,7 +33,7 @@
 /* import * as d3 from "d3"; */
 export default {
   name: 'MovieCardCarousel',
-  props: ['Title', 'Remarks', 'Snippet', 'CarouselOrder', 'Year', 'FilmReleased', 'Genre', 'ratingImdb', 'imdbVotes', 'Status', 'Poster', 'Plot'],
+  props: ['Title', 'TitleClass', 'Remarks', 'Snippet', 'CarouselOrder', 'Year', 'FilmReleased', 'Genre', 'ratingImdb', 'imdbVotes', 'Status', 'Poster', 'Plot'],
   data: function () {
     return {
       openStatus: false,
@@ -179,7 +179,7 @@ img {
   border: 0.5px solid grey;
 }
 
-@media only screen and (max-width: 400px) {
+@media only screen and (max-width: 500px) {
   .image-wrapper {
     display: flex;
     justify-content: center;

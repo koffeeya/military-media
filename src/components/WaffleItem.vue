@@ -1,10 +1,11 @@
 <template>
-  <div class="waffle-item" @mouseover=onMouseOver @mouseleave=onMouseLeave @click=onClick :class="[{ active: hover }, movieStatus]"></div>
+  <div class="waffle-item" @mouseover=onMouseOver @mouseleave=onMouseLeave @click=onClick :class="[{ active: hover }, movieStatus, TitleClass]"></div>
     <div class="hover-message" :class="tooltipTranslate" v-if="hover">
       <div class='movie-card-chart'>
         <MovieCardChart
-              :key="Title + Year + 'chart'"
+              :key="TitleClass + '-waffleChart'"
               :Title="Title"
+              :TitleClass="TitleClass"
               :Remarks="Remarks"
               :Year="Year"
               :Status="Status"
@@ -23,8 +24,9 @@
 
     <div class='waffle-movie-card' v-if="clicked" @click="onMovieCardClick">
       <MovieCard
-            :key="Title + Year + 'modal-chart'"
+            :key="TitleClass + '-modalChart'"
             :Title="Title"
+            :TitleClass="TitleClass"
             :Remarks="Remarks"
             :Year="Year"
             :Status="Status"
@@ -50,6 +52,7 @@ export default {
   name: "WaffleItem",
   props: [
     "Title",
+    "TitleClass",
     "Remarks",
     "Year",
     "FilmReleased",
@@ -86,6 +89,20 @@ export default {
       }
     },
 
+    genreStatus() {
+      const genreClasses = [];
+      if (this.Genre != null) {
+        const split = this.Genre.split(",");
+        split.map((value) => {
+          if (value != null) {
+            const cleaned = value.replace(/[^A-Z0-9]/ig, "").toLowerCase().trim()
+            genreClasses.push(`.genre-${cleaned}`)
+          }
+        })
+      }
+      return genreClasses;
+    },
+
     tooltipTranslate() {
       const waffleChart = document.getElementById("waffle-chart")
       const waffleRect = waffleChart.getBoundingClientRect();
@@ -111,9 +128,6 @@ export default {
     }
   },
   methods: {
-    onClick() {
-      this.click = true;
-    },
     onMouseOver() {
       this.hover = true;
       this.x = +event.x;
@@ -121,15 +135,28 @@ export default {
     },
     onMouseLeave() {
       this.hover = false;
-      this.bottom = 0;
     },
     onClick() {
       this.hover = false;
       this.clicked = true;
+      d3.selectAll(".waffle-movie-card").style("opacity", "0");
+      d3.selectAll(".waffle-movie-card").classed('hide', true);
+      d3.selectAll(".waffle-item, .year-val, .waffle-axis-title, .waffle-text")
+        .style("opacity", "1")
+        .transition()
+        .duration(150)
+        .style("opacity", "0.3");
     },
     onMovieCardClick() {
       this.clicked = false;
-      d3.selectAll(".waffle-movie-card").remove();
+      d3.selectAll(".waffle-movie-card").style("opacity", "0");
+      d3.selectAll(".waffle-movie-card").classed('hide', true);
+      d3.selectAll(".waffle-item").style('opacity', 1);
+      d3.selectAll(".waffle-item, .year-val, .waffle-axis-title, .waffle-text")
+        .style("opacity", "0.3")
+        .transition()
+        .duration(150)
+        .style("opacity", "1");
     }
   },
   components: {
@@ -140,6 +167,8 @@ export default {
 </script>
 
 <style scoped>
+
+
 .hide-waffle {
   opacity: 0.05;
 }
@@ -150,12 +179,14 @@ export default {
 }
 
 .waffle-movie-card {
-  width: 50%;
+  width: 40%;
   z-index: 3;
   position: absolute;
-  top: 25%;
-  left: 25%;
+  top: 15%;
+  left: 30%;
   margin: 10px auto;
+  height: 600px;
+  overflow: auto;
 }
 
 .hover-message {
@@ -180,7 +211,6 @@ export default {
 .waffle-item {
   height: 20px;
   border: 1px solid var(--bg-color);
-  opacity: 0;
 }
 
 .waffle-item:hover {
@@ -189,26 +219,23 @@ export default {
 
 .approved-waffle {
   background-color: var(--approved);
-  /* opacity: 0.4; */
 }
 
 .denied-waffle {
   background-color: var(--denied);
-  /* opacity: 0.4; */
 }
 
 .limited-waffle {
   background-color: var(--limited);
-  /* opacity: 0.4; */
 }
 
 .other-waffle {
   background-color: var(--other);
-  /* opacity: 0.4; */
 }
 
 .none-waffle {
   background-color: transparent;
   display: none;
 }
+
 </style>

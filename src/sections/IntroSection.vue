@@ -1,7 +1,12 @@
 <template>
   <div class='intro-container' :data-index='index'>
     <div class='first-col'>
-      <IntroText />
+        <div class='intro-text intro-first'>
+          The U.S. Department of Defense (DoD) and Hollywood have a <a href='https://en.wikipedia.org/wiki/Military-entertainment_complex' target='_new'>history of cooperation</a> that has spanned the last century of entertainment. Films that need military resources must submit (and often revise) their scripts to meet <b style='color: var(--denied)'>criteria for approval</b> that implicitly reflect the values and interests of each branch of service.
+        </div>
+        <div class='intro-text intro-second'>
+          This project explores a database -- acquired through a <a href='https://www.spyculture.com/dod-hollywood-collaboration-database-excerpts/' target='_new'>2016 FOIA request</a> -- of <b style='color: var(--denied)'>549 film productions</b> that asked the DoD for assistance in the last 100 years. What kind of help does the military provide? What films make the cut? And what does it reveal about the kinds of stories that get told?
+        </div>
     </div>
     <div class='second-col'>
       <div class='carousel-text-wrapper center'>
@@ -14,9 +19,10 @@
         <button class='carousel-button' @click="previousCard">&#x25C0;</button>
         <div>
         <MovieCardCarousel v-for="movie in carouselData"
-            :key="movie.CarouselOrder + movie.TitleClean + movie.Year + ' carouselItem'"
+            :key="movie.TitleClass + '-carouselItem'"
             :CarouselOrder="movie.CarouselOrder"
             :Title="movie.TitleClean"
+            :TitleClass="movie.TitleClass"
             :Remarks="movie.Remarks"
             :Snippet="movie.CarouselSnippet"
             :Year="movie.Year"
@@ -37,7 +43,6 @@
 
 <script>
 import MovieCardCarousel from '../components/MovieCardCarousel.vue'
-import IntroText from '../components/IntroText.vue'
 import * as d3 from "d3";
 export default {
     name: 'IntroSection',
@@ -131,8 +136,7 @@ export default {
       this.observer.observe(this.$el);
     },
     components: {
-      MovieCardCarousel,
-      IntroText
+      MovieCardCarousel
     }
 }
 </script>
@@ -154,6 +158,29 @@ export default {
 .intro-container {
   display: grid;
   grid-template-columns: 1fr 1.2fr;
+}
+
+a {
+  color: var(--denied);
+  font-weight: 600;
+  text-decoration-color: var(--denied);
+  text-decoration-thickness: .125em;
+  text-underline-offset: 1.5px;
+}
+
+a:hover {
+  color: white;
+  text-decoration-color: white;
+  cursor: pointer;
+}
+
+.intro-text {
+  font-size: var(--body-size);
+}
+
+.intro-first, .intro-second {
+  opacity: 1;
+  margin: 10px;
 }
 
 .first-col {
@@ -197,10 +224,18 @@ export default {
   outline: none;
 }
 
-@media only screen and (max-width: 500px) { 
+@media only screen and (max-width: 500px) {
+  .first-col {
+    margin: 0px 60px 60px 60px;
+  }
+
   .intro-container {
     display: grid;
     grid-template-columns: 1fr;
+  }
+
+  .second-col {
+    margin: 0px;
   }
 }
 </style>

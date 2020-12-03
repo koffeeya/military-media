@@ -23,9 +23,19 @@
         :index="2"
         :filmsByYear="filmsByYear"
         :rawData="rawData"
+        :genreList="genreOptions"
       ></WaffleChart>
     </div>
-    <div> Hello next section</div>
+    <!-- <div class="step step3">
+      <WaffleChartTwo
+        :observer="observer"
+        :stepList="stepList"
+        :index="3"
+        :filmsByYear="filmsByYear"
+        :rawData="rawData"
+        :genreList="genreOptions"
+      ></WaffleChartTwo>
+    </div> -->
     <!-- <div class="step step3">
       <BrowseFilms
         :observer="observer"
@@ -55,6 +65,7 @@ export default {
       rawData: [],
       movies: [],
       statusOptions: [],
+      genreOptions: [],
       carouselData: [],
       filmsByYear: {},
       observer: null,
@@ -84,7 +95,7 @@ export default {
           target: null,
         },
         {
-          name: "BrowseFilms",
+          name: "WaffleChartTwo",
           index: 3,
           active: false,
           ratio: null,
@@ -117,7 +128,7 @@ export default {
           this.hideRemainingSteps(entryIndex);
           this.activeStep = entryIndex;
           entryData.active = true;
-          console.log(`${this.activeStep} ${entryData.name} ${entryData.target} ${entryData.ratio}`);
+          //console.log(`${this.activeStep} ${entryData.name} ${entryData.target} ${entryData.ratio}`);
         } else {
           entryData.active = false;
         }
@@ -200,14 +211,7 @@ export default {
         .style("opacity", "1");
     },
     stepTwoAnimation() {},
-    stepThreeAnimation() {
-      d3.selectAll(".waffle-item")
-        .style("opacity", "0")
-        .transition()
-        .duration(200)
-        .delay(100)
-        .style("opacity", "1")
-    },
+    stepThreeAnimation() {},
     stepFourAnimation() {},
     getMovieData(data) {
       this.movies = data
@@ -217,11 +221,30 @@ export default {
         .sort((a, b) => {
           return a.TitleForSorting - b.TitleForSorting;
         });
+
       const options = Array.from(
         new Set(this.getColByName(this.movies, "Status"))
       );
       options.push("ALL");
       this.statusOptions = options.sort();
+
+      const allGenres = this.getColByName(this.movies, "Genre");
+      const mergedGenres = [];
+      allGenres.map((value) => {
+        if (value != null) {
+          const replaced = value.replace(',', '').replace(',', '').replace(',', '').replace(',', '').replace(',', '')
+          const split = replaced.split(" ")
+          mergedGenres.push(...split)
+        }
+      })
+
+      const genres = Array.from(new Set(mergedGenres)).sort();
+      genres.push("All");
+      this.genreOptions = genres;
+
+      /* options.push("ALL");
+      this.genreOptions = genreOptions.sort(); */
+
       this.carouselData = data
         .filter((el) => {
           return (
@@ -293,7 +316,7 @@ export default {
     AppTitle,
     //BrowseFilms,
     WaffleChart,
-    IntroSection,
+    IntroSection
   },
 };
 </script>

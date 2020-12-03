@@ -179,10 +179,11 @@ export default {
   padding: 10px;
   margin: 10px;
   display: grid;
-  grid-template-columns: 1fr 1.5fr;
+  grid-template-columns: 1fr 3fr;
   background-color: var(--accent);
   color: var(--text);
   border-radius: 5px;
+  overflow: auto;
 }
 
 .movie-card:hover {
@@ -312,7 +313,7 @@ export default {
 }
 
 img {
-  width: 85%;
+  max-height: 300px;
   margin: 0px 20px 10px 0px;
   border: 0.5px solid grey;
 }
