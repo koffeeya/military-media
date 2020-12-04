@@ -180,15 +180,15 @@ a:hover {
 
 .intro-first, .intro-second {
   opacity: 1;
-  margin: 10px;
+  margin: 10px 10px 40px;
 }
 
 .first-col {
-  margin: 0px 60px 0px 100px;
+  margin: 50px 0px 0px 100px;
 }
 
 .second-col {
-  margin: 15vh 0px;
+  margin: 50px auto;
 }
 
 .carousel-icon-wrapper {

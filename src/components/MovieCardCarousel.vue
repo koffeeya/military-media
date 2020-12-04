@@ -1,6 +1,6 @@
 <template>
 <!-- Movie card standard -->
-<div class='movie-card-carousel' :class="[cardStyle, carouselClass, isHiddenAtStart]" v-on:click="openModal">
+<div class='movie-card-carousel' :class="[cardStyle, carouselClass]" v-on:click="openModal">
   <div class='col1'>
     <div v-if="Poster != null" class='image-wrapper'>
       <div><img class='img-poster' :src="posterUrl"></div>
@@ -42,11 +42,6 @@ export default {
   computed: {
     carouselClass() {
         return "order" + this.CarouselOrder
-    },
-    isHiddenAtStart() {
-      if (this.CarouselOrder === 1) {
-        return ""
-      } else return "hide"
     },
     movieStatus() {
       if (this.Status === "APPROVED") {
@@ -174,7 +169,7 @@ export default {
 
 img {
   width: auto;
-  height: 300px;
+  height: 200px;
   margin: 0px 20px 10px 0px;
   border: 0.5px solid grey;
 }

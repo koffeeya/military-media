@@ -5,57 +5,27 @@
       <AppTitle 
         :observer="observer"
         :stepList="stepList"
-        :index="0" 
-      />
-    </div>
-    <div class="step step1">
-      <IntroSection
-        :observer="observer"
-        :stepList="stepList"
-        :index="1"
+        :index="0"
         :carouselData="carouselData"
-      ></IntroSection>
+      />
     </div>
     <div class="step step2">
       <WaffleChart
         :observer="observer"
         :stepList="stepList"
-        :index="2"
+        :index="1"
         :filmsByYear="filmsByYear"
         :rawData="rawData"
         :genreList="genreOptions"
       ></WaffleChart>
     </div>
-    <!-- <div class="step step3">
-      <WaffleChartTwo
-        :observer="observer"
-        :stepList="stepList"
-        :index="3"
-        :filmsByYear="filmsByYear"
-        :rawData="rawData"
-        :genreList="genreOptions"
-      ></WaffleChartTwo>
-    </div> -->
-    <!-- <div class="step step3">
-      <BrowseFilms
-        :observer="observer"
-        :stepList="stepList"
-        :index="3"
-        :movies="movies"
-        :statusOptions="statusOptions"
-      ></BrowseFilms>
-    </div> -->
   </div>
-
-  <!-- Faded background -->
-  <!-- <div class="page-wrapper"></div> -->
 </template>
 
 <script>
 import AppTitle from "./sections/AppTitle.vue";
 import IntroSection from "./sections/IntroSection.vue";
 import WaffleChart from "./sections/WaffleChart.vue";
-//import BrowseFilms from "./sections/BrowseFilms.vue";
 import * as d3 from "d3";
 
 export default {
@@ -79,24 +49,8 @@ export default {
           target: null,
         },
         {
-          name: "IntroSection",
-          index: 1,
-          active: false,
-          ratio: null,
-          direction: null,
-          target: null,
-        },
-        {
           name: "WaffleChart",
-          index: 2,
-          active: false,
-          ratio: null,
-          direction: null,
-          target: null,
-        },
-        {
-          name: "WaffleChartTwo",
-          index: 3,
+          index: 1,
           active: false,
           ratio: null,
           direction: null,
@@ -174,7 +128,7 @@ export default {
         .transition()
         .duration(200)
         .style("opacity", "1");
-      d3.select(`.step${index}`).classed("title-sticky", true);
+      d3.select(`.step${index}`).classed("visible-sticky", true);
       d3.select(`.step${index}`).classed("hide-sticky", false);
       // Make all inactive steps invisible and hidden
       remainingSteps.map((value) => {
@@ -184,7 +138,7 @@ export default {
           .transition()
           .duration(200)
           .style("opacity", "0");
-        d3.select(`.step${value}`).classed("title-sticky", false);
+        d3.select(`.step${value}`).classed("visible-sticky", false);
         d3.select(`.step${value}`).classed("hide-sticky", true);
       });
     },
@@ -364,7 +318,7 @@ a {
   color: white;
 }
 
-.title-sticky {
+.visible-sticky {
   position: sticky;
   top: 60px;
 }

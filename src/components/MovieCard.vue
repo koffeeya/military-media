@@ -60,7 +60,7 @@ import * as d3 from "d3";
 import GenreButton from './GenreButton.vue'
 export default {
   name: 'MovieCard',
-  props: ['Title', 'Remarks', 'Year', 'FilmReleased', 'Genre', 'ratingImdb', 'imdbVotes', 'Status', 'Poster', 'Plot', 'Awards', 'Actors', 'Director'],
+  props: ['Title', 'TitleClass', 'Remarks', 'Year', 'FilmReleased', 'Genre', 'ratingImdb', 'imdbVotes', 'Status', 'Poster', 'Plot', 'Awards', 'Actors', 'Director'],
   data: function () {
     return {
       openStatus: false,
