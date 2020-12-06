@@ -1,5 +1,5 @@
 <template>
-<div class='browse-container' :data-index='index'>
+<div class='browse-container'>
   <div>Hello I am Step 3</div>
 
   <div class='browse-title'>
@@ -46,7 +46,7 @@ import MovieCard from '../components/MovieCard.vue'
 
 export default {
     name: 'BrowseFilms',
-    props: ['observer', 'stepList', 'index', 'movies', 'statusOptions'],
+    props: ['movies', 'statusOptions'],
     data() {
         return {
           thisStep: this.stepList[this.index],
@@ -93,9 +93,6 @@ export default {
     listLength() {
       return this.filteredFilms.length
     }
-  },
-  mounted() {
-    this.observer.observe(this.$el);
   },
   components: {
     MovieCard

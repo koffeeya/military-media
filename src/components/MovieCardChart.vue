@@ -115,7 +115,6 @@ export default {
 
 .movie-card {
   padding: 10px;
-  margin: 10px;
   display: grid;
   grid-template-columns: 1fr 1.5fr;
   background-color: var(--accent);

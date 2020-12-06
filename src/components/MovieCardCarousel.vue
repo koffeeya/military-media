@@ -94,7 +94,6 @@ export default {
 
 .movie-card-carousel {
   padding: 10px;
-  margin: 10px;
   display: grid;
   grid-template-columns: 1fr 2fr;
   background-color: var(--accent);
@@ -136,32 +135,39 @@ export default {
 
 .movie-title {
   font-family: var(--title-font);
+  font-size: var(--h2-size);
   color: white;
-  font-size: var(--h3-size);
+  font-size: 25px;
   font-weight: 900;
   padding: 5px 0px;
   line-height: 23px;
+}
+
+.movie-subtitle {
+  font-size: var(--root-size);
+  font-family: var(--card-font);
+  padding: 5px 0px 10px 0px;
+  color: var(--subtitle);
+  line-height: 12px;
 }
 
 .movie-status {
   font-size: 16px;
   font-family: var(--card-font);
   width: fit-content;
-  margin: 5px 0px 10px 0px;
+  margin: 0px 0px 10px 0px;
   padding: 2px 4px 2px 4px;
   color: var(--bg-color);
   font-weight: 900;
 }
 
 .movie-label {
-  font-size: 14px;
+  font-size: 12px;
   font-family: var(--card-font);
-  font-weight: 600;
   margin: 15px 0px 2px 0px;
-  color: gray;
 }
 
-.movie-remarks {
+.movie-remarks, .movie-plot {
   font-size: 12px;
   font-family: var(--card-font);
   text-align: left;

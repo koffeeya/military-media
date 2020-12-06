@@ -1,30 +1,27 @@
 <template>
   <!-- Sections -->
-  <div ref="sections" class="sections">
+  <div class="sections">
     <div class="step step0">
-      <AppTitle 
+      <!-- <AppTitle 
         :observer="observer"
         :stepList="stepList"
         :index="0"
         :carouselData="carouselData"
-      />
+      /> -->
     </div>
-    <div class="step step2">
+    <div class="step step1">
       <WaffleChart
-        :observer="observer"
-        :stepList="stepList"
-        :index="1"
         :filmsByYear="filmsByYear"
         :rawData="rawData"
         :genreList="genreOptions"
+        :carouselData="carouselData"
       ></WaffleChart>
     </div>
   </div>
+  <div>Footer</div>
 </template>
 
 <script>
-import AppTitle from "./sections/AppTitle.vue";
-import IntroSection from "./sections/IntroSection.vue";
 import WaffleChart from "./sections/WaffleChart.vue";
 import * as d3 from "d3";
 
@@ -38,135 +35,9 @@ export default {
       genreOptions: [],
       carouselData: [],
       filmsByYear: {},
-      observer: null,
-      stepList: [
-        {
-          name: "AppTitle",
-          index: 0,
-          active: true,
-          ratio: null,
-          direction: null,
-          target: null,
-        },
-        {
-          name: "WaffleChart",
-          index: 1,
-          active: false,
-          ratio: null,
-          direction: null,
-          target: null,
-        },
-      ],
-      activeStep: 0,
-      prevRatio: 0.0,
     };
   },
   methods: {
-    handleIntersect(entries) {
-      entries.forEach((entry) => {
-        // Get data
-        const entryIndex = Number(entry.target.getAttribute("data-index"));
-        const entryData = this.stepList[entryIndex];
-        entryData.ratio = entry.intersectionRatio;
-        entryData.target = entry.target.className.split(" ")[0];
-
-        // Record the scrolling direction
-        if (entry.intersectionRatio > this.prevRatio) {
-          entryData.direction = "up";
-        } else {
-          entryData.direction = "down";
-        }
-
-        // Set the visible step to active, and the remaining to inactive
-        if (entry.intersectionRatio > 0.7) {
-          this.hideRemainingSteps(entryIndex);
-          this.activeStep = entryIndex;
-          entryData.active = true;
-          //console.log(`${this.activeStep} ${entryData.name} ${entryData.target} ${entryData.ratio}`);
-        } else {
-          entryData.active = false;
-        }
-
-        // Set the previous ratio to indicate direction
-        this.prevRatio = entry.intersectionRatio;
-
-        // Animate step 1: Title
-        if (entryIndex === 0 && entryData.active === true) {
-          //console.log('Animating Step 1');
-          this.stepOneAnimation();
-        }
-
-        // Animate step 2: Intro
-        if (entryIndex === 1 && entryData.active === true) {
-          //console.log('Animating Step 2');
-          this.stepTwoAnimation();
-        }
-
-        // Animate step 3: Waffle
-        if (entryIndex === 2 && entryData.active === true) {
-          //console.log('Animating Step 3');
-          this.stepThreeAnimation();
-        }
-
-        // Animate step 4: Browse
-        if (entryIndex === 3 && entryData.active === true) {
-          //console.log('Animating Step 4');
-          this.stepFourAnimation();
-        }
-
-      });
-    },
-    hideRemainingSteps(index) {
-      const stepNum = this.stepList.length;
-      const allStepArr = [...Array(stepNum).keys()];
-      const remainingSteps = allStepArr.filter((d) => {
-        return d != index;
-      });
-      const activeStepData = this.stepList[index];
-      // Make the active step visible and sticky
-      d3.select(`.${activeStepData.target}`)
-        .transition()
-        .duration(200)
-        .style("opacity", "1");
-      d3.select(`.step${index}`).classed("visible-sticky", true);
-      d3.select(`.step${index}`).classed("hide-sticky", false);
-      // Make all inactive steps invisible and hidden
-      remainingSteps.map((value) => {
-        const inactiveStepData = this.stepList[value];
-        inactiveStepData.active = false;
-        d3.select(`.${inactiveStepData.target}`)
-          .transition()
-          .duration(200)
-          .style("opacity", "0");
-        d3.select(`.step${value}`).classed("visible-sticky", false);
-        d3.select(`.step${value}`).classed("hide-sticky", true);
-      });
-    },
-    stepOneAnimation() {
-      d3.select(`.subtitle-first`)
-        .style("opacity", "0")
-        .transition()
-        .duration(200)
-        .delay(400)
-        .style("opacity", "1");
-
-      d3.select(`.subtitle-second`)
-        .style("opacity", "0")
-        .transition()
-        .duration(200)
-        .delay(600)
-        .style("opacity", "1");
-
-      d3.select(`.subtitle-third`)
-        .style("opacity", "0")
-        .transition()
-        .duration(200)
-        .delay(800)
-        .style("opacity", "1");
-    },
-    stepTwoAnimation() {},
-    stepThreeAnimation() {},
-    stepFourAnimation() {},
     getMovieData(data) {
       this.movies = data
         .filter((el) => {
@@ -175,13 +46,11 @@ export default {
         .sort((a, b) => {
           return a.TitleForSorting - b.TitleForSorting;
         });
-
       const options = Array.from(
         new Set(this.getColByName(this.movies, "Status"))
       );
       options.push("ALL");
       this.statusOptions = options.sort();
-
       const allGenres = this.getColByName(this.movies, "Genre");
       const mergedGenres = [];
       allGenres.map((value) => {
@@ -191,14 +60,9 @@ export default {
           mergedGenres.push(...split)
         }
       })
-
       const genres = Array.from(new Set(mergedGenres)).sort();
       genres.push("All");
       this.genreOptions = genres;
-
-      /* options.push("ALL");
-      this.genreOptions = genreOptions.sort(); */
-
       this.carouselData = data
         .filter((el) => {
           return (
@@ -234,43 +98,17 @@ export default {
       }
       return col;
     },
-    buildThresholdList() {
-      let thresholds = [];
-      let numSteps = 10;
-      let arr = [...Array(numSteps).keys()];
-      arr.map((value, index) => {
-        let ratio = (value + 1) / numSteps;
-        thresholds.push(ratio);
-      });
-      thresholds.push(0);
-      return thresholds;
-    },
-    setUpObserver() {
-      let options = {
-        root: this.$refs.sections,
-        threshold: this.buildThresholdList(),
-      };
-      this.observer = new IntersectionObserver(this.handleIntersect, options);
-    },
   },
-  computed: {},
   created() {
-    // Set up the intersection observer
-    this.setUpObserver();
     // Load in the data
     Promise.all([d3.csv("./movies.csv", d3.autoType)]).then(([data]) => {
       this.rawData = data;
       this.getMovieData(data);
     });
   },
-  beforeUnmount() {
-    this.observer.disconnect();
-  },
   components: {
-    AppTitle,
     //BrowseFilms,
     WaffleChart,
-    IntroSection
   },
 };
 </script>

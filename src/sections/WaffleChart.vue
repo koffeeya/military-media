@@ -1,55 +1,52 @@
 <template>
-  <div class='waffle-chart-container' :data-index='index'>
+  <div class='waffle-chart-container'>
+    <!-- PROGRESS BAR -->
     <div class='waffle-icon-wrapper center'>
         <div class='progress-icon' :class="[`icon${step}`, iconClass(step)]" v-for="step in allStepsArr" :key="step + '-icon'"></div>
-      </div>
+    </div>
+    <!-- CONTENT -->
     <div class='waffle-col-container'>
-
-      <div class='first-col-waffle'>
-
+      <!-- TEXT AREA -->
+      <div class='row1'>
+        <!-- PREVIOUS BUTTON -->
         <button class='waffle-carousel-btn' id='waffle-prev-button' @click="previousText">&#x25C0;</button>
-
+        <!-- TEXT SECTIONS -->
         <div class='waffle-carousel-text'>
-
-          <div class='waffle-text text1'>
-            Hollywood and the United States military have been cooperating for over 100 years, in a relationship known as the military-entertainment complex.
+          <!-- SECTION 1 -->
+          <div class='text1'>
+            <AppTitle :carouselData="carouselData" />
           </div>
-
+          <!-- SECTION 2 -->
           <div class='waffle-text text2 hide'>
             <div class='waffle-instructions'><b>This text is interactive:</b> Hover or click a button to highlight the chart below. Click the button again to remove the highlight. Click on a square in the chart to see more details about the film.</div>
-
             The first film to get full cooperation from the military may well have been <button class='text2-btn1 waffle-btn waffle-approved-btn' @click="onClick(['birthofanationapproved'])" @mouseover="highlightFilms(['birthofanationapproved'])" @mouseout="highlightFilmsReset(['birthofanationapproved'])">BIRTH OF A NATION</button> in 1915, one of the first films ever made.
           </div>
-
+          <!-- SECTION 3 -->
           <div class='waffle-text text3 hide'>
             <div class='waffle-instructions'><b>This text is interactive:</b> Hover or click a button to highlight the chart below. Click the button again to remove the highlight. Click on a square in the chart to see more details about the film.</div>
-
             Every film in the database starts with a producer or director approaching the DoD to request production assistance. After reviewing the request and negotiating the script, the DoD can fully <button class='text1-btn1 waffle-btn waffle-approved-btn' @click="onClick(['approved-waffle'])" @mouseover="highlightFilms(['approved-waffle'])" @mouseout="highlightFilmsReset(['approved-waffle'])">APPROVE</button> the request, approve <button class='text1-btn2 waffle-btn waffle-limited-btn' @click="onClick(['limited-waffle'])" @mouseover="highlightFilms(['limited-waffle'])" @mouseout="highlightFilmsReset(['limited-waffle'])">LIMITED</button> assistance, or <button class='text1-btn3 waffle-btn waffle-denied-btn' @click="onClick(['denied-waffle'])" @mouseover="highlightFilms(['denied-waffle'])" @mouseout="highlightFilmsReset(['denied-waffle'])">DENY</button> the request. The database also includes films in an <button class='text1-btn4 waffle-btn waffle-other-btn' @click="onClick(['other-waffle'])" @mouseover="highlightFilms(['other-waffle'])" @mouseout="highlightFilmsReset(['other-waffle'])">OTHER</button> category that did not require DoD assistance, but portrayed the military anyway. The majority of films are approved.
           </div>
-          
+          <!-- SECTION 4 -->
           <div class='waffle-text text4 hide'>
             <div class='waffle-instructions'><b>This text is interactive:</b> Hover or click a button to highlight the chart below. Click the button again to remove the highlight. Click on a square in the chart to see more details about the film.</div>
-
             <b>Why collaborate with Hollywood?</b> The DoD's website lists two reasons: to "accurately depict military stories and make sure sensitive information isn't disclosed." But there are clearly other reasons. For example, after <button class='text2-btn1 waffle-btn waffle-approved-btn' @click="onClick(['topgunapproved'])" @mouseover="highlightFilms(['topgunapproved'])" @mouseout="highlightFilmsReset(['topgunapproved'])">TOP GUN</button> released in 1986 -- a movie that closely involved the Pentagon from the start -- the U.S. Navy saw a 500% spike in the number of young men wanting to be Naval Aviators. The DoD’s own private data notes that Top Gun <b id='topGunHighlight'>"completed [the] rehabilitation of the military’s image, which had been savaged by the Vietnam War."</b>
           </div>
-
+          <!-- SECTION 5 -->
           <div class='waffle-text text5 hide'>
             Waffle text 3
           </div>
-
+          <!-- SECTION 6 -->
           <div class='waffle-text text6 hide'>
             Waffle text 4
           </div>
-
         </div>
+        <!-- NEXT BUTTON -->
         <button class='waffle-carousel-btn' id='waffle-right-button' @click="nextText">&#x25B6;</button>
       </div>
       
-
-      <div class='second-col-waffle'>
-
-        <div v-if="activeText === 1"> This is text!</div>
-
+      <!-- CONTENT AREA -->
+      <div class='row2'>
+        <div v-if="activeText === 1"></div>
         <div v-if="activeText > 1">
           <div  class='chart-wrapper' id='waffle-chart'>
             <div class='group-wrapper'>
@@ -77,9 +74,8 @@
           </div>
         <div class='waffle-axis-title'>FILMS IN THE DATABASE BY RELEASE YEAR</div>
         </div>
-
       </div>
-
+      
     </div>
 
   </div>
@@ -89,12 +85,13 @@
 <script>
 import * as d3 from 'd3'
 import WaffleItem from '../components/WaffleItem.vue'
+import AppTitle from "./AppTitle.vue";
+
 export default {
     name: 'WaffleChart',
-    props: ['observer', 'stepList', 'index', 'filmsByYear', 'rawData'],
+    props: ['filmsByYear', 'rawData', 'carouselData'],
     data () {
         return {
-          thisStep: this.stepList[this.index],
           activeText: 1,
           textLength: 6,
           clicked: false,
@@ -108,29 +105,6 @@ export default {
         const arr = Array.from(Array(n).keys()).map(i => i + 1)
         return arr;
       },
-      backgroundColor() {
-        const colorMap = {
-          "NO FILM": "transparent",
-          "APPROVED": "var(--approved)",
-          "DENIED": "var(--denied)",
-          "LIMITED": "var(--limited)",
-          "OTHER": "var(--other)",
-        }
-        return colorMap['status']
-      },
-      waffleTextIcons() {
-        const inactiveIcon = "◇"
-        const activeIcon = "◆"
-        const items = [];
-        this.allStepsArr.map((value) => {
-          if (value === this.activeText) {
-            items.push(activeIcon)
-          } else {
-            items.push(inactiveIcon)
-          }
-        })
-        return items.join(' ');
-      },
       waffleTextHidden() {
         const remaining = this.allStepsArr.filter((d) => {
           return d != this.activeText;
@@ -143,7 +117,6 @@ export default {
       const mod = year % 10;
       const minYear = 1911;
       const maxYear = 2016;
-
       if (year === minYear || year === maxYear) {
         return "yearVisible";
       } else if (mod === 0) {
@@ -154,7 +127,6 @@ export default {
       const mod = year % 10;
       const minYear = 1911;
       const maxYear = 2016;
-
       if (year === minYear || year === maxYear) {
         return year;
       } else if (mod === 0) {
@@ -167,7 +139,8 @@ export default {
         } else {
           return "inactive-icon"
         }
-      },
+    },
+
     groupDataByYear(dataToGroup) {
         const yearData = dataToGroup.filter(el => {return el.Year != null}).sort((a, b) => {return a.Status - b.Status}).sort((a, b) => {return a.Year - b.Year});
         const yearGrouped = d3.group(yearData, d => d.Year)
@@ -298,11 +271,9 @@ export default {
         })
       }
   },
-  mounted() {
-    this.observer.observe(this.$el);
-  },
   components: {
-    WaffleItem
+    WaffleItem,
+    AppTitle
   }
 }
 </script>
@@ -357,7 +328,7 @@ export default {
 /* CAROUSEL */
 
 .waffle-icon-wrapper {
-  margin: 10px 0px 30px 0px;
+  margin: 30px 0px;
   font-size: 20px;
 }
 
@@ -367,41 +338,41 @@ export default {
   align-items: center;
 }
 
-.first-col-waffle {
+.row1 {
   display: grid;
   grid-template-columns: 1fr 5fr 1fr;
-  max-width: 55%;
+  max-width: 80%;
   margin: 0px auto;
   position: sticky;
   top: 10px;
 }
 
-.second-col-waffle {
+.row2 {
   padding: 50px 0px 0px 0px;
   margin: 0px auto;
-  min-height: 50vh;
 }
 
 .waffle-text {
   font-size: var(--body-size);
   padding: 0px 10px;
-  line-height: 38px;
+  min-height: 25vh;
 }
 
 .waffle-carousel-btn {
-  min-height: 400px;
+  height: 150px;
+  transform: translateY(25vh);
   margin: 0px auto;
   font-size: 30px;
   font-family: var(--title-font);
-  color: var(--accent);
-  border: 2px solid var(--accent);
+  color: var(--denied);
+  border: 2px solid var(--denied);
   border-radius: 5px;
   background-color: var(--bg-color);
 }
 
 .waffle-carousel-btn:hover {
   color: var(--bg-color);
-  background-color: var(--accent);
+  background-color: var(--denied);
   cursor: pointer;
 }
 
@@ -507,7 +478,7 @@ export default {
 }
 
 .group-wrapper{
-  width: 75%;
+  width: 65%;
   height: 100%;
   display: flex;
   flex-direction: row;
@@ -546,7 +517,7 @@ export default {
     padding: 4px;
     margin: 0px;
   }
-  .first-col-waffle {
+  .row1 {
     display: grid;
     grid-template-columns: 1fr 5fr 1fr;
     max-width: 90%;
@@ -565,7 +536,8 @@ export default {
   }
 
   .group-wrapper{
-    width: 100%; 
+    padding: 10px;
+    width: 90%; 
     overflow: auto;
   }
 }

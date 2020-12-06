@@ -1,13 +1,11 @@
 <template>
-  <div class='title-wrapper' :data-index='index'>
+  <div class='title-wrapper-no-obs'>
       <div class='title-words'>
 
         <div class='app-title'>ASSISTANCE DENIED</div>
 
         <div class='subtitle-text-wrapper'>
-          <div class='app-subtitle subtitle-first'>A project exploring the 100-year history of <b class='subtitle-emphasis'>cooperation</b></div>
-          <div class='app-subtitle subtitle-second'>between <b class='subtitle-emphasis'>Hollywood</b> and the <b class='subtitle-emphasis'>United States military</b></div>
-          <div class='app-subtitle subtitle-third'>through a database of <b class='subtitle-emphasis'>549 films</b></div>
+          <div class='app-subtitle subtitle-first'>A project exploring the 100-year history of <b class='subtitle-emphasis'>cooperation</b>between <b class='subtitle-emphasis'>Hollywood</b> and the <b class='subtitle-emphasis'>United States military</b> through a database of <b class='subtitle-emphasis'>549 films</b></div>
         </div>
 
         <div class='gif-wrapper'>
@@ -32,10 +30,6 @@
           </MovieCardCarousel>
         </div>
 
-      
-        <div class='contents'>
-          <div class='content-btn'>SCROLL DOWN</div>
-        </div>
       </div>
   </div>
 </template>
@@ -45,11 +39,10 @@ import * as d3 from "d3";
 import MovieCardCarousel from '../components/MovieCardCarousel.vue';
 
 export default {
-    name: 'AppTitle',
-    props: ['observer', 'stepList', 'index', 'carouselData'],
+    name: 'AppTitleNoObs',
+    props: ['carouselData'],
     data() {
         return {
-          step: this.stepList[this.index],
           gifList: [
             {
               source: `./1.gif`,
@@ -130,9 +123,6 @@ export default {
         return `transform: translateX(${loc}px)`
       }
     },
-    mounted() {
-      this.observer.observe(this.$el);
-    },
   components: {
     MovieCardCarousel
   }
@@ -140,11 +130,6 @@ export default {
 </script>
 
 <style scoped>
-
-/* .gif-wrapper {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-} */
 
 .gif-message {
   width: 450px;
@@ -157,7 +142,7 @@ export default {
   width: 9%;
   min-width: 150px;
   filter: grayscale(100%);
-  margin: 100px 5px 5px 5px;
+  margin: 75px 5px 5px 5px;
   border-radius: 10px;
   border: 5px solid transparent;
 }
@@ -188,9 +173,8 @@ export default {
 }
 
 .title-wrapper {
-  margin: 150px 0px 300px 0px;
+  margin: 150px 0px 0px 0px;
 }
-
 
 .title-words {
   text-align: center;
@@ -217,10 +201,6 @@ export default {
   color: white;
 }
 
-.subtitle-text-wrapper {
-  margin: 40px 0px 0px 0px;
-}
-
 .subtitle-emphasis {
   font-weight: 900;
   color: white;
@@ -234,36 +214,6 @@ export default {
 .subtitle-emphasis:hover {
   color: var(--denied);
 }
-
-.subtitle-first {
-  margin: 0px 10px 0px 10px;
-  opacity: 0;
-}
-
-.subtitle-second {
-  margin: 0px 10px 0px 10px;
-  opacity: 0;
-}
-
-.subtitle-third {
-  margin: 0px 10px 0px 10px;
-  opacity: 0;
-}
-
-.content-btn {
-  background-color: var(--bg-color);
-  padding: 10px 20px;
-  margin: 80px 20px;
-  border: none;
-  font-family: var(--card-font);
-  font-weight: 900;
-  color: var(--denied);
-}
-
-.content-btn:hover {
-  color: var(--approved);
-}
-
 
 @media only screen and (max-width: 600px) {
 
@@ -285,12 +235,10 @@ export default {
     max-height: 350px;
     overflow: auto;
     position: absolute;
-    text-align: left;
   }
 
   .app-title {
     font-size: 50px;
-    line-height: 40px;
   }
 
   .title-words {
