@@ -367,7 +367,10 @@ a {
   color: #42b983;
 }
 
-@media only screen and (max-width: 500px) { 
+@media only screen and (max-width: 600px) { 
+  .visible-sticky {
+    top: 20px;
+  }
   .intro-container {
     display: grid;
     grid-template-columns: 1fr;

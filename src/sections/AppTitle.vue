@@ -10,7 +10,7 @@
           <div class='app-subtitle subtitle-third'>through a database of <b class='subtitle-emphasis'>549 films</b></div>
         </div>
 
-        <div>
+        <div class='gif-wrapper'>
           <img class='film-gif' v-for="gif in gifList" :class="[gif.class, gif.status]" :key="gif.key" :src="gif.source" @mouseover=onMouseOver @mouseleave=onMouseLeave />
         </div>
 
@@ -43,6 +43,7 @@
 <script>
 import * as d3 from "d3";
 import MovieCardCarousel from '../components/MovieCardCarousel.vue';
+
 export default {
     name: 'AppTitle',
     props: ['observer', 'stepList', 'index', 'carouselData'],
@@ -51,35 +52,35 @@ export default {
           step: this.stepList[this.index],
           gifList: [
             {
-              source: "/1.gif",
+              source: `./1.gif`,
               index: 1,
               key: "gif-1",
               class: "gif1",
               status: "gif-denied"
             },
             {
-              source: "/2.gif",
+              source: `./2.gif`,
               index: 2,
               key: "gif-2",
               class: "gif2",
               status: "gif-approved"
             },
             {
-              source: "/3.gif",
+              source: `./3.gif`,
               index: 3,
               key: "gif-3",
               class: "gif3",
               status: "gif-denied"
             },
             {
-              source: "/4.gif",
+              source: `./4.gif`,
               index: 4,
               key: "gif-4",
               class: "gif4",
               status: "gif-approved"
             },
             {
-              source: "/5.gif",
+              source: `./5.gif`,
               index: 5,
               key: "gif-5",
               class: "gif5",
@@ -125,7 +126,7 @@ export default {
         return filteredData;
       },
       gifHoverLocation() {
-        const loc = this.left - 125;
+        const loc = this.left - 100;
         return `transform: translateX(${loc}px)`
       }
     },
@@ -140,6 +141,11 @@ export default {
 
 <style scoped>
 
+/* .gif-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+} */
+
 .gif-message {
   width: 450px;
   position: absolute;
@@ -149,10 +155,11 @@ export default {
 
 .film-gif {
   width: 9%;
+  min-width: 150px;
   filter: grayscale(100%);
   margin: 100px 5px 5px 5px;
   border-radius: 10px;
-  border: 5px solid black;
+  border: 5px solid transparent;
 }
 
 .gif-approved:hover {
@@ -258,10 +265,32 @@ export default {
 }
 
 
-@media only screen and (max-width: 900px) {
+@media only screen and (max-width: 600px) {
+
+  .title-wrapper {
+    margin: 0px;
+  }
+
+  .content-btn {
+    margin: 20px 0px 0px 0px;
+  }
+
+  .film-gif {
+    min-width: 100px;
+    margin: 0px;
+  }
+
+  .gif-message {
+    width: 275px;
+    max-height: 350px;
+    overflow: auto;
+    position: absolute;
+    text-align: left;
+  }
 
   .app-title {
     font-size: 50px;
+    line-height: 40px;
   }
 
   .title-words {

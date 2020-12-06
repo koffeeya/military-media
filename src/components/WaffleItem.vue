@@ -141,7 +141,7 @@ export default {
       this.clicked = true;
       d3.selectAll(".waffle-movie-card").style("opacity", "0");
       d3.selectAll(".waffle-movie-card").classed('hide', true);
-      d3.selectAll(".waffle-item, .year-val, .waffle-axis-title, .waffle-text")
+      d3.selectAll(".year-val, .waffle-axis-title, .waffle-text")
         .style("opacity", "1")
         .transition()
         .duration(150)
@@ -151,8 +151,7 @@ export default {
       this.clicked = false;
       d3.selectAll(".waffle-movie-card").style("opacity", "0");
       d3.selectAll(".waffle-movie-card").classed('hide', true);
-      d3.selectAll(".waffle-item").style('opacity', 1);
-      d3.selectAll(".waffle-item, .year-val, .waffle-axis-title, .waffle-text")
+      d3.selectAll(".year-val, .waffle-axis-title, .waffle-text")
         .style("opacity", "0.3")
         .transition()
         .duration(150)
@@ -182,7 +181,7 @@ export default {
   width: 40%;
   z-index: 3;
   position: absolute;
-  top: 15%;
+  top: 100%;
   left: 30%;
   margin: 10px auto;
   height: 600px;
@@ -210,11 +209,12 @@ export default {
 
 .waffle-item {
   height: 20px;
-  border: 1px solid var(--bg-color);
+  border: 0.5px solid var(--bg-color);
+  margin: 0px 4px 0px -1px;
 }
 
 .waffle-item:hover {
-  border: 1px solid white;
+  border: 0.5px solid white;
 }
 
 .approved-waffle {
@@ -237,5 +237,14 @@ export default {
   background-color: transparent;
   display: none;
 }
+
+@media only screen and (max-width: 600px) {
+  .waffle-item {
+    height: 10px;
+    min-width: 5px;
+    border: 0.5px solid var(--bg-color);
+    margin: 0px 4px 0px -1px;
+  }
+ }
 
 </style>

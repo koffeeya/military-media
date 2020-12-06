@@ -12,14 +12,14 @@
       <!-- Movie Status -->
       
       <!-- Title -->
-      <div class='movie-title'>{{ Title }} &nbsp;<b style='color:gray;'>({{ Year }})</b></div>
+      <div class='movie-title'>{{ Title }} <b style='color:gray; font-size: 14px;'>({{ Year }})</b></div>
       <!-- Remarks -->
       <div class='movie-status-wrapper'>
-          <div class='movie-label'>DoD response to assistance request:</div>
+          <div class='movie-label'>Request For Cooperation:</div>
         <div class='movie-status' :class="movieStatus">{{ Status }}</div>
       </div>
       <div class='remarks-wrapper'>
-          <div class='movie-label'>DoD Remarks:</div>
+          <div class='movie-label'>Military Remarks:</div>
         <div class='movie-remarks'>"{{ Snippet }}"</div>
       </div>
     </div>
@@ -96,7 +96,7 @@ export default {
   padding: 10px;
   margin: 10px;
   display: grid;
-  grid-template-columns: 1fr 1.5fr;
+  grid-template-columns: 1fr 2fr;
   background-color: var(--accent);
   color: var(--text);
   border-radius: 5px;
@@ -154,7 +154,7 @@ export default {
 }
 
 .movie-label {
-  font-size: 13px;
+  font-size: 14px;
   font-family: var(--card-font);
   font-weight: 600;
   margin: 15px 0px 2px 0px;
