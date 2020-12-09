@@ -115,12 +115,11 @@ export default {
         const filteredData = this.carouselData.filter((d) => {
           return d.CarouselOrder === this.activeGifTarget;
         })
-        console.log(filteredData);
         return filteredData;
       },
       gifHoverLocation() {
         const loc = this.left - 100;
-        return `transform: translateX(${loc}px)`
+        return `transform: translateX(${loc}px);`
       }
     },
   components: {
@@ -132,17 +131,18 @@ export default {
 <style scoped>
 
 .gif-message {
-  width: 450px;
+  width: 350px;
   position: absolute;
   margin: 0;
   text-align: left;
+  border: 3px solid var(--bg-color);
 }
 
 .film-gif {
   width: 9%;
   min-width: 150px;
   filter: grayscale(100%);
-  margin: 75px 5px 5px 5px;
+  margin: 5% 0% 0%;
   border-radius: 10px;
   border: 5px solid transparent;
 }
@@ -203,6 +203,10 @@ export default {
   margin: auto;
 }
 
+.subtitle-text-wrapper {
+  margin: 20px 0px 0px;
+}
+
 .subtitle-emphasis {
   font-weight: 900;
   color: white;
@@ -215,6 +219,24 @@ export default {
 
 .subtitle-emphasis:hover {
   color: var(--denied);
+}
+
+@media only screen and (max-width: 600px) {
+  .app-title {
+    font-size: 65px;
+    line-height: 60px;
+    top: 25%;
+  }
+
+  .app-subtitle {
+    font-size: 25px;
+     max-width: 75%;
+  }
+
+  .film-gif {
+    min-width: 75px;
+  }
+
 }
 
 </style>

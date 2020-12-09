@@ -137,7 +137,7 @@ export default {
   font-family: var(--title-font);
   font-size: var(--h2-size);
   color: white;
-  font-size: 25px;
+  font-size: 20px;
   font-weight: 900;
   padding: 5px 0px;
   line-height: 23px;
@@ -175,28 +175,27 @@ export default {
 
 img {
   width: auto;
-  height: 200px;
+  height: 150px;
   margin: 0px 20px 10px 0px;
   border: 0.5px solid grey;
 }
 
-@media only screen and (max-width: 500px) {
-  .image-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+@media only screen and (max-width: 600px) {
 
   img {
-    height: 125px;
-    width: auto;
-    margin: 0px 20px 10px 0px;
-    border: 0.5px solid grey;
+    height: 100px;
   }
 
-  .movie-card-carousel {
-    grid-template-columns: 1fr;
+  .movie-remarks, .movie-plot, .movie-label, .movie-status {
+    font-size: 10px;
+    margin: 5px 0px;
   }
+
+  .movie-title {
+    font-size: 14px;
+    line-height: 14px;
+  }
+
 }
 
 

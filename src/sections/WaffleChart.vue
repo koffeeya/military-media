@@ -2,8 +2,8 @@
   <div class='waffle-chart-container'>
 
     <!-- PROGRESS BAR &#x25C0; &#x25B6; -->
-    <div class='section-title center'>{{ stepList[activeText-1].title }}</div>
-    <div class='waffle-icon-wrapper center'>
+    <div v-if="activeText > 1" class='section-title center'>{{ stepList[activeText-1].title }}</div>
+    <div v-if="activeText > 1" class='waffle-icon-wrapper center'>
         <button class='waffle-carousel-btn' id='waffle-prev-button' @click="previousText">&#x25C0;</button>
         <div class='progress-icon' @click="navbarClick(step)" @mouseover="navbarMouseover" @mouseleave="navbarMouseleave" :class="[`icon${step}`, iconClass(step)]" v-for="step in allStepsArr" :key="step + '-icon'"></div>
         <button class='waffle-carousel-btn' id='waffle-right-button' @click="nextText">&#x25B6;</button>
@@ -21,6 +21,7 @@
           <!-- SECTION 1 -->
           <div class='text1'>
             <AppTitle :carouselData="carouselData" />
+            <div><button class='enter-button' @click="navbarClick(2)">START EXPLORING</button></div>
           </div>
 
           <!-- SECTION 2 -->
@@ -36,7 +37,7 @@
 
           <!-- SECTION 3 -->
           <div class='waffle-text text3 hide'>
-            <p class='text-emphasis' style="font-size: 18px;">Hover or click on a <button class='text1-btn1 waffle-btn waffle-approved-btn'>BUTTON</button> to highlight the visualization, and click on a film square to learn more about it.</p>
+            <p class='text-emphasis' style="font-size: 16px; line-height: 25px;">Hover or click on a <button class='text1-btn1 waffle-btn waffle-approved-btn'>BUTTON</button> to highlight the visualization, and click on a film square to learn more about it.</p>
             <br>
             The chart below shows all 509 films in the database by release year. Each square represents one film, colored by whether the Department of Defense <button class='text1-btn1 waffle-btn waffle-approved-btn' @click="onButtonClick(['approved-waffle'])" @mouseover="highlightFilms(['approved-waffle'])" @mouseout="highlightFilmsReset(['approved-waffle'])">APPROVED</button> the production’s request for assistance, approved <button class='text1-btn2 waffle-btn waffle-limited-btn' @click="onButtonClick(['limited-waffle'])" @mouseover="highlightFilms(['limited-waffle'])" @mouseout="highlightFilmsReset(['limited-waffle'])">LIMITED</button> assistance, <button class='text1-btn3 waffle-btn waffle-denied-btn' @click="onButtonClick(['denied-waffle'])" @mouseover="highlightFilms(['denied-waffle'])" @mouseout="highlightFilmsReset(['denied-waffle'])">DENIED</button> assistance, or <button class='text1-btn4 waffle-btn waffle-other-btn' @click="onButtonClick(['other-waffle'])" @mouseover="highlightFilms(['other-waffle'])" @mouseout="highlightFilmsReset(['other-waffle'])">OTHER</button> — a category of films that did not request military assistance but were included in the database anyway.
             <br>    
@@ -46,12 +47,12 @@
 
           <!-- SECTION 4 -->
           <div class='waffle-text text4 hide'>
-            Take <button class='text1-btn1 waffle-btn waffle-approved-btn' @click="onButtonClick(['starspangledbannerapproved'])" @mouseover="highlightFilms(['starspangledbannerapproved'])" @mouseout="highlightFilmsReset(['starspangledbannerapproved'])">THE STAR-SPANGLED BANNER</button>, a 1917 silent (but highly patriotic) film from Thomas Edison's production company. The movie’s advertising proudly proclaims that “a regiment of U.S. Marines helped make this picture” and notes that “Federal co-operation [was] a mighty factor” in the film’s production. This — along with the fact that the Marines shared the film at “425 recruiting offices” — would guarantee “crowded theaters for months.”
+            Take <button class='text1-btn1 waffle-btn waffle-approved-btn' @click="onButtonClick(['starspangledbannerapproved'])" @mouseover="highlightFilms(['starspangledbannerapproved'])" @mouseout="highlightFilmsReset(['starspangledbannerapproved'])">THE STAR-SPANGLED BANNER</button>, a 1917 silent (but highly patriotic) film from Thomas Edison's production company. The movie’s <a href="https://m.media-amazon.com/images/M/MV5BYTk5ZDkxNzItNGY4Zi00MjcxLTkxYTktZjljYzkzZmYwZjRmXkEyXkFqcGdeQXVyNjA5MTAzODY@._V1.jpg" target="_blank" rel="noopener noreferrer">advertising</a> proudly proclaims that “a regiment of U.S. Marines helped make this picture” and notes that “Federal co-operation [was] a mighty factor” in the film’s production. This — along with the fact that the Marines shared the film at “425 recruiting offices” — would guarantee “crowded theaters for months.”
           </div>
 
           <!-- SECTION 5 -->
           <div class='waffle-text text5 hide'>
-            Seventy years later, the 1986 film <button class='text1-btn1 waffle-btn waffle-approved-btn' @click="onButtonClick(['topgunapproved'])" @mouseover="highlightFilms(['topgunapproved'])" @mouseout="highlightFilmsReset(['topgunapproved'])">TOP GUN</button> featured comparable cooperation from the U.S. Navy. It ended up that year’s highest-grossing film — so popular that the Navy set up recruiting exhibits outside of theaters to capitalize on the crowds, and it sparked a wave of demand for war films. In the DoD’s own remarks, <button class='text1-btn1 waffle-btn waffle-approved-btn' @click="onButtonClick(['topgunapproved'])" @mouseover="highlightFilms(['topgunapproved'])" @mouseout="highlightFilmsReset(['topgunapproved'])">TOP GUN</button> went beyond recruiting to complete the “rehabilitation of the military’s image, which had been savaged by the Vietnam War.”
+            Seventy years later, the 1986 film <button class='text1-btn1 waffle-btn waffle-approved-btn' @click="onButtonClick(['topgunapproved'])" @mouseover="highlightFilms(['topgunapproved'])" @mouseout="highlightFilmsReset(['topgunapproved'])">TOP GUN</button> featured comparable cooperation from the U.S. Navy. It ended up that year’s <a href= "https://en.wikipedia.org/wiki/1986_in_film#Highest-grossing_films_(U.S.)" target="_blank" rel="noopener noreferrer">highest-grossing film</a> — so popular that the Navy <a href="http://content.time.com/time/subscriber/article/0,33009,962933-1,00.html" target="_blank" rel="noopener noreferrer">set up recruiting exhibits outside of theaters</a> to capitalize on the crowds, and it sparked a wave of demand for war films. In the DoD’s own remarks, <button class='text1-btn1 waffle-btn waffle-approved-btn' @click="onButtonClick(['topgunapproved'])" @mouseover="highlightFilms(['topgunapproved'])" @mouseout="highlightFilmsReset(['topgunapproved'])">TOP GUN</button> went beyond recruiting to complete the “rehabilitation of the military’s image, which had been savaged by the Vietnam War.”
           </div>
 
           <!-- SECTION 6 -->
@@ -206,7 +207,13 @@ export default {
       }
     },
     navbarMouseleave(e) {
-      d3.select('.section-title').style('color', 'var(--accent)');
+      d3.select('.section-title').style('color', 'var(--denied)');
+      d3.select('.section-title')
+        .style("opacity", "0")
+        .transition()
+        .duration(200)
+        .style("opacity", "1")
+        .text(`${this.stepList[this.activeText - 1].title}`)
     },
     navbarClick(step) {
       this.activeText = step;
@@ -384,6 +391,26 @@ export default {
 
 <style scoped>
 
+.enter-button {
+  margin: 10% 33% 0% 33%;
+  padding: 10px;
+  width: 33%;
+  min-width: 75px;
+  font-size: 15px;
+  font-family: var(--title-font);
+  color: var(--denied);
+  border: none;
+  border-radius: 5px;
+  background-color: var(--accent);
+  font-weight: 900;
+}
+
+.enter-button:hover {
+  background-color: var(--denied);
+  color: var(--bg-color);
+  cursor: pointer;
+}
+
 /* PROGRESS BAR */
 
 .section-title {
@@ -392,31 +419,36 @@ export default {
   font-size: 14px;
   font-weight: 900;
   margin: 20px;
-  color: var(--accent);
+  color: var(--denied);
+}
+
+.progress-icon {
+  width: 3%;
+  height: 15px;
+  border-left: 1px solid var(--bg-color);
+  border-right: 1px solid var(--bg-color);
 }
 
 .active-icon {
   background-color: gray;
-  width: 20px;
-  height: 20px;
-  margin: 10px 1px 30px 1px;
 }
 
 .active-icon:hover {
   cursor: pointer;
-  background-color: var(--denied)
+  background-color: var(--denied);
+  border-left: 1px solid var(--bg-color);
+  border-right: 1px solid var(--bg-color);
 }
 
 .inactive-icon {
   background-color: var(--accent);
-  width: 20px;
-  height: 20px;
-  margin: 10px 1px 30px 1px;
 }
 
 .inactive-icon:hover {
   cursor: pointer;
   background-color: gray;
+  border-left: 1px solid var(--bg-color);
+  border-right: 1px solid var(--bg-color);
 }
 
 
@@ -462,12 +494,7 @@ export default {
   z-index: 20;
 }
 
-.progress-icon {
-  text-align: center;
-  font-size: 12px;
-  color: gray;
-  border-radius: 10px;
-}
+
 
 .center {
   display: flex;
@@ -491,7 +518,7 @@ export default {
   font-size: var(--body-size);
   min-height: 25vh;
   margin: 0% auto;
-  line-height: 33px;
+  line-height: 35px;
   max-width: 50%;
   padding: 15px 0px 0px;
 }
@@ -507,23 +534,21 @@ export default {
 
 .waffle-carousel-btn {
   margin: 0px auto;
-  width: 100px;
+  padding: 2px;
+  width: 5%;
+  min-width: 75px;
   font-size: 15px;
   font-family: var(--title-font);
   color: var(--denied);
-  border: 2px solid var(--denied);
+  border: none;
   border-radius: 5px;
-  background-color: var(--bg-color);
+  background-color: var(--accent);
 }
 
 .waffle-carousel-btn:hover {
   color: var(--bg-color);
   background-color: var(--denied);
   cursor: pointer;
-}
-
-.inactive-carousel-btn {
-  opacity: 0;
 }
 
 .paragraph-header {
