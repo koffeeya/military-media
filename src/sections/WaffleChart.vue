@@ -33,6 +33,7 @@
             <br>
             <br>
             <h3 class='text-emphasis'>How does the relationship between the military and Hollywood work? What kinds of movies get military support? And what can we learn from films that do — or don’t — make the cut?</h3>
+            <div><button class='next-section-btn' @click="navbarClick(3)">Next: About the Data</button></div>
           </div>
 
           <!-- SECTION 3 -->
@@ -42,27 +43,28 @@
             The chart below shows all 509 films in the database by release year. Each square represents one film, colored by whether the Department of Defense <button class='text1-btn1 waffle-btn waffle-approved-btn' @click="onButtonClick(['approved-waffle'])" @mouseover="highlightFilms(['approved-waffle'])" @mouseout="highlightFilmsReset(['approved-waffle'])">APPROVED</button> the production’s request for assistance, approved <button class='text1-btn2 waffle-btn waffle-limited-btn' @click="onButtonClick(['limited-waffle'])" @mouseover="highlightFilms(['limited-waffle'])" @mouseout="highlightFilmsReset(['limited-waffle'])">LIMITED</button> assistance, <button class='text1-btn3 waffle-btn waffle-denied-btn' @click="onButtonClick(['denied-waffle'])" @mouseover="highlightFilms(['denied-waffle'])" @mouseout="highlightFilmsReset(['denied-waffle'])">DENIED</button> assistance, or <button class='text1-btn4 waffle-btn waffle-other-btn' @click="onButtonClick(['other-waffle'])" @mouseover="highlightFilms(['other-waffle'])" @mouseout="highlightFilmsReset(['other-waffle'])">OTHER</button> — a category of films that did not request military assistance but were included in the database anyway.
             <br>    
             <br>
-            Next: why collaborate?
+            <div><button class='next-section-btn' @click="navbarClick(4)">Next: Why Collaborate?</button></div>
           </div>
 
           <!-- SECTION 4 -->
           <div class='waffle-text text4 hide'>
             Take <button class='text1-btn1 waffle-btn waffle-approved-btn' @click="onButtonClick(['starspangledbannerapproved'])" @mouseover="highlightFilms(['starspangledbannerapproved'])" @mouseout="highlightFilmsReset(['starspangledbannerapproved'])">THE STAR-SPANGLED BANNER</button>, a 1917 silent (but highly patriotic) film from Thomas Edison's production company. The movie’s <a href="https://m.media-amazon.com/images/M/MV5BYTk5ZDkxNzItNGY4Zi00MjcxLTkxYTktZjljYzkzZmYwZjRmXkEyXkFqcGdeQXVyNjA5MTAzODY@._V1.jpg" target="_blank" rel="noopener noreferrer">advertising</a> proudly proclaims that “a regiment of U.S. Marines helped make this picture” and notes that “Federal co-operation [was] a mighty factor” in the film’s production. This — along with the fact that the Marines shared the film at “425 recruiting offices” — would guarantee “crowded theaters for months.”
+            <div><button class='next-section-btn' @click="navbarClick(5)">Continue</button></div>
           </div>
 
           <!-- SECTION 5 -->
           <div class='waffle-text text5 hide'>
             Seventy years later, the 1986 film <button class='text1-btn1 waffle-btn waffle-approved-btn' @click="onButtonClick(['topgunapproved'])" @mouseover="highlightFilms(['topgunapproved'])" @mouseout="highlightFilmsReset(['topgunapproved'])">TOP GUN</button> featured comparable cooperation from the U.S. Navy. It ended up that year’s <a href= "https://en.wikipedia.org/wiki/1986_in_film#Highest-grossing_films_(U.S.)" target="_blank" rel="noopener noreferrer">highest-grossing film</a> — so popular that the Navy <a href="http://content.time.com/time/subscriber/article/0,33009,962933-1,00.html" target="_blank" rel="noopener noreferrer">set up recruiting exhibits outside of theaters</a> to capitalize on the crowds, and it sparked a wave of demand for war films. In the DoD’s own remarks, <button class='text1-btn1 waffle-btn waffle-approved-btn' @click="onButtonClick(['topgunapproved'])" @mouseover="highlightFilms(['topgunapproved'])" @mouseout="highlightFilmsReset(['topgunapproved'])">TOP GUN</button> went beyond recruiting to complete the “rehabilitation of the military’s image, which had been savaged by the Vietnam War.”
+            <div><button class='next-section-btn' @click="navbarClick(6)">Continue</button></div>
           </div>
 
           <!-- SECTION 6 -->
           <div class='waffle-text text6 hide'>
-            
+            <div><button class='next-section-btn' @click="navbarClick(7)">Continue</button></div>
           </div>
 
           <!-- SECTION 7 -->
           <div class='waffle-text text7 hide'>
-            
           </div>
 
         </div>
@@ -408,6 +410,26 @@ export default {
 .enter-button:hover {
   background-color: var(--denied);
   color: var(--bg-color);
+  cursor: pointer;
+}
+
+.next-section-btn {
+  margin: 3% 25% 0% 25%;
+  padding: 10px;
+  width: 50%;
+  min-width: 75px;
+  font-size: 15px;
+  font-family: var(--title-font);
+  color: gray;
+  border: none;
+  border-radius: 5px;
+  background-color: var(--accent);
+  font-weight: 900;
+}
+
+.next-section-btn:hover {
+  background-color: gray;
+  color: var(--accent);
   cursor: pointer;
 }
 
