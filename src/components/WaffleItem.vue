@@ -89,20 +89,6 @@ export default {
       }
     },
 
-    genreStatus() {
-      const genreClasses = [];
-      if (this.Genre != null) {
-        const split = this.Genre.split(",");
-        split.map((value) => {
-          if (value != null) {
-            const cleaned = value.replace(/[^A-Z0-9]/ig, "").toLowerCase().trim()
-            genreClasses.push(`.genre-${cleaned}`)
-          }
-        })
-      }
-      return genreClasses;
-    },
-
     tooltipTranslate() {
       const waffleChart = document.getElementById("waffle-chart")
       const waffleRect = waffleChart.getBoundingClientRect();
@@ -208,9 +194,10 @@ export default {
 }
 
 .waffle-item {
-  height: 20px;
+  height: 15px;
   border: 0.5px solid var(--bg-color);
   margin: 0px 4px 0px -1px;
+  
 }
 
 .waffle-item:hover {

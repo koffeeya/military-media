@@ -1,54 +1,79 @@
 <template>
   <div class='waffle-chart-container'>
-    <!-- PROGRESS BAR -->
+
+    <!-- PROGRESS BAR &#x25C0; &#x25B6; -->
+    <div class='section-title center'>{{ stepList[activeText-1].title }}</div>
     <div class='waffle-icon-wrapper center'>
-        <div class='progress-icon' :class="[`icon${step}`, iconClass(step)]" v-for="step in allStepsArr" :key="step + '-icon'"></div>
+        <button class='waffle-carousel-btn' id='waffle-prev-button' @click="previousText">&#x25C0;</button>
+        <div class='progress-icon' @click="navbarClick(step)" @mouseover="navbarMouseover" @mouseleave="navbarMouseleave" :class="[`icon${step}`, iconClass(step)]" v-for="step in allStepsArr" :key="step + '-icon'"></div>
+        <button class='waffle-carousel-btn' id='waffle-right-button' @click="nextText">&#x25B6;</button>
     </div>
-    <!-- CONTENT -->
+
+    <!-- TEXT + CONTENT AREA -->
     <div class='waffle-col-container'>
       <!-- TEXT AREA -->
       <div class='row1'>
-        <!-- PREVIOUS BUTTON -->
-        <button class='waffle-carousel-btn' id='waffle-prev-button' @click="previousText">&#x25C0;</button>
+        
+
         <!-- TEXT SECTIONS -->
         <div class='waffle-carousel-text'>
+
           <!-- SECTION 1 -->
           <div class='text1'>
             <AppTitle :carouselData="carouselData" />
           </div>
+
           <!-- SECTION 2 -->
           <div class='waffle-text text2 hide'>
-            <div class='waffle-instructions'><b>This text is interactive:</b> Hover or click a button to highlight the chart below. Click the button again to remove the highlight. Click on a square in the chart to see more details about the film.</div>
-            The first film to get full cooperation from the military may well have been <button class='text2-btn1 waffle-btn waffle-approved-btn' @click="onClick(['birthofanationapproved'])" @mouseover="highlightFilms(['birthofanationapproved'])" @mouseout="highlightFilmsReset(['birthofanationapproved'])">BIRTH OF A NATION</button> in 1915, one of the first films ever made.
+            The United States military and Hollywood have been actively collaborating since American cinema began over 100 years ago. The relationship between the two industries is known as the <a href="https://en.wikipedia.org/wiki/Military-entertainment_complex" target="_blank" rel="noopener noreferrer">military-entertainment complex.</a>
+            <br>
+            <br>
+            This project takes a close look at the complex using a database of <a href="https://docs.google.com/spreadsheets/d/1HwdmpiSpNXfoNoI_5ndwdQi3Z3lCXU8VthPYelr6ZqA/edit?usp=sharing" target="_blank" rel="noopener noreferrer">450+ film productions</a> that requested assistance from the U.S. Department of Defense (DoD) in the last century. The database was acquired in a <a href="https://www.spyculture.com/dod-hollywood-collaboration-database-excerpts/" target="_blank" rel="noopener noreferrer">2017 FOIA request</a> by the journalist Tom Secker, and for the first time it is transcribed and merged with information from IMDb.
+            <br>
+            <br>
+            <h3 class='text-emphasis'>How does the relationship between the military and Hollywood work? What kinds of movies get military support? And what can we learn from films that do — or don’t — make the cut?</h3>
           </div>
+
           <!-- SECTION 3 -->
           <div class='waffle-text text3 hide'>
-            <div class='waffle-instructions'><b>This text is interactive:</b> Hover or click a button to highlight the chart below. Click the button again to remove the highlight. Click on a square in the chart to see more details about the film.</div>
-            Every film in the database starts with a producer or director approaching the DoD to request production assistance. After reviewing the request and negotiating the script, the DoD can fully <button class='text1-btn1 waffle-btn waffle-approved-btn' @click="onClick(['approved-waffle'])" @mouseover="highlightFilms(['approved-waffle'])" @mouseout="highlightFilmsReset(['approved-waffle'])">APPROVE</button> the request, approve <button class='text1-btn2 waffle-btn waffle-limited-btn' @click="onClick(['limited-waffle'])" @mouseover="highlightFilms(['limited-waffle'])" @mouseout="highlightFilmsReset(['limited-waffle'])">LIMITED</button> assistance, or <button class='text1-btn3 waffle-btn waffle-denied-btn' @click="onClick(['denied-waffle'])" @mouseover="highlightFilms(['denied-waffle'])" @mouseout="highlightFilmsReset(['denied-waffle'])">DENY</button> the request. The database also includes films in an <button class='text1-btn4 waffle-btn waffle-other-btn' @click="onClick(['other-waffle'])" @mouseover="highlightFilms(['other-waffle'])" @mouseout="highlightFilmsReset(['other-waffle'])">OTHER</button> category that did not require DoD assistance, but portrayed the military anyway. The majority of films are approved.
+            <p class='text-emphasis' style="font-size: 18px;">Hover or click on a <button class='text1-btn1 waffle-btn waffle-approved-btn'>BUTTON</button> to highlight the visualization, and click on a film square to learn more about it.</p>
+            <br>
+            The chart below shows all 509 films in the database by release year. Each square represents one film, colored by whether the Department of Defense <button class='text1-btn1 waffle-btn waffle-approved-btn' @click="onButtonClick(['approved-waffle'])" @mouseover="highlightFilms(['approved-waffle'])" @mouseout="highlightFilmsReset(['approved-waffle'])">APPROVED</button> the production’s request for assistance, approved <button class='text1-btn2 waffle-btn waffle-limited-btn' @click="onButtonClick(['limited-waffle'])" @mouseover="highlightFilms(['limited-waffle'])" @mouseout="highlightFilmsReset(['limited-waffle'])">LIMITED</button> assistance, <button class='text1-btn3 waffle-btn waffle-denied-btn' @click="onButtonClick(['denied-waffle'])" @mouseover="highlightFilms(['denied-waffle'])" @mouseout="highlightFilmsReset(['denied-waffle'])">DENIED</button> assistance, or <button class='text1-btn4 waffle-btn waffle-other-btn' @click="onButtonClick(['other-waffle'])" @mouseover="highlightFilms(['other-waffle'])" @mouseout="highlightFilmsReset(['other-waffle'])">OTHER</button> — a category of films that did not request military assistance but were included in the database anyway.
+            <br>    
+            <br>
+            Next: why collaborate?
           </div>
+
           <!-- SECTION 4 -->
           <div class='waffle-text text4 hide'>
-            <div class='waffle-instructions'><b>This text is interactive:</b> Hover or click a button to highlight the chart below. Click the button again to remove the highlight. Click on a square in the chart to see more details about the film.</div>
-            <b>Why collaborate with Hollywood?</b> The DoD's website lists two reasons: to "accurately depict military stories and make sure sensitive information isn't disclosed." But there are clearly other reasons. For example, after <button class='text2-btn1 waffle-btn waffle-approved-btn' @click="onClick(['topgunapproved'])" @mouseover="highlightFilms(['topgunapproved'])" @mouseout="highlightFilmsReset(['topgunapproved'])">TOP GUN</button> released in 1986 -- a movie that closely involved the Pentagon from the start -- the U.S. Navy saw a 500% spike in the number of young men wanting to be Naval Aviators. The DoD’s own private data notes that Top Gun <b id='topGunHighlight'>"completed [the] rehabilitation of the military’s image, which had been savaged by the Vietnam War."</b>
+            Take <button class='text1-btn1 waffle-btn waffle-approved-btn' @click="onButtonClick(['starspangledbannerapproved'])" @mouseover="highlightFilms(['starspangledbannerapproved'])" @mouseout="highlightFilmsReset(['starspangledbannerapproved'])">THE STAR-SPANGLED BANNER</button>, a 1917 silent (but highly patriotic) film from Thomas Edison's production company. The movie’s advertising proudly proclaims that “a regiment of U.S. Marines helped make this picture” and notes that “Federal co-operation [was] a mighty factor” in the film’s production. This — along with the fact that the Marines shared the film at “425 recruiting offices” — would guarantee “crowded theaters for months.”
           </div>
+
           <!-- SECTION 5 -->
           <div class='waffle-text text5 hide'>
-            Waffle text 3
+            Seventy years later, the 1986 film <button class='text1-btn1 waffle-btn waffle-approved-btn' @click="onButtonClick(['topgunapproved'])" @mouseover="highlightFilms(['topgunapproved'])" @mouseout="highlightFilmsReset(['topgunapproved'])">TOP GUN</button> featured comparable cooperation from the U.S. Navy. It ended up that year’s highest-grossing film — so popular that the Navy set up recruiting exhibits outside of theaters to capitalize on the crowds, and it sparked a wave of demand for war films. In the DoD’s own remarks, <button class='text1-btn1 waffle-btn waffle-approved-btn' @click="onButtonClick(['topgunapproved'])" @mouseover="highlightFilms(['topgunapproved'])" @mouseout="highlightFilmsReset(['topgunapproved'])">TOP GUN</button> went beyond recruiting to complete the “rehabilitation of the military’s image, which had been savaged by the Vietnam War.”
           </div>
+
           <!-- SECTION 6 -->
           <div class='waffle-text text6 hide'>
-            Waffle text 4
+            
           </div>
+
+          <!-- SECTION 7 -->
+          <div class='waffle-text text7 hide'>
+            
+          </div>
+
         </div>
-        <!-- NEXT BUTTON -->
-        <button class='waffle-carousel-btn' id='waffle-right-button' @click="nextText">&#x25B6;</button>
+
+        
       </div>
       
       <!-- CONTENT AREA -->
       <div class='row2'>
-        <div v-if="activeText === 1"></div>
-        <div v-if="activeText > 1">
-          <div  class='chart-wrapper' id='waffle-chart'>
+        <!-- v-if="activeText > 1" -->
+        <div>
+          <div v-if="activeText > 2" class='chart-wrapper' id='waffle-chart'>
             <div class='group-wrapper'>
                   <div v-for="movie in filmsByYear" :key="movie">
                       <WaffleItem v-for="film in movie.Films"
@@ -71,8 +96,9 @@
                     <div class='year-val'><b :class="yearValueClass(movie.Year)"> {{yearValue(movie.Year)}} </b></div>
                   </div>
               </div>
+              <div class='waffle-axis-title'>FILMS IN THE DATABASE BY RELEASE YEAR</div>
           </div>
-        <div class='waffle-axis-title'>FILMS IN THE DATABASE BY RELEASE YEAR</div>
+        
         </div>
       </div>
       
@@ -93,10 +119,55 @@ export default {
     data () {
         return {
           activeText: 1,
-          textLength: 6,
+          textLength: 7,
           clicked: false,
           previouslyClicked: null,
-          iconHover: false,
+          navbarHover: false,
+          stepList: [
+            {
+              step: 1,
+              section: "text1",
+              icon: "icon1",
+              title: "Homepage",
+            },
+            {
+              step: 2,
+              section: "text2",
+              icon: "icon2",
+              title: "A. Introduction"
+            },
+            {
+              step: 3,
+              section: "text3",
+              icon: "icon3",
+              title: "B. About the Chart"
+            },
+            {
+              step: 4,
+              section: "text4",
+              icon: "icon4",
+              title: "C. Why Collaborate?"
+            },
+            {
+              step: 5,
+              section: "text5",
+              icon: "icon5",
+              title: "C. Why Collaborate?"
+            },
+            {
+              step: 6,
+              section: "text6",
+              icon: "icon6",
+              title: "C. Why Collaborate?"
+            }
+            ,
+            {
+              step: 7,
+              section: "text7",
+              icon: "icon7",
+              title: "D. What Films Get Assistance?"
+            }
+          ]
         }
     },
     computed: {
@@ -113,6 +184,47 @@ export default {
       },
   },
   methods:{
+    navbarMouseover(event) {
+      const classList = event.target.className.split(" ");
+      const iconValue = classList[1].slice(-1) - 1;
+      if (classList.includes("active-icon")) {
+        d3.select('.section-title')
+          .style("opacity", "0")
+          .transition()
+          .duration(200)
+          .style("opacity", "1")
+          .style('color', 'var(--denied)')
+          .text(`${this.stepList[iconValue].title}`)
+      } else {
+        d3.select('.section-title')
+          .style("opacity", "0")
+          .transition()
+          .duration(200)
+          .style("opacity", "1")
+          .style('color', 'var(--accent)')
+          .text(`${this.stepList[iconValue].title}`)
+      }
+    },
+    navbarMouseleave(e) {
+      d3.select('.section-title').style('color', 'var(--accent)');
+    },
+    navbarClick(step) {
+      this.activeText = step;
+      d3.selectAll(`.text${this.activeText}`)
+          .style("opacity", "0")
+          .transition()
+          .duration(200)
+          .style("opacity", "1");
+        d3.selectAll(`.text${this.activeText}`).classed("hide", false);
+        this.waffleTextHidden.map((n) => {
+          d3.selectAll(`.text${n}`)
+            .style("opacity", "1")
+            .transition()
+            .duration(100)
+            .style("opacity", "0");
+          d3.selectAll(`.text${n}`).classed("hide", true);
+        })
+    },
     yearValueClass(year) {
       const mod = year % 10;
       const minYear = 1911;
@@ -141,46 +253,35 @@ export default {
         }
     },
 
-    groupDataByYear(dataToGroup) {
-        const yearData = dataToGroup.filter(el => {return el.Year != null}).sort((a, b) => {return a.Status - b.Status}).sort((a, b) => {return a.Year - b.Year});
-        const yearGrouped = d3.group(yearData, d => d.Year)
-        const yearArray = []
-        const yearPushed = Array.from(yearGrouped, ([key, values]) => {
-          yearArray.push({Year: key, Films: values});
+    onButtonClick(arr) {
+      let thisBtn = event.target.classList[0];
+      d3.selectAll(`.waffle-btn`).style("border", "");
+      // If you're clicking the same button, reset all filters
+      // Else, select the current button and highlight its values
+      if (this.clicked === true && this.previouslyClicked === thisBtn) {
+        this.clicked = false;
+        d3.select(`.${thisBtn}`).style("border", "");
+        this.highlightFilmsReset(arr)
+      } else {
+        this.clicked = true;
+        d3.select(`.${thisBtn}`).style("border", "2px solid white");
+        d3.selectAll('.waffle-item')
+          .transition()
+          .duration(200)
+          .style("opacity", "1");
+        d3.selectAll('.waffle-item')
+          .transition()
+          .duration(200)
+          .style("opacity", "0.1");
+        arr.map(className => {
+          d3.selectAll(`.${className}`)
+          .transition()
+          .duration(200)
+          .style("opacity", "1");
         })
-        return yearArray;
-      },
-      onClick(arr) {
-        let thisBtn = event.target.classList[0];
-        d3.selectAll(`.waffle-btn`).style("border", "");
-
-        // If you're clicking the same button, reset all filters
-        // Else, select the current button and highlight its values
-        if (this.clicked === true && this.previouslyClicked === thisBtn) {
-          this.clicked = false;
-          d3.select(`.${thisBtn}`).style("border", "");
-          this.highlightFilmsReset(arr)
-        } else {
-          this.clicked = true;
-          d3.select(`.${thisBtn}`).style("border", "2px solid white");
-          d3.selectAll('.waffle-item')
-            .transition()
-            .duration(200)
-            .style("opacity", "1");
-          d3.selectAll('.waffle-item')
-            .transition()
-            .duration(200)
-            .style("opacity", "0.1");
-          arr.map(className => {
-            d3.selectAll(`.${className}`)
-            .transition()
-            .duration(200)
-            .style("opacity", "1");
-          })
-        }
-
-        this.previouslyClicked = thisBtn;
-      },
+      }
+      this.previouslyClicked = thisBtn;
+    },
     highlightFilms(arr) {
       if (this.clicked === true) {
         return;
@@ -207,6 +308,18 @@ export default {
         .style("opacity", "1");
       }
     },
+    topGunMouseover() {
+      d3.select("#topGunHighlight")
+        .transition()
+        .duration(200)
+        .style("color", "var(--approved)");
+    },
+    topGunMouseout() {
+      d3.select("#topGunHighlight")
+        .transition()
+        .duration(200)
+        .style("color", "");
+    },
     previousText() {
         this.clicked = false;
         d3.selectAll(`.waffle-btn`).style("border", "");
@@ -214,21 +327,17 @@ export default {
           .transition()
           .duration(200)
           .style("opacity", "1");
-
         if (this.activeText > 1) {
           this.activeText -= 1
         } else if (this.activeText === 1) {
-          this.activeText = this.textLength
+          this.activeText = 1
         }
-
         d3.selectAll(`.text${this.activeText}`)
           .style("opacity", "0")
           .transition()
           .duration(200)
           .style("opacity", "1");
-        
         d3.selectAll(`.text${this.activeText}`).classed("hide", false);
-
         this.waffleTextHidden.map((n) => {
           d3.selectAll(`.text${n}`)
             .style("opacity", "1")
@@ -237,7 +346,6 @@ export default {
             .style("opacity", "0");
           d3.selectAll(`.text${n}`).classed("hide", true);
         })
-
       },
       nextText() {
         this.clicked = false;
@@ -246,21 +354,17 @@ export default {
           .transition()
           .duration(200)
           .style("opacity", "1");
-
         if (this.activeText < this.textLength)  {
           this.activeText += 1
         } else if (this.activeText === this.textLength) {
-          this.activeText = 1
+          this.activeText = this.textLength
         }
-
         d3.selectAll(`.text${this.activeText}`)
           .style("opacity", "0")
           .transition()
           .duration(200)
           .style("opacity", "1");
-        
         d3.selectAll(`.text${this.activeText}`).classed("hide", false);
-
         this.waffleTextHidden.map((n) => {
           d3.selectAll(`.text${n}`)
             .style("opacity", "1")
@@ -282,18 +386,37 @@ export default {
 
 /* PROGRESS BAR */
 
+.section-title {
+  font-family: var(--card-font);
+  text-transform: uppercase;
+  font-size: 14px;
+  font-weight: 900;
+  margin: 20px;
+  color: var(--accent);
+}
+
 .active-icon {
   background-color: gray;
-  width: 5%;
-  height: 5px;
-  margin: 10px 10px 30px 10px;
+  width: 20px;
+  height: 20px;
+  margin: 10px 1px 30px 1px;
+}
+
+.active-icon:hover {
+  cursor: pointer;
+  background-color: var(--denied)
 }
 
 .inactive-icon {
   background-color: var(--accent);
-  width: 5%;
-  height: 5px;
-  margin: 10px 0px 30px 0px;
+  width: 20px;
+  height: 20px;
+  margin: 10px 1px 30px 1px;
+}
+
+.inactive-icon:hover {
+  cursor: pointer;
+  background-color: gray;
 }
 
 
@@ -328,8 +451,22 @@ export default {
 /* CAROUSEL */
 
 .waffle-icon-wrapper {
-  margin: 30px 0px;
   font-size: 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  margin: 0px auto;
+  padding: 0px;
+  position: sticky;
+  top: 5px;
+  background-color: var(--bg-color);
+  z-index: 20;
+}
+
+.progress-icon {
+  text-align: center;
+  font-size: 12px;
+  color: gray;
+  border-radius: 10px;
 }
 
 .center {
@@ -339,9 +476,7 @@ export default {
 }
 
 .row1 {
-  display: grid;
-  grid-template-columns: 1fr 5fr 1fr;
-  max-width: 80%;
+  padding: 20px 0px;
   margin: 0px auto;
   position: sticky;
   top: 10px;
@@ -354,15 +489,26 @@ export default {
 
 .waffle-text {
   font-size: var(--body-size);
-  padding: 0px 10px;
   min-height: 25vh;
+  margin: 0% auto;
+  line-height: 33px;
+  max-width: 50%;
+  padding: 15px 0px 0px;
+}
+
+.text-emphasis {
+  margin: 0px;
+  padding: 10px 20px;
+  background-color: var(--accent);
+  font-family: var(--card-font);
+  font-weight: 500;
+  font-size: var(--body-font);
 }
 
 .waffle-carousel-btn {
-  height: 150px;
-  transform: translateY(25vh);
   margin: 0px auto;
-  font-size: 30px;
+  width: 100px;
+  font-size: 15px;
   font-family: var(--title-font);
   color: var(--denied);
   border: 2px solid var(--denied);
@@ -388,8 +534,14 @@ export default {
   color: gray;
 }
 
+/* SECTION 2 */
+
+
+
+/* TEXT BUTTONS */
+
 .waffle-btn {
-    margin: 0px 5px;
+    margin: -5px 2px;
     padding: 5px 8px;
     width: fit-content;
     color: gray;
@@ -469,6 +621,9 @@ export default {
   left: -9999px !important;
 }
 
+
+/* CHART */
+
 .waffle-axis-title {
   font-size: var(--root-size);
   font-weight: 900;
@@ -510,36 +665,6 @@ export default {
   font-size: 14px;
   border-top: 2px solid white;
   margin: 5px 0px;
-}
-
-@media only screen and (max-width: 800px) {
-  .waffle-btn {
-    padding: 4px;
-    margin: 0px;
-  }
-  .row1 {
-    display: grid;
-    grid-template-columns: 1fr 5fr 1fr;
-    max-width: 90%;
-    margin: 0px auto;
-    position: static;
-  }
-
-  .waffle-instructions {
-    font-size: 11px;
-  }
-
-  .waffle-text {
-    font-size: 16px;
-    padding: 0px 10px;
-    line-height: 28px;
-  }
-
-  .group-wrapper{
-    padding: 10px;
-    width: 90%; 
-    overflow: auto;
-  }
 }
 
 </style>

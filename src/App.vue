@@ -18,7 +18,6 @@
       ></WaffleChart>
     </div>
   </div>
-  <div>Footer</div>
 </template>
 
 <script>
@@ -144,7 +143,7 @@ export default {
   --h2-size: 1.8em;
   --h3-size: 1.3em;
   --subtitle-size: 0.6em;
-  --body-size: 25px;
+  --body-size: 22px;
 }
 
 html {
@@ -153,7 +152,19 @@ html {
 }
 
 a {
+  background-color: var(--accent);
   color: white;
+  font-family: var(--card-font);
+  text-decoration: none;
+  font-weight: 500;
+  padding: 0px 2px;
+  margin: 0px 1px;
+}
+
+a:hover {
+  background-color: var(--accent);
+  color: var(--denied);
+  cursor: pointer;
 }
 
 .visible-sticky {
@@ -190,19 +201,6 @@ a {
 #app {
   font-family: "IBM Plex Serif", sans-serif;
   margin: 0;
-}
-
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
 }
 
 @media only screen and (max-width: 600px) { 

@@ -5,7 +5,7 @@
         <div class='app-title'>ASSISTANCE DENIED</div>
 
         <div class='subtitle-text-wrapper'>
-          <div class='app-subtitle subtitle-first'>A project exploring the 100-year history of <b class='subtitle-emphasis'>cooperation</b>between <b class='subtitle-emphasis'>Hollywood</b> and the <b class='subtitle-emphasis'>United States military</b> through a database of <b class='subtitle-emphasis'>549 films</b></div>
+          <div class='app-subtitle subtitle-first'>A project exploring the 100-year history of <b class='subtitle-emphasis'>cooperation</b> between <b class='subtitle-emphasis'>Hollywood</b> and the <b class='subtitle-emphasis'>United States military</b> through a database of <b class='subtitle-emphasis'>509 films</b></div>
         </div>
 
         <div class='gif-wrapper'>
@@ -199,6 +199,8 @@ export default {
 .app-subtitle {
   font-size: 30px;
   color: white;
+  max-width: 50%;
+  margin: auto;
 }
 
 .subtitle-emphasis {
@@ -213,44 +215,6 @@ export default {
 
 .subtitle-emphasis:hover {
   color: var(--denied);
-}
-
-@media only screen and (max-width: 600px) {
-
-  .title-wrapper {
-    margin: 0px;
-  }
-
-  .content-btn {
-    margin: 20px 0px 0px 0px;
-  }
-
-  .film-gif {
-    min-width: 100px;
-    margin: 0px;
-  }
-
-  .gif-message {
-    width: 275px;
-    max-height: 350px;
-    overflow: auto;
-    position: absolute;
-  }
-
-  .app-title {
-    font-size: 50px;
-  }
-
-  .title-words {
-    display: grid;
-  }
-
-  .app-subtitle {
-    font-size: 18px;
-    color: var(--subtitle);
-    transform: translateY(-20px);
-  }
-
 }
 
 </style>
