@@ -54,11 +54,16 @@ export default {
       const mergedGenres = [];
       allGenres.map((value) => {
         if (value != null) {
-          const replaced = value.replace(',', '').replace(',', '').replace(',', '').replace(',', '').replace(',', '')
-          const split = replaced.split(" ")
-          mergedGenres.push(...split)
+          const replaced = value
+            .replace(",", "")
+            .replace(",", "")
+            .replace(",", "")
+            .replace(",", "")
+            .replace(",", "");
+          const split = replaced.split(" ");
+          mergedGenres.push(...split);
         }
-      })
+      });
       const genres = Array.from(new Set(mergedGenres)).sort();
       genres.push("All");
       this.genreOptions = genres;
@@ -153,8 +158,7 @@ html {
 
 a {
   background-color: var(--accent);
-  color: white;
-  font-family: var(--card-font);
+  color: var(--denied);
   text-decoration: none;
   font-weight: 500;
   padding: 0px 2px;
@@ -163,7 +167,7 @@ a {
 
 a:hover {
   background-color: var(--accent);
-  color: var(--denied);
+  color: white;
   cursor: pointer;
 }
 
@@ -203,7 +207,7 @@ a:hover {
   margin: 0;
 }
 
-@media only screen and (max-width: 600px) { 
+@media only screen and (max-width: 600px) {
   .visible-sticky {
     top: 20px;
   }
@@ -213,7 +217,7 @@ a:hover {
   }
 
   :root {
-    --body-size: 20px;
+    --body-size: 18px;
   }
 }
 </style>

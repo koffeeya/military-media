@@ -1,53 +1,60 @@
 <template>
-  <div class="waffle-item" @mouseover=onMouseOver @mouseleave=onMouseLeave @click=onClick :class="[{ active: hover }, movieStatus, TitleClass]"></div>
-    <div class="hover-message" :class="tooltipTranslate" v-if="hover">
-      <div class='movie-card-chart'>
-        <MovieCardChart
-              :key="TitleClass + '-waffleChart'"
-              :Title="Title"
-              :TitleClass="TitleClass"
-              :Remarks="Remarks"
-              :Year="Year"
-              :Status="Status"
-              :Poster="Poster"
-              :Genre="Genre"
-              :ratingImdb="ratingImdb"
-              :imdbVotes="imdbVotes"
-              :FilmReleased="FilmReleased"
-              :Plot="Plot"
-              :Awards="Awards"
-              :Actors="Actors"
-              :Director="Director">
-          </MovieCardChart>
+  <div
+    class="waffle-item"
+    @mouseover="onMouseOver"
+    @mouseleave="onMouseLeave"
+    @click="onClick"
+    :class="[{ active: hover }, movieStatus, TitleClass]"
+  ></div>
+  <div class="hover-message" :class="tooltipTranslate" v-if="hover">
+    <div class="movie-card-chart">
+      <MovieCardChart
+        :key="TitleClass + '-waffleChart'"
+        :Title="Title"
+        :TitleClass="TitleClass"
+        :Remarks="Remarks"
+        :Year="Year"
+        :Status="Status"
+        :Poster="Poster"
+        :Genre="Genre"
+        :ratingImdb="ratingImdb"
+        :imdbVotes="imdbVotes"
+        :FilmReleased="FilmReleased"
+        :Plot="Plot"
+        :Awards="Awards"
+        :Actors="Actors"
+        :Director="Director"
+      >
+      </MovieCardChart>
     </div>
-    </div>
+  </div>
 
-    <div class='waffle-movie-card' v-if="clicked" @click="onMovieCardClick">
-      <MovieCard
-            :key="TitleClass + '-modalChart'"
-            :Title="Title"
-            :TitleClass="TitleClass"
-            :Remarks="Remarks"
-            :Year="Year"
-            :Status="Status"
-            :Poster="Poster"
-            :Genre="Genre"
-            :ratingImdb="ratingImdb"
-            :imdbVotes="imdbVotes"
-            :FilmReleased="FilmReleased"
-            :Plot="Plot"
-            :Awards="Awards"
-            :Actors="Actors"
-            :Director="Director">
-        </MovieCard>
-    </div>
-    
+  <div class="waffle-movie-card" v-if="clicked" @click="onMovieCardClick">
+    <MovieCard
+      :key="TitleClass + '-modalChart'"
+      :Title="Title"
+      :TitleClass="TitleClass"
+      :Remarks="Remarks"
+      :Year="Year"
+      :Status="Status"
+      :Poster="Poster"
+      :Genre="Genre"
+      :ratingImdb="ratingImdb"
+      :imdbVotes="imdbVotes"
+      :FilmReleased="FilmReleased"
+      :Plot="Plot"
+      :Awards="Awards"
+      :Actors="Actors"
+      :Director="Director"
+    >
+    </MovieCard>
+  </div>
 </template>
 
 <script>
-import * as d3 from 'd3'
-import MovieCardChart from '../components/MovieCardChart.vue'
-import MovieCard from '../components/MovieCard.vue'
+import * as d3 from "d3";
+import MovieCardChart from "../components/MovieCardChart.vue";
+import MovieCard from "../components/MovieCard.vue";
 export default {
   name: "WaffleItem",
   props: [
@@ -90,28 +97,28 @@ export default {
     },
 
     tooltipTranslate() {
-      const waffleChart = document.getElementById("waffle-chart")
+      const waffleChart = document.getElementById("waffle-chart");
       const waffleRect = waffleChart.getBoundingClientRect();
       const waffleWidth = waffleRect.width;
       const minWidth = waffleWidth * 0.5;
       if (this.x < minWidth) {
-        return "transformMinWidth"
+        return "transformMinWidth";
       } else {
-        return "transformNormal"
+        return "transformNormal";
       }
     },
 
     movieCardTranslate() {
-      const waffleChart = document.getElementById("waffle-chart")
+      const waffleChart = document.getElementById("waffle-chart");
       const waffleRect = waffleChart.getBoundingClientRect();
       const waffleWidth = waffleRect.width;
       const minWidth = waffleWidth * 0.5;
       if (this.x < minWidth) {
-        return "transformMinWidth"
+        return "transformMinWidth";
       } else {
-        return "transformNormal"
+        return "transformNormal";
       }
-    }
+    },
   },
   methods: {
     onMouseOver() {
@@ -126,7 +133,7 @@ export default {
       this.hover = false;
       this.clicked = true;
       d3.selectAll(".waffle-movie-card").style("opacity", "0");
-      d3.selectAll(".waffle-movie-card").classed('hide', true);
+      d3.selectAll(".waffle-movie-card").classed("hide", true);
       d3.selectAll(".year-val, .waffle-axis-title, .waffle-text")
         .style("opacity", "1")
         .transition()
@@ -136,24 +143,22 @@ export default {
     onMovieCardClick() {
       this.clicked = false;
       d3.selectAll(".waffle-movie-card").style("opacity", "0");
-      d3.selectAll(".waffle-movie-card").classed('hide', true);
+      d3.selectAll(".waffle-movie-card").classed("hide", true);
       d3.selectAll(".year-val, .waffle-axis-title, .waffle-text")
         .style("opacity", "0.3")
         .transition()
         .duration(150)
         .style("opacity", "1");
-    }
+    },
   },
   components: {
     MovieCardChart,
-    MovieCard
-  }
+    MovieCard,
+  },
 };
 </script>
 
 <style scoped>
-
-
 .hide-waffle {
   opacity: 0.05;
 }
@@ -194,10 +199,9 @@ export default {
 }
 
 .waffle-item {
-  height: 15px;
+  height: 12px;
   border: 0.5px solid var(--bg-color);
   margin: 0px 4px 0px -1px;
-  
 }
 
 .waffle-item:hover {
@@ -232,6 +236,5 @@ export default {
     border: 0.5px solid var(--bg-color);
     margin: 0px 4px 0px -1px;
   }
- }
-
+}
 </style>
