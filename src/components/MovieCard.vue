@@ -9,6 +9,11 @@
   </div>
   <div class='col2'>
     <div class='card-wrapper'>
+      <div class='x-wrapper'>
+        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-x" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+        </svg>
+      </div>
       <!-- Movie Status -->
       <div class='movie-status-wrapper'>
         <div class='movie-status' :class="movieStatus">{{ Status }}</div>
@@ -311,41 +316,6 @@ img {
   display: flex;
   flex-flow: row wrap;
   margin: 15px 3px;
-}
-
-@media only screen and (max-width: 900px) { 
-  .movie-container {
-    padding: 10px;
-    margin: 5px 0px 5px 0px;
-    display: grid;
-    grid-template-columns: 1fr 1.5fr;
-    background-color: var(--accent);
-    color: var(--text);
-    border-radius: 5px;
-  }
-
-  .movie-card-modal {
-    margin: 20px auto;
-    position: fixed;
-    left: 12%;
-    top: 25%;
-    width: 70%;
-    max-height: 60vh;
-  }
-
-}
-
-@media only screen and (max-height: 411px) { 
-
-  .movie-card-modal {
-    margin: 20px auto;
-    position: fixed;
-    left: 10%;
-    top: 10%;
-    width: 90%;
-    max-height: 70vh;
-  }
-
 }
 
 

@@ -227,6 +227,10 @@ export default {
 }
 
 @media only screen and (max-width: 600px) {
+  .waffle-movie-card {
+    width: 80%;
+  }
+  
   .waffle-item {
     height: 10px;
     min-width: 5px;

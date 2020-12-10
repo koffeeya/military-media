@@ -191,6 +191,7 @@ export default {
   animation-name: textflicker;
   animation-iteration-count: infinite;
   animation-direction: alternate;
+  margin: 5% 0% 0%;
 }
 
 .app-title:hover {

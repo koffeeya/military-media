@@ -18,11 +18,6 @@
           <!-- SECTION 1 -->
           <div class="text1">
             <AppTitle :carouselData="carouselData" />
-            <div>
-              <button class="enter-button" @click="navbarClick(2)">
-                EXPLORE THE DATA >
-              </button>
-            </div>
           </div>
 
           <!-- SECTION 2 -->
@@ -44,7 +39,7 @@
                 href="https://docs.google.com/spreadsheets/d/1HwdmpiSpNXfoNoI_5ndwdQi3Z3lCXU8VthPYelr6ZqA/edit?usp=sharing"
                 target="_blank"
                 rel="noopener noreferrer"
-                >450+ film productions</a
+                >500+ film productions</a
               >
               that requested assistance from the U.S. Department of Defense
               (DoD) in the last century. The database was acquired in a
@@ -63,12 +58,6 @@
                 work? What kinds of movies get military support? And what can we
                 learn from films that do — or don’t — make the cut?
               </h3>
-            </div>
-
-            <div class="center">
-              <button class="next-section-btn" @click="navbarClick(3)">
-                ABOUT THE DATA >
-              </button>
             </div>
           </div>
 
@@ -220,7 +209,7 @@
             <div class="text-section"></div>
             <div class="center">
               <div class='text-section'>
-                <button class='waffle-btn waffle-approved-btn' v-for="genre in genreOptions" :key="genre"
+                <button class='genre-btn waffle-btn waffle-approved-btn' v-for="genre in genreOptions" :key="genre"
                   @click="onButtonClick(filmsWithGenre(`${genre}`))"
                   @mouseover="highlightFilms(filmsWithGenre(`${genre}`))"
                   @mouseout="highlightFilmsReset(filmsWithGenre(`${genre}`))"
@@ -238,54 +227,57 @@
 
       <!-- CONTENT AREA -->
       <div class="row2">
-        <!-- v-if="activeText > 1" -->
-        <div>
-          <div v-if="activeText > 2" class="chart-wrapper" id="waffle-chart">
-            <div class="group-wrapper">
-              <div v-for="movie in filmsByYear" :key="movie">
-                <WaffleItem
-                  v-for="film in movie.Films"
-                  :key="film.TitleClass + '-waffleItem'"
-                  :Title="film.TitleClean"
-                  :TitleClass="film.TitleClass"
-                  :Remarks="film.Remarks"
-                  :Year="film.Year"
-                  :Status="film.Status"
-                  :Poster="film.Poster"
-                  :Genre="film.Genre"
-                  :ratingImdb="film.ratingImdb"
-                  :imdbVotes="film.imdbVotes"
-                  :FilmReleased="film.FilmReleased"
-                  :Plot="film.PlotShort"
-                  :Awards="film.Awards"
-                  :Actors="film.Actors"
-                  :Director="film.Director"
-                >
-                </WaffleItem>
-                <div class="year-val">
-                  <b :class="yearValueClass(movie.Year)">
-                    {{ yearValue(movie.Year) }}
-                  </b>
-                </div>
+        <!-- Waffle Chart -->
+        <div v-if="activeText > 2 && activeText != 4" class="group-wrapper" id='waffle-chart'>
+          <!-- Waffle Items -->
+            <div v-for="movie in filmsByYear" :key="movie">
+              <WaffleItem
+                v-for="film in movie.Films"
+                :key="film.TitleClass + '-waffleItem'"
+                :Title="film.TitleClean"
+                :TitleClass="film.TitleClass"
+                :Remarks="film.Remarks"
+                :Year="film.Year"
+                :Status="film.Status"
+                :Poster="film.Poster"
+                :Genre="film.Genre"
+                :ratingImdb="film.ratingImdb"
+                :imdbVotes="film.imdbVotes"
+                :FilmReleased="film.FilmReleased"
+                :Plot="film.PlotShort"
+                :Awards="film.Awards"
+                :Actors="film.Actors"
+                :Director="film.Director"
+              >
+              </WaffleItem>
+              <!-- Year Values -->
+              <div class="year-val">
+                <b :class="yearValueClass(movie.Year)">
+                  {{ yearValue(movie.Year) }}
+                </b>
               </div>
-            </div>
-            <div class="waffle-axis-title">
-              FILMS IN THE DATABASE BY RELEASE YEAR
-            </div>
-            <div class='status-bar-chart'>
-              <!-- :style="{width:`${percent.approved}%`}" -->
-              <div class='status-bar-item approved-bar' :style="{width:`${defaultPercent.approved}%`}">{{percent.approved}}%</div>
-              <div class='status-bar-item denied-bar' :style="{width:`${defaultPercent.denied}%`}">{{percent.denied}}%</div>
-              <div class='status-bar-item limited-bar' :style="{width:`${defaultPercent.limited}%`}">{{percent.limited}}%</div>
-              <div class='status-bar-item other-bar' :style="{width:`${defaultPercent.other}%`}">{{percent.other}}%</div>
-            </div>
-            <div class="center">
-              <button v-if="activeText < textLength" class="next-section-btn" @click="navbarClick(activeText + 1)">
-                CONTINUE >
-              </button>
-            </div>
-          </div>
         </div>
+        </div>
+        <!-- Chart Label -->
+        <div v-if="activeText > 2 && activeText != 4" class="waffle-axis-title">
+          FILMS IN THE DATABASE BY RELEASE YEAR
+        </div>
+        <!-- Bar Chart -->
+        <div v-if="activeText > 2 && activeText != 4 && activeText && 5 && activeText && 6" class='status-bar-chart'>
+          <div class='status-bar-item approved-bar' :style="{width:`${defaultPercent.approved}%`}">{{percent.approved}}%</div>
+          <div class='status-bar-item denied-bar' :style="{width:`${defaultPercent.denied}%`}">{{percent.denied}}%</div>
+          <div class='status-bar-item limited-bar' :style="{width:`${defaultPercent.limited}%`}">{{percent.limited}}%</div>
+          <div class='status-bar-item other-bar' :style="{width:`${defaultPercent.other}%`}">{{percent.other}}%</div>
+        </div>
+        <!-- Continue Button -->
+        <div v-if="activeText < textLength" class="center">
+          <button class="next-section-btn" @click="navbarClick(activeText + 1)">
+            <svg viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+              <path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"/>
+            </svg>
+          </button>
+        </div>
+
       </div>
     </div>
   </div>
@@ -330,7 +322,7 @@ export default {
           step: 1,
           section: "text1",
           icon: "icon1",
-          title: "Home",
+          title: "",
         },
         {
           step: 2,
@@ -709,7 +701,7 @@ export default {
 }
 
 .progress-icon {
-  height: 20px;
+  height: 10px;
   margin: -5px;
   border-left: 1px solid var(--bg-color);
   border-right: 1px solid var(--bg-color);
@@ -721,7 +713,7 @@ export default {
 }
 
 .active-icon {
-  background-color: var(--denied);
+  background-color: white;
   color: var(--bg-color);
 }
 
@@ -763,15 +755,14 @@ export default {
 }
 
 .next-section-btn {
-  margin: 0px auto;
-  padding: 5px;
-  width: 25%;
-  min-width: 75px;
-  font-size: 15px;
+  margin: 0px 0px 20px 0px;
+  padding: 5px 5px 0px;
+  min-width: 80px;
+  font-size: 12px;
   font-family: var(--title-font);
   color: gray;
   border: none;
-  border-radius: 5px;
+  border-radius: 20px;
   background-color: var(--bg-color);
   font-weight: 900;
 }
@@ -993,28 +984,34 @@ export default {
 /* MEDIA BREAKPOINTS */
 
 @media only screen and (max-width: 600px) {
-  .next-section-btn {
+
+  .waffle-movie-card {
     width: 80%;
   }
+
+  .next-section-btn {
+    min-width: 60px;
+  }
+
   .waffle-text {
     font-size: var(--body-size);
     min-height: none;
     overflow: auto;
-    margin: 0% auto;
+    margin: 5% auto 0%;
     line-height: 26px;
     max-width: 85%;
     padding: 2% 0% 0%;
   }
 
-  .group-wrapper {
+  /* .group-wrapper {
     width: 90%;
     height: 100%;
     display: flex;
     flex-direction: row;
     align-items: flex-end;
     margin: auto 10px;
-    overflow: auto;
+    overflow-y: auto;
     padding: 15px;
-  }
+  } */
 }
 </style>
