@@ -20,7 +20,7 @@
             <AppTitle :carouselData="carouselData" />
             <div>
               <button class="enter-button" @click="navbarClick(2)">
-                ABOUT THE DATA
+                EXPLORE THE DATA >
               </button>
             </div>
           </div>
@@ -39,7 +39,7 @@
               >
               <br />
               <br />
-              This project takes a close look at the complex using a database of
+              This project takes a close look at a database of
               <a
                 href="https://docs.google.com/spreadsheets/d/1HwdmpiSpNXfoNoI_5ndwdQi3Z3lCXU8VthPYelr6ZqA/edit?usp=sharing"
                 target="_blank"
@@ -67,7 +67,7 @@
 
             <div class="center">
               <button class="next-section-btn" @click="navbarClick(3)">
-                Next: About the Data
+                ABOUT THE DATA >
               </button>
             </div>
           </div>
@@ -80,11 +80,7 @@
                 style="font-size: 16px; line-height: 25px;"
               >
                 Hover or click on a
-                <button class="text3-btn1 waffle-btn waffle-approved-btn"
-                  @click="onButtonClick(filmsWithGenre('Romance'))"
-                  @mouseover="highlightFilms(filmsWithGenre('Romance'))"
-                  @mouseout="highlightFilmsReset(filmsWithGenre('Romance'))"
-                >
+                <button class="text3-btn1 waffle-btn waffle-approved-btn">
                   BUTTON
                 </button>
                 to highlight the visualization, and click on a film square to
@@ -134,15 +130,20 @@
               <br />
               <br />
             </div>
-            <div class="center">
-              <button class="next-section-btn" @click="navbarClick(4)">
-                Next: Why Collaborate?
-              </button>
-            </div>
           </div>
 
           <!-- SECTION 4 -->
           <div class="waffle-text text4 hide">
+            <div class="text-section">
+              Why do the military and Hollywood collaborate? The <a href="https://www.defense.gov/Explore/Inside-DOD/Blog/Article/2062735/how-why-the-dod-works-with-hollywood/" target="_blank"
+                rel="noopener noreferrer">DoD's website</a> lists two reasons: to "accurately depict military stories and make sure sensitive information isn't disclosed." But there are clearly other reasons — ones that have remained mostly unchanged in the last century of cinema.
+            </div>
+            <div class="center">
+            </div>
+          </div>
+
+          <!-- SECTION 5 -->
+          <div class="waffle-text text5 hide">
             <div class="text-section">
               Take
               <button
@@ -167,14 +168,11 @@
               guarantee “crowded theaters for months.”
             </div>
             <div class="center">
-              <button class="next-section-btn" @click="navbarClick(5)">
-                Continue
-              </button>
             </div>
           </div>
 
-          <!-- SECTION 5 -->
-          <div class="waffle-text text5 hide">
+          <!-- SECTION 6 -->
+          <div class="waffle-text text6 hide">
             <div class="text-section">
               Seventy years later, the 1986 film
               <button
@@ -214,14 +212,11 @@
               military’s image, which had been savaged by the Vietnam War.”
             </div>
             <div class="center">
-              <button class="next-section-btn" @click="navbarClick(6)">
-                Continue
-              </button>
             </div>
           </div>
 
-          <!-- SECTION 6 -->
-          <div class="waffle-text text6 hide">
+          <!-- SECTION 7 -->
+          <div class="waffle-text text7 hide">
             <div class="text-section"></div>
             <div class="center">
               <div class='text-section'>
@@ -231,14 +226,11 @@
                   @mouseout="highlightFilmsReset(filmsWithGenre(`${genre}`))"
                 >{{ genre }}</button>
               </div>
-              <button class="next-section-btn" @click="navbarClick(7)">
-                Continue
-              </button>
             </div>
           </div>
 
-          <!-- SECTION 7 -->
-          <div class="waffle-text text7 hide">
+          <!-- SECTION 8 -->
+          <div class="waffle-text text8 hide">
             <div class="text-section"></div>
           </div>
         </div>
@@ -287,6 +279,11 @@
               <div class='status-bar-item limited-bar' :style="{width:`${defaultPercent.limited}%`}">{{percent.limited}}%</div>
               <div class='status-bar-item other-bar' :style="{width:`${defaultPercent.other}%`}">{{percent.other}}%</div>
             </div>
+            <div class="center">
+              <button v-if="activeText < textLength" class="next-section-btn" @click="navbarClick(activeText + 1)">
+                CONTINUE >
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -306,7 +303,7 @@ export default {
   data() {
     return {
       activeText: 1,
-      textLength: 7,
+      textLength: 8,
       clicked: false,
       previouslyClicked: null,
       genreData: null,
@@ -339,37 +336,43 @@ export default {
           step: 2,
           section: "text2",
           icon: "icon2",
-          title: "1. INTRO",
+          title: "",
         },
         {
           step: 3,
           section: "text3",
           icon: "icon3",
-          title: "2. INTRO",
+          title: "",
         },
         {
           step: 4,
           section: "text4",
           icon: "icon4",
-          title: "3",
+          title: "",
         },
         {
           step: 5,
           section: "text5",
           icon: "icon5",
-          title: "4",
+          title: "",
         },
         {
           step: 6,
           section: "text6",
           icon: "icon6",
-          title: "5",
+          title: "",
         },
         {
           step: 7,
           section: "text7",
           icon: "icon7",
-          title: "6",
+          title: "",
+        },
+        {
+          step: 8,
+          section: "text8",
+          icon: "icon8",
+          title: "",
         },
       ],
     };
@@ -701,7 +704,7 @@ export default {
   margin: 0px auto;
   background-color: var(--bg-color);
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  grid-template-columns: repeat(8, 1fr);
   width: 45%;
 }
 
