@@ -5,7 +5,12 @@
         <div class='app-title'>ASSISTANCE DENIED</div>
 
         <div class='subtitle-text-wrapper'>
-          <div class='app-subtitle subtitle-first'>A project exploring the 100-year history of <b class='subtitle-emphasis'>cooperation</b> between <b class='subtitle-emphasis'>Hollywood</b> and the <b class='subtitle-emphasis'>United States military</b> through a database of <b class='subtitle-emphasis'>509 films</b></div>
+          <div class='app-subtitle subtitle-first'>A data visualization project about the 100-year history of <b class='subtitle-emphasis'>collaboration</b> between <b class='subtitle-emphasis'>Hollywood</b> and the <b class='subtitle-emphasis'>United States military</b></div>
+          <br>
+          <!-- <div class='app-subtitle subtitle-second'>Film producers and the U.S. military have been actively working together since the dawn of American cinema. This project explores <a href="https://docs.google.com/spreadsheets/d/1HwdmpiSpNXfoNoI_5ndwdQi3Z3lCXU8VthPYelr6ZqA/edit?usp=sharing" target="_blank" rel="noopener noreferrer">450+ film productions</a> that requested military assistance in the last century.
+          <br>
+          <br>
+          <b style="color: var(--denied); font-weight:500;">How does the relationship work? What kinds of movies get military support? And what can we learn from films that do — or don’t — make the cut?</b></div> -->
         </div>
 
         <div class='gif-wrapper'>
@@ -142,7 +147,7 @@ export default {
   width: 9%;
   min-width: 150px;
   filter: grayscale(100%);
-  margin: 5% 0% 0%;
+  margin: 2% 0%;
   border-radius: 10px;
   border: 5px solid transparent;
 }
@@ -170,10 +175,6 @@ export default {
   to {
     text-shadow: 2px 0.5px 2px var(--denied), -1px -0.5px 2px var(--denied);
   }
-}
-
-.title-wrapper {
-  margin: 150px 0px 0px 0px;
 }
 
 .title-words {
@@ -204,7 +205,7 @@ export default {
 }
 
 .subtitle-text-wrapper {
-  margin: 20px 0px 0px;
+  margin: 10px 0px 0px;
 }
 
 .subtitle-emphasis {
@@ -219,6 +220,15 @@ export default {
 
 .subtitle-emphasis:hover {
   color: var(--denied);
+}
+
+.subtitle-second {
+  font-size: 18px;
+  background-color: var(--accent);
+  padding: 20px;
+  line-height: 26px;
+  max-width: 38%;
+  margin: 20px auto;
 }
 
 @media only screen and (max-width: 600px) {

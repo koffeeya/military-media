@@ -82,6 +82,9 @@ export default {
     };
   },
   computed: {
+    genreList() {
+      return this.Genre.split(", ")
+    },
     movieStatus() {
       if (this.Status === "APPROVED") {
         return "approved-waffle";
@@ -159,9 +162,6 @@ export default {
 </script>
 
 <style scoped>
-.hide-waffle {
-  opacity: 0.05;
-}
 
 .movie-card-chart {
   width: 400px;
@@ -169,20 +169,21 @@ export default {
 }
 
 .waffle-movie-card {
-  width: 40%;
-  z-index: 3;
+  width: 60%;
   position: absolute;
-  top: 10%;
-  left: 30%;
-  margin: 10px auto;
+  top: -100%;
+  left: 20%;
+  margin: 0% auto;
   height: 600px;
   overflow: auto;
+  z-index: 35;
 }
 
 .hover-message {
   position: absolute;
   background-color: var(--bg-color);
   font-family: var(--card-font);
+  z-index: 25;
 }
 
 .transformMinWidth {
@@ -193,11 +194,6 @@ export default {
   transform: translate(-415px, -250px);
 }
 
-.active {
-  cursor: pointer;
-  opacity: 0.7;
-}
-
 .waffle-item {
   height: 12px;
   border: 0.5px solid var(--bg-color);
@@ -205,6 +201,7 @@ export default {
 }
 
 .waffle-item:hover {
+  cursor: pointer;
   border: 0.5px solid white;
 }
 

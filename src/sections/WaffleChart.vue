@@ -1,37 +1,16 @@
 <template>
   <div class="waffle-chart-container">
-    <!-- PROGRESS BAR &#x25C0; &#x25B6; -->
-    <div v-if="activeText > 1" class="section-title center">
-      {{ stepList[activeText - 1].title }}
-    </div>
-    <div v-if="activeText > 1" class="waffle-icon-wrapper center">
-      <button
-        class="waffle-carousel-btn"
-        id="waffle-prev-button"
-        @click="previousText"
-      >
-        &#x25C0;
-      </button>
-      <div
-        class="progress-icon"
-        @click="navbarClick(step)"
-        @mouseover="navbarMouseover"
-        @mouseleave="navbarMouseleave"
+
+    <div v-if="activeText > 1" class="waffle-icon-wrapper">
+      <div class="progress-icon" @click="navbarClick(step)"
         :class="[`icon${step}`, iconClass(step)]"
         v-for="step in allStepsArr"
         :key="step + '-icon'"
-      ></div>
-      <button
-        class="waffle-carousel-btn"
-        id="waffle-right-button"
-        @click="nextText"
-      >
-        &#x25B6;
-      </button>
+      >{{ stepList[step - 1].title }}</div>
     </div>
 
     <!-- TEXT + CONTENT AREA -->
-    <div class="waffle-col-container">
+    <div class="col-container">
       <!-- TEXT AREA -->
       <div class="row1">
         <!-- TEXT SECTIONS -->
@@ -41,7 +20,7 @@
             <AppTitle :carouselData="carouselData" />
             <div>
               <button class="enter-button" @click="navbarClick(2)">
-                START EXPLORING
+                ABOUT THE DATA
               </button>
             </div>
           </div>
@@ -101,7 +80,11 @@
                 style="font-size: 16px; line-height: 25px;"
               >
                 Hover or click on a
-                <button class="text1-btn1 waffle-btn waffle-approved-btn">
+                <button class="text3-btn1 waffle-btn waffle-approved-btn"
+                  @click="onButtonClick(filmsWithGenre('Romance'))"
+                  @mouseover="highlightFilms(filmsWithGenre('Romance'))"
+                  @mouseout="highlightFilmsReset(filmsWithGenre('Romance'))"
+                >
                   BUTTON
                 </button>
                 to highlight the visualization, and click on a film square to
@@ -113,36 +96,36 @@
               Department of Defense
               <button
                 class="text1-btn1 waffle-btn waffle-approved-btn"
-                @click="onButtonClick(['approved-waffle'])"
-                @mouseover="highlightFilms(['approved-waffle'])"
-                @mouseout="highlightFilmsReset(['approved-waffle'])"
+                @click="onButtonClick(filmsWithStatus('APPROVED'))"
+                @mouseover="highlightFilms(filmsWithStatus('APPROVED'))"
+                @mouseout="highlightFilmsReset(filmsWithStatus('APPROVED'))"
               >
                 APPROVED
               </button>
               the production’s request for assistance, approved
               <button
                 class="text1-btn2 waffle-btn waffle-limited-btn"
-                @click="onButtonClick(['limited-waffle'])"
-                @mouseover="highlightFilms(['limited-waffle'])"
-                @mouseout="highlightFilmsReset(['limited-waffle'])"
+                @click="onButtonClick(filmsWithStatus('LIMITED'))"
+                @mouseover="highlightFilms(filmsWithStatus('LIMITED'))"
+                @mouseout="highlightFilmsReset(filmsWithStatus('LIMITED'))"
               >
                 LIMITED
               </button>
               assistance,
               <button
                 class="text1-btn3 waffle-btn waffle-denied-btn"
-                @click="onButtonClick(['denied-waffle'])"
-                @mouseover="highlightFilms(['denied-waffle'])"
-                @mouseout="highlightFilmsReset(['denied-waffle'])"
+                @click="onButtonClick(filmsWithStatus('DENIED'))"
+                @mouseover="highlightFilms(filmsWithStatus('DENIED'))"
+                @mouseout="highlightFilmsReset(filmsWithStatus('DENIED'))"
               >
                 DENIED
               </button>
               assistance, or
               <button
                 class="text1-btn4 waffle-btn waffle-other-btn"
-                @click="onButtonClick(['other-waffle'])"
-                @mouseover="highlightFilms(['other-waffle'])"
-                @mouseout="highlightFilmsReset(['other-waffle'])"
+                @click="onButtonClick(filmsWithStatus('OTHER'))"
+                @mouseover="highlightFilms(filmsWithStatus('OTHER'))"
+                @mouseout="highlightFilmsReset(filmsWithStatus('OTHER'))"
               >
                 OTHER
               </button>
@@ -241,6 +224,13 @@
           <div class="waffle-text text6 hide">
             <div class="text-section"></div>
             <div class="center">
+              <div class='text-section'>
+                <button class='waffle-btn waffle-approved-btn' v-for="genre in genreOptions" :key="genre"
+                  @click="onButtonClick(filmsWithGenre(`${genre}`))"
+                  @mouseover="highlightFilms(filmsWithGenre(`${genre}`))"
+                  @mouseout="highlightFilmsReset(filmsWithGenre(`${genre}`))"
+                >{{ genre }}</button>
+              </div>
               <button class="next-section-btn" @click="navbarClick(7)">
                 Continue
               </button>
@@ -290,6 +280,13 @@
             <div class="waffle-axis-title">
               FILMS IN THE DATABASE BY RELEASE YEAR
             </div>
+            <div class='status-bar-chart'>
+              <!-- :style="{width:`${percent.approved}%`}" -->
+              <div class='status-bar-item approved-bar' :style="{width:`${defaultPercent.approved}%`}">{{percent.approved}}%</div>
+              <div class='status-bar-item denied-bar' :style="{width:`${defaultPercent.denied}%`}">{{percent.denied}}%</div>
+              <div class='status-bar-item limited-bar' :style="{width:`${defaultPercent.limited}%`}">{{percent.limited}}%</div>
+              <div class='status-bar-item other-bar' :style="{width:`${defaultPercent.other}%`}">{{percent.other}}%</div>
+            </div>
           </div>
         </div>
       </div>
@@ -301,59 +298,78 @@
 import * as d3 from "d3";
 import WaffleItem from "../components/WaffleItem.vue";
 import AppTitle from "./AppTitle.vue";
+import GenreButton from "../components/GenreButton.vue";
 
 export default {
   name: "WaffleChart",
-  props: ["filmsByYear", "rawData", "carouselData"],
+  props: ["filmsByYear", "rawData", "carouselData", "genreOptions"],
   data() {
     return {
       activeText: 1,
       textLength: 7,
       clicked: false,
       previouslyClicked: null,
-      navbarHover: false,
+      genreData: null,
+      defaultPercent: {
+        approved: 59,
+        denied: 18,
+        limited: 12,
+        other: 11,
+      },
+      percent: {
+        approved: 59,
+        denied: 18,
+        limited: 12,
+        other: 11,
+      },
+      prevPercent: {
+        approved: 59,
+        denied: 18,
+        limited: 12,
+        other: 11,
+      },
       stepList: [
         {
           step: 1,
           section: "text1",
           icon: "icon1",
-          title: "Homepage",
+          title: "Home",
         },
         {
           step: 2,
           section: "text2",
           icon: "icon2",
-          title: "A. Introduction",
+          title: "1. INTRO",
         },
         {
           step: 3,
           section: "text3",
           icon: "icon3",
-          title: "B. About the Chart",
+          title: "2. INTRO",
         },
         {
           step: 4,
           section: "text4",
           icon: "icon4",
-          title: "C. Why Collaborate?",
+          title: "3",
         },
         {
           step: 5,
           section: "text5",
           icon: "icon5",
-          title: "C. Why Collaborate?",
+          title: "4",
         },
         {
           step: 6,
           section: "text6",
           icon: "icon6",
-          title: "C. Why Collaborate?",
+          title: "5",
         },
         {
           step: 7,
           section: "text7",
           icon: "icon7",
-          title: "D. What Films Get Assistance?",
+          title: "6",
         },
       ],
     };
@@ -372,36 +388,6 @@ export default {
     },
   },
   methods: {
-    navbarMouseover(event) {
-      const classList = event.target.className.split(" ");
-      const iconValue = classList[1].slice(-1) - 1;
-      if (classList.includes("active-icon")) {
-        d3.select(".section-title")
-          .style("opacity", "0")
-          .transition()
-          .duration(200)
-          .style("opacity", "1")
-          .style("color", "var(--denied)")
-          .text(`${this.stepList[iconValue].title}`);
-      } else {
-        d3.select(".section-title")
-          .style("opacity", "0")
-          .transition()
-          .duration(200)
-          .style("opacity", "1")
-          .style("color", "var(--accent)")
-          .text(`${this.stepList[iconValue].title}`);
-      }
-    },
-    navbarMouseleave(e) {
-      d3.select(".section-title").style("color", "var(--denied)");
-      d3.select(".section-title")
-        .style("opacity", "0")
-        .transition()
-        .duration(200)
-        .style("opacity", "1")
-        .text(`${this.stepList[this.activeText - 1].title}`);
-    },
     navbarClick(step) {
       this.activeText = step;
       d3.selectAll(`.text${this.activeText}`)
@@ -446,7 +432,6 @@ export default {
         return "inactive-icon";
       }
     },
-
     onButtonClick(arr) {
       let thisBtn = event.target.classList[0];
       d3.selectAll(`.waffle-btn`).style("border", "");
@@ -476,10 +461,79 @@ export default {
       }
       this.previouslyClicked = thisBtn;
     },
+    getRolledUpData(data, query) {
+      if (data.get(query) === undefined) {
+        return 0;
+      } else {
+        return data.get(query)
+      }
+    },
+    getStatusPercent(data) {
+      const dataLen = data.length;
+      const rollup = d3.rollup(data, v => v.length, d => d.Status);
+      const numApproved = this.getRolledUpData(rollup, "APPROVED")
+      const numDenied = this.getRolledUpData(rollup, "DENIED")
+      const numLimited = this.getRolledUpData(rollup, "LIMITED")
+      const numOther = this.getRolledUpData(rollup, "OTHER")
+
+      this.percent.approved = Math.floor((numApproved / dataLen) * 100);
+      this.percent.denied = Math.floor((numDenied / dataLen) * 100);
+      this.percent.limited = Math.floor((numLimited / dataLen) * 100);
+      const sum = this.percent.approved + this.percent.denied + this.percent.limited
+      this.percent.other = 100 - sum;
+    },
+    filmsWithStatus(statusName) {
+      const filteredData = d3.filter(this.rawData, (d) => {
+        if (d.Status === null || d.TitleClass === null) {
+          return;
+        } else {
+          return d.Status === statusName;
+        }
+      })
+      this.getStatusPercent(filteredData);
+      const statusArray = this.getColByName(filteredData, "TitleClass");
+      return statusArray;
+    },
+    filmsWithGenre(genreName) {
+      const filteredData = d3.filter(this.rawData, (d) => {
+        if (d.Genre === null || d.TitleClass === null) {
+          return;
+        } else {
+          return d.Genre.includes(genreName);
+        }
+      })
+      this.getStatusPercent(filteredData);
+      const genreArray = this.getColByName(filteredData, "TitleClass");
+      this.genreData = filteredData;
+      return genreArray;
+    },
     highlightFilms(arr) {
       if (this.clicked === true) {
         return;
       } else {
+        // Transition the size of the bar
+        d3.select('.approved-bar')
+          .style("width", `${this.defaultPercent.approved}%`)
+          .transition()
+          .duration(200)
+          .style("width", `${this.percent.approved}%`)
+        d3.select('.denied-bar')
+          .style("width", `${this.defaultPercent.denied}%`)
+          .transition()
+          .duration(200)
+          .style("width", `${this.percent.denied}%`);
+        d3.select('.limited-bar')
+          .style("width", `${this.defaultPercent.limited}%`)
+          .transition()
+          .duration(200)
+          .style("width", `${this.percent.limited}%`);
+        d3.select('.other-bar')
+          .style("width", `${this.defaultPercent.other}%`)
+          .transition()
+          .duration(200)
+          .style("width", `${this.percent.other}%`);
+
+        // Highlight the right films
         d3.selectAll(".waffle-item")
           .transition()
           .duration(200)
@@ -496,11 +550,46 @@ export default {
       if (this.clicked === true) {
         return;
       } else if (this.clicked === false) {
+        d3.select('.approved-bar')
+          .transition()
+          .duration(200)
+          .style("width", `${this.defaultPercent.approved}%`)
+
+        d3.select('.denied-bar')
+          .transition()
+          .duration(200)
+          .style("width", `${this.defaultPercent.denied}%`);
+
+        d3.select('.limited-bar')
+          .transition()
+          .duration(200)
+          .style("width", `${this.defaultPercent.limited}%`);
+        
+        d3.select('.other-bar')
+          .transition()
+          .duration(200)
+          .style("width", `${this.defaultPercent.other}%`);
+
+        this.percent = {
+          approved: this.defaultPercent.approved,
+          denied: this.defaultPercent.denied,
+          limited: this.defaultPercent.limited,
+          other: this.defaultPercent.other,
+        }
+
         d3.selectAll(".waffle-item")
           .transition()
           .duration(200)
           .style("opacity", "1");
       }
+    },
+    getColByName(arr, columnName) {
+      const col = [];
+      for (let row = 0; row < arr.length ; row++) {
+        const value = Object.values(arr)[row][columnName];
+        col.push(value);
+      }
+      return col;
     },
     topGunMouseover() {
       d3.select("#topGunHighlight")
@@ -572,13 +661,86 @@ export default {
   components: {
     WaffleItem,
     AppTitle,
+    GenreButton
   },
 };
 </script>
 
 <style scoped>
+
+/* STRUCTURE */
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hide {
+  position: absolute !important;
+  top: -9999px !important;
+  left: -9999px !important;
+}
+
+.row1 {
+  padding: 0px;
+  margin: 0px auto;
+}
+
+.row2 {
+  padding: 50px 0px 0px 0px;
+  margin: 0px auto;
+}
+
+.text-section {
+  margin: 2% 0% 5% 0%;
+}
+
+
+/* NAVIGATION */
+.waffle-icon-wrapper {
+  margin: 0px auto;
+  background-color: var(--bg-color);
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  width: 45%;
+}
+
+.progress-icon {
+  height: 20px;
+  margin: -5px;
+  border-left: 1px solid var(--bg-color);
+  border-right: 1px solid var(--bg-color);
+  font-size: 15px;
+  text-align: center;
+  font-family: var(--card-font);
+  text-transform: uppercase;
+  font-weight: 900;
+}
+
+.active-icon {
+  background-color: var(--denied);
+  color: var(--bg-color);
+}
+
+.active-icon:hover {
+  cursor: pointer;
+  background-color: gray;
+  color: var(--bg-color);
+}
+
+.inactive-icon {
+  background-color: var(--accent);
+  color: transparent;
+}
+
+.inactive-icon:hover {
+  cursor: pointer;
+  background-color: gray;
+  color: white;
+}
+
 .enter-button {
-  margin: 10% 33% 0% 33%;
+  margin: 1% 33% 0% 33%;
   padding: 10px;
   width: 33%;
   min-width: 75px;
@@ -609,7 +771,6 @@ export default {
   border-radius: 5px;
   background-color: var(--bg-color);
   font-weight: 900;
-  z-index: 25;
 }
 
 .next-section-btn:hover {
@@ -618,77 +779,8 @@ export default {
   cursor: pointer;
 }
 
-/* PROGRESS BAR */
 
-.section-title {
-  font-family: var(--card-font);
-  text-transform: uppercase;
-  font-size: 14px;
-  font-weight: 900;
-  margin: 20px;
-  color: var(--denied);
-}
-
-.progress-icon {
-  width: 3%;
-  height: 15px;
-  border-left: 1px solid var(--bg-color);
-  border-right: 1px solid var(--bg-color);
-}
-
-.active-icon {
-  background-color: gray;
-}
-
-.active-icon:hover {
-  cursor: pointer;
-  background-color: var(--denied);
-  border-left: 1px solid var(--bg-color);
-  border-right: 1px solid var(--bg-color);
-}
-
-.inactive-icon {
-  background-color: var(--accent);
-}
-
-.inactive-icon:hover {
-  cursor: pointer;
-  background-color: gray;
-  border-left: 1px solid var(--bg-color);
-  border-right: 1px solid var(--bg-color);
-}
-
-/* CAROUSEL */
-
-.waffle-icon-wrapper {
-  font-size: 20px;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  margin: 0px auto;
-  padding: 5px;
-  position: sticky;
-  top: 0px;
-  background-color: var(--bg-color);
-  border-bottom: 1px solid var(--accent);
-  z-index: 20;
-}
-
-.center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.row1 {
-  padding: 20px 0px;
-  margin: 0px auto;
-}
-
-.row2 {
-  padding: 50px 0px 0px 0px;
-  margin: 0px auto;
-}
-
+/* TEXT */
 .waffle-text {
   font-size: var(--body-size);
   min-height: 25vh;
@@ -696,10 +788,6 @@ export default {
   line-height: 35px;
   max-width: 45%;
   padding: 2% 0% 0%;
-}
-
-.text-section {
-  margin: 2% 0% 5% 0%;
 }
 
 .text-emphasis {
@@ -711,25 +799,6 @@ export default {
   font-size: var(--body-font);
 }
 
-.waffle-carousel-btn {
-  margin: 0px auto;
-  padding: 2px;
-  width: 5%;
-  min-width: 75px;
-  font-size: 15px;
-  font-family: var(--title-font);
-  color: var(--denied);
-  border: none;
-  border-radius: 5px;
-  background-color: var(--accent);
-}
-
-.waffle-carousel-btn:hover {
-  color: var(--bg-color);
-  background-color: var(--denied);
-  cursor: pointer;
-}
-
 .paragraph-header {
   font-size: 21px;
   font-weight: 900;
@@ -738,10 +807,8 @@ export default {
   color: gray;
 }
 
-/* SECTION 2 */
 
-/* TEXT BUTTONS */
-
+/* BUTTONS */
 .waffle-btn {
   margin: -5px 2px;
   padding: 5px 8px;
@@ -816,14 +883,10 @@ export default {
   color: var(--other);
 }
 
-.hide {
-  position: absolute !important;
-  top: -9999px !important;
-  left: -9999px !important;
-}
+
+
 
 /* CHART */
-
 .waffle-axis-title {
   font-size: var(--root-size);
   font-weight: 900;
@@ -868,6 +931,63 @@ export default {
   border-top: 2px solid white;
   margin: 5px 0px;
 }
+
+
+/* STATUS BAR CHART */
+.status-bar-chart {
+  display: flex;
+  margin: 0px auto;
+  width: 65%;
+  transform: translateY(-50px);
+  font-family: var(--card-font);
+  text-align: center;
+  color: var(--bg-color);
+}
+
+.status-bar-item {
+  height: 20px;
+  margin: 1px;
+  font-weight: 900;
+}
+
+.approved-bar {
+  background-color: var(--approved);
+  opacity: 0.8;
+}
+
+.approved-bar:hover {
+  opacity: 1;
+}
+
+.denied-bar {
+  background-color: var(--denied);
+  opacity: 0.8;
+}
+
+.denied-bar:hover {
+  opacity: 1;
+}
+
+.other-bar {
+  background-color: var(--other);
+  opacity: 0.8;
+}
+
+.other-bar:hover {
+  opacity: 1;
+}
+
+.limited-bar {
+  background-color: var(--limited);
+  opacity: 0.8;
+}
+
+.limited-bar:hover {
+  opacity: 1;
+}
+
+
+/* MEDIA BREAKPOINTS */
 
 @media only screen and (max-width: 600px) {
   .next-section-btn {

@@ -35,26 +35,22 @@ export default {
         border-radius: 5px;
     }
 
-    .genre-approved, .genre-denied, .genre-limited, .genre-other {
-        background-color: var(--bg-color);
-    }
-
-    .genre-approved:hover {
+    .genre-approved {
         color: var(--bg-color);
         background-color: var(--approved);
     }
 
-    .genre-denied:hover {
+    .genre-denied {
         color: var(--bg-color);
         background-color: var(--denied);
     }
 
-    .genre-limited:hover {
+    .genre-limited {
         color: var(--bg-color);
         background-color: var(--limited);
     }
 
-    .genre-other:hover {
+    .genre-other {
         color: var(--bg-color);
         background-color: var(--other);
     }

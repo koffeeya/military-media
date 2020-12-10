@@ -190,30 +190,6 @@ export default {
   cursor: pointer;
 }
 
-/* .movie-card-modal {
-  padding: 10px;
-  margin: 10px auto;
-  display: grid;
-  grid-template-columns: 1fr 1.5fr;
-  background-color: var(--accent);
-  color: var(--text);
-  position: fixed;
-  left: 33%;
-  top: 25%;
-  z-index: 2;
-  width: 80%;
-  max-width: 600px;
-  max-height: 80vh;
-  overflow: auto;
-  opacity: 1;
-  border-radius: 5px;
-} */
-
-
-.movie-card-modal:hover {
-  cursor: pointer;
-}
-
 .card-approved, .card-denied, .card-limited, .card-other {
   border: 2px solid var(--accent);
   box-shadow: 5px 5px var(--bg-color);

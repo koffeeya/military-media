@@ -1,20 +1,13 @@
 <template>
   <!-- Sections -->
   <div class="sections">
-    <div class="step step0">
-      <!-- <AppTitle 
-        :observer="observer"
-        :stepList="stepList"
-        :index="0"
-        :carouselData="carouselData"
-      /> -->
-    </div>
     <div class="step step1">
       <WaffleChart
         :filmsByYear="filmsByYear"
         :rawData="rawData"
         :genreList="genreOptions"
         :carouselData="carouselData"
+        :genreOptions="genreOptions"
       ></WaffleChart>
     </div>
   </div>
@@ -65,7 +58,6 @@ export default {
         }
       });
       const genres = Array.from(new Set(mergedGenres)).sort();
-      genres.push("All");
       this.genreOptions = genres;
       this.carouselData = data
         .filter((el) => {
@@ -96,7 +88,7 @@ export default {
     },
     getColByName(arr, columnName) {
       const col = [];
-      for (let row = 0; row < arr.length - 1; row++) {
+      for (let row = 0; row < arr.length; row++) {
         const value = Object.values(arr)[row][columnName];
         col.push(value);
       }
