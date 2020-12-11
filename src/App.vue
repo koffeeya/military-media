@@ -8,6 +8,7 @@
         :genreList="genreOptions"
         :carouselData="carouselData"
         :genreOptions="genreOptions"
+        :warOptions="warOptions"
       ></WaffleChart>
     </div>
   </div>
@@ -25,12 +26,14 @@ export default {
       movies: [],
       statusOptions: [],
       genreOptions: [],
+      warOptions: [],
       carouselData: [],
       filmsByYear: {},
     };
   },
   methods: {
     getMovieData(data) {
+      // All data
       this.movies = data
         .filter((el) => {
           return el.Status != null && el.TitleForSorting != null;
@@ -38,11 +41,20 @@ export default {
         .sort((a, b) => {
           return a.TitleForSorting - b.TitleForSorting;
         });
-      const options = Array.from(
+
+      // Status Options
+      const statusOptions = Array.from(
         new Set(this.getColByName(this.movies, "Status"))
       );
-      options.push("ALL");
-      this.statusOptions = options.sort();
+      this.statusOptions = statusOptions.filter(d => d != null);
+
+      // War Options
+      const warOptions = Array.from(
+        new Set(this.getColByName(this.movies, "CurrentWar"))
+      );
+      this.warOptions = warOptions.filter(d => d != null);
+
+      // Genres
       const allGenres = this.getColByName(this.movies, "Genre");
       const mergedGenres = [];
       allGenres.map((value) => {
@@ -59,6 +71,8 @@ export default {
       });
       const genres = Array.from(new Set(mergedGenres)).sort();
       this.genreOptions = genres;
+
+      // Carousel Data
       this.carouselData = data
         .filter((el) => {
           return (
@@ -70,16 +84,12 @@ export default {
         .sort((a, b) => {
           return a.CarouselOrder - b.CarouselOrder;
         });
+
+      // Data By Year
       const yearData = data
         .filter((el) => {
           return el.Year != null;
         })
-        .sort((a, b) => {
-          return a.Status - b.Status;
-        })
-        .sort((a, b) => {
-          return a.Year - b.Year;
-        });
       const yearGrouped = d3.group(yearData, (d) => d.Year);
       this.filmsByYear = [];
       Array.from(yearGrouped, ([key, values]) => {
@@ -149,9 +159,9 @@ html {
 }
 
 a {
-  background-color: var(--accent);
-  color: var(--denied);
-  text-decoration: none;
+  color: white;
+  text-decoration: underline;
+  text-decoration-color: gray;
   font-weight: 500;
   padding: 0px 2px;
   margin: 0px 1px;
@@ -160,6 +170,7 @@ a {
 a:hover {
   background-color: var(--accent);
   color: white;
+  text-decoration: none;
   cursor: pointer;
 }
 

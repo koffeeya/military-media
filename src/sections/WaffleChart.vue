@@ -6,7 +6,7 @@
         :class="[`icon${step}`, iconClass(step)]"
         v-for="step in allStepsArr"
         :key="step + '-icon'"
-      >{{ stepList[step - 1].title }}</div>
+      ></div>
     </div>
 
     <!-- TEXT + CONTENT AREA -->
@@ -209,38 +209,72 @@
 
           <!-- SECTION 7 -->
           <div class="waffle-text text7 hide">
-            <div class="text-section"></div>
-            <div class="center">
-              <div class='text-section'>
-                <button class='genre-btn waffle-btn waffle-approved-btn' v-for="genre in genreOptions" :key="genre"
-                  @click="onButtonClick(getFilmsList(`${genre}`, 'Genre'))"
-                  @mouseover="highlightFilms(getFilmsList(`${genre}`, 'Genre'))"
-                  @mouseout="highlightFilmsReset(getFilmsList(`${genre}`, 'Genre'))"
-                >{{ genre }}</button>
-              </div>
+            <div class="text-section">
+              Examining the data reveals that while the relationship between Hollywood and the military is mutual, it is not entirely equal.
+              <br>
+              <br>
+              Hollywood producers submit a request to the military for resources that would normally be out of reach, like shooting locations, equipment, stock footage, and expert advice. In exchange — and often as a prerequisite to approval — the DoD can <b>demand changes to the film’s script</b> that effectively guarantee positive advertising.
+              <br>
+              <br>
+              What kinds of films get approved or denied? Explore the data to learn more.
             </div>
+
           </div>
 
           <!-- SECTION 8 -->
-          <div class="waffle-text text8 hide">
-              Search &nbsp;
-              <select class='search-location' v-model="searchLocation" placeholder='Remarks'>
-                <option>Remarks</option>
-                <option>Titles</option>
-              </select>
-              &nbsp;
-              for
-              <input class='searchInput' v-model='searchTerm' placeholder='Term'>
+          <div class="waffle-text text8 hide">          
+              <div class='text-section'>
+                <div class='search-bar'>
+                  <div class='search-bar-instructions'>Press enter to search</div>
+                  Search
+                  <select class='search-location' v-model="searchLocation" placeholder='Remarks'>
+                    <option>Military Remarks</option>
+                    <option>Titles</option>
+                    <option>Plots</option>
+                    <option>Actors</option>
+                    <option>Directors</option>
+                  </select> for  
+                  <input class='search-input' v-model='searchTerm' :placeholder="placeholderText" @change="highlightFilms(getFilmsList(`${searchTerm}`, `${searchCategory}`))">
+                </div>
+                
+                <!-- WARS -->
+                <div class='button-group'>
+                  <div class='search-bar-instructions'>Highlight films released during major wars</div>
+                  <button :class='[`${currentWar}-btn`]' class='war-btn waffle-btn waffle-neutral-btn' v-for="currentWar in warOptions" :key="currentWar"
+                  @click="onButtonClick(getFilmsList(`${currentWar}`, 'CurrentWar'))"
+                  @mouseover="highlightFilms(getFilmsList(`${currentWar}`, 'CurrentWar'))"
+                  @mouseout="highlightFilmsReset(getFilmsList(`${currentWar}`, 'CurrentWar'))"
+                  >{{ currentWar }}</button>
+                </div>
+                <!-- GENRES -->
+                <div class='button-group'>
+                  <div class='search-bar-instructions'>Highlight films by genre</div>
+                  <button :class='[`${genre}-btn`]' class='genre-btn waffle-btn waffle-neutral-btn' v-for="genre in genreOptions" :key="genre"
+                  @click="onButtonClick(getFilmsList(`${genre}`, 'Genre'))"
+                  @mouseover="highlightFilms(getFilmsList(`${genre}`, 'Genre'))"
+                  @mouseout="highlightFilmsReset(getFilmsList(`${genre}`, 'Genre'))"
+                  >{{ genre }}</button>
+                </div>
+              </div>
           </div>
 
           <!-- SECTION 9 -->
           <div class="waffle-text text9 hide">
-            <div class="text-section"></div>
-          </div>
-
-          <!-- SECTION 10 -->
-          <div class="waffle-text text10 hide">
-            <div class="text-section"></div>
+            <div class="text-section">
+              <div class='end-header'>ABOUT THE DATA</div>
+              The dataset for this project was originally downloaded as a <a href='https://drive.google.com/file/d/1NeDVYu_gvEhtdQVtSFPRIapHDxJx6842/view?usp=sharing' target="_blank" rel="noopener noreferrer">PDF file</a> from <a href='https://www.spyculture.com/' target="_blank" rel="noopener noreferrer">Spy Culture</a>, the website of the journalist Tom Secker, who acquired the file in a 2017 Freedom of Information request to the U.S. Pentagon.
+              <br>
+              <br>
+              With the help of some very patient friends, the PDF file was manually transcribed into a spreadsheet of 865 TV episodes and films. This project focused on the <a href='https://docs.google.com/spreadsheets/d/1HwdmpiSpNXfoNoI_5ndwdQi3Z3lCXU8VthPYelr6ZqA/edit?usp=sharing' target="_blank" rel="noopener noreferrer">509 films</a> in the database with confirmed release dates on IMDb. Some of the DoD's remarks were edited for spelling and clarity.
+              <br>
+              <br>
+              The data does not encompass every single film that collaborated with the DoD in the last century — it is limited by what the Pentagon chose to release in the 2017 FOIA request and what I could find on IMDb.
+              <br>
+              <br>
+              <div>
+                <a href='https://github.com/koffeeya/military-media' target="_blank" rel="noopener noreferrer">See the project on GitHub.</a>
+              </div>
+            </div>
           </div>
 
         </div>
@@ -249,7 +283,9 @@
       <!-- CONTENT AREA -->
       <div class="row2">
         <!-- Waffle Chart -->
-        <div v-if="activeText > 2 && activeText != 4 && activeText != 8 && activeText != textLength" class="group-wrapper" id='waffle-chart'>
+        
+        <div v-if="activeText > 2 && activeText != 4 && activeText != 7 && activeText != textLength" class="group-wrapper" id='waffle-chart'>
+          <div class='filmsNum ww1'>Showing {{ activeFilmsNum }} {{ filmPlural }}</div>
           <!-- Waffle Items -->
             <div v-for="movie in filmsByYear" :key="movie">
               <WaffleItem
@@ -280,11 +316,11 @@
         </div>
         </div>
         <!-- Chart Label -->
-        <div v-if="activeText > 2 && activeText != 4 && activeText != 8 && activeText != textLength" class="waffle-axis-title">
+        <div v-if="activeText > 2 && activeText != 4 && activeText != 7 && activeText != textLength" class="waffle-axis-title">
           FILMS IN THE DATABASE BY RELEASE YEAR
         </div>
         <!-- Bar Chart -->
-        <div v-if="activeText > 2 && activeText != 4 && activeText != 8 && 5 && activeText && 6 && activeText != textLength" class='status-bar-chart'>
+        <div v-if="activeText > 2 && activeText != 4 && activeText != 7 && activeText != textLength" class='status-bar-chart'>
           <div class='status-bar-item approved-bar' :style="{width:`${defaultPercent.approved}%`}">{{percent.approved}}%</div>
           <div class='status-bar-item denied-bar' :style="{width:`${defaultPercent.denied}%`}">{{percent.denied}}%</div>
           <div class='status-bar-item limited-bar' :style="{width:`${defaultPercent.limited}%`}">{{percent.limited}}%</div>
@@ -298,27 +334,6 @@
             </svg>
           </button>
         </div>
-
-        <!-- Browse Films -->
-        <div v-if="activeText === 8" class='search-wrapper'>
-              <MovieCardChart :class="[`${movie.TitleClass}-search`, 'search-card']" v-for="movie in filteredFilms"
-                :key="movie.TitleClean + movie.Year + search"
-                :Title="movie.TitleClean"
-                :TitleClass="movie.TitleClass"
-                :Remarks="movie.Remarks"
-                :Year="movie.Year"
-                :FilmReleased="movie.FilmReleased"
-                :Genre="movie.Genre"
-                :ratingImdb="movie.ratingImdb"
-                :imdbVotes="movie.imdbVotes"
-                :Status="movie.Status"
-                :Poster="movie.Poster"
-                :Plot="movie.PlotShort"
-                :Awards="movie.Awards"
-                :Actors="movie.Actors"
-                :Director="movie.Director">
-              </MovieCardChart>
-            </div>
 
       </div>
     </div>
@@ -334,16 +349,18 @@ import MovieCardChart from "../components/MovieCardChart.vue"
 
 export default {
   name: "WaffleChart",
-  props: ["filmsByYear", "rawData", "carouselData", "genreOptions"],
+  props: ["filmsByYear", "rawData", "carouselData", "genreOptions", "warOptions"],
   data() {
     return {
       activeText: 1,
-      textLength: 10,
+      textLength: 9,
       clicked: false,
       previouslyClicked: null,
       genreData: null,
-      searchTerm: "ufo",
-      searchLocation: "Remarks",
+      searchTerm: "",
+      searchLocation: "Military Remarks",
+      searchLocationClean: "Remarks",
+      activeFilmsNum: 509,
       defaultPercent: {
         approved: 59,
         denied: 18,
@@ -367,61 +384,46 @@ export default {
           step: 1,
           section: "text1",
           icon: "icon1",
-          title: "",
         },
         {
           step: 2,
           section: "text2",
           icon: "icon2",
-          title: "",
         },
         {
           step: 3,
           section: "text3",
           icon: "icon3",
-          title: "",
         },
         {
           step: 4,
           section: "text4",
           icon: "icon4",
-          title: "",
         },
         {
           step: 5,
           section: "text5",
           icon: "icon5",
-          title: "",
         },
         {
           step: 6,
           section: "text6",
           icon: "icon6",
-          title: "",
         },
         {
           step: 7,
           section: "text7",
           icon: "icon7",
-          title: "",
         },
         {
           step: 8,
           section: "text8",
           icon: "icon8",
-          title: "",
         },
         {
           step: 9,
-          section: "text8",
+          section: "text9",
           icon: "icon9",
-          title: "",
-        },
-        {
-          step: 10,
-          section: "text8",
-          icon: "icon10",
-          title: "",
         },
       ],
     };
@@ -438,32 +440,37 @@ export default {
       });
       return remaining;
     },
-    filteredFilms() {
-      if (this.searchTerm === null) {
-        return this.rawData;
-      } else if (this.searchTerm != null) {
-        let term = new RegExp(this.searchTerm, 'i');
-        if (this.searchLocation === "Remarks") {
-          const filtered = this.rawData.filter((d) => {
-            if (d["Remarks"] != null) {
-              return d["Remarks"].match(term);
-            } else {
-              return;
-            }
-          })
-          return filtered;
-        } else if (this.searchLocation === "Titles") {
-          const filtered = this.rawData.filter((d) => {
-            if (d["Title"] != null) {
-              return d["Title"].match(term);
-            } else {
-              return;
-            }
-          })
-          return filtered;
-        }
+    filmPlural() {
+      if (this.activeFilmsNum === 1) {
+        return "film"
+      } else return "films"
+    },
+    placeholderText() {
+      if (this.searchLocation === "Military Remarks") {
+        return "recruitment, concerns, typical..."
+      } else if (this.searchLocation === "Titles") {
+        return "top gun, goldeneye, godzilla..."
+      } else if (this.searchLocation === "Plots") {
+        return "vietnam, civil war, ufo..."
+      } else if (this.searchLocation === "Directors") {
+        return "jerry bruckheimer, steven spielberg..."
+      } else if (this.searchLocation === "Actors") {
+        return "tom cruise, tom hanks..."
+      } else {
+        return "search"
       }
-    }
+    },
+    searchCategory() {
+      if (this.searchLocation === "Titles") {
+        return "TitleClean"
+      } else if (this.searchLocation === "Plots") {
+        return "PlotShort"
+      } else if (this.searchLocation === "Directors") {
+        return "Director"
+      } else if (this.searchLocation === "Military Remarks") {
+        return "Remarks"
+      } else return this.searchLocation;
+    },
   },
   methods: {
     navbarClick(step) {
@@ -562,10 +569,11 @@ export default {
     },
     getFilmsList(filterName, field) {
       const filteredData = d3.filter(this.rawData, (d) => {
-        if (d[`${field}`] === null || d.TitleClass === null) {
+        if (d[`${field}`] === null || d.TitleClass === null || d.Year === null) {
           return;
         } else {
-          return d[`${field}`].includes(filterName);
+          const cleanField = d[`${field}`].toUpperCase();
+          return cleanField.includes(filterName.toUpperCase());
         }
       })
       this.getStatusPercent(filteredData);
@@ -576,6 +584,15 @@ export default {
       if (this.clicked === true) {
         return;
       } else {
+
+        d3.select('.filmsNum')
+          .style('opacity', 0.5)
+          .transition()
+          .duration(200)
+          .style('opacity', 1)
+        
+        this.activeFilmsNum = arr.length;
+
         // Transition the size of the bar
         d3.select('.approved-bar')
           .style("width", `${this.defaultPercent.approved}%`)
@@ -602,6 +619,7 @@ export default {
           .transition()
           .duration(200)
           .style("opacity", "0.1");
+
         arr.map((className) => {
           d3.selectAll(`.${className}`)
             .transition()
@@ -614,6 +632,17 @@ export default {
       if (this.clicked === true) {
         return;
       } else if (this.clicked === false) {
+        // Update the number of films
+        d3.select('.filmsNum')
+          .style('opacity', 1)
+          .transition()
+          .duration(200)
+          .style('opacity', 0.5)
+        const filmsWithYears = this.rawData.filter((d) => {
+            return (d.Year != null && d.Status != null);
+          })
+        this.activeFilmsNum = filmsWithYears.length;
+
         // Transition the size of the bar
         d3.select('.approved-bar')
           .transition()
@@ -752,7 +781,7 @@ export default {
   margin: 0px auto;
   background-color: var(--bg-color);
   display: grid;
-  grid-template-columns: repeat(10, 1fr);
+  grid-template-columns: repeat(9, 1fr);
   width: 50%;
   position: sticky;
   top: 0px;
@@ -859,6 +888,14 @@ export default {
   text-align: center;
   font-family: var(--card-font);
   color: gray;
+}
+
+.filmsNum {
+  position: absolute;
+  left: 45%;
+  top: 5%;
+  font-weight: 500;
+  opacity: 0.5;
 }
 
 
@@ -1041,33 +1078,50 @@ export default {
 }
 
 /* SEARCH SECTION */
-.search-wrapper {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  margin: 0px 100px;
-}
-
-.search-card {
-  line-height: 12px;
-  margin: 10px;
-}
-
-.searchInput {
-  padding: 10px 18px;
-  margin: 15px;
-  font-family: var(--body-font);
-  font-size: 18px;
-  font-weight: 500;
-  width: 100%;
-  border-radius: 20px;
-  border: none;
+.search-bar {
+  display: float;
 }
 
 .search-location {
+  font-family: var(--card-font);
+  font-size: var(--body-size);
   padding: 5px 10px;
-  font-family: var(--body-font);
-  font-size: 18px;
+  margin: 0px 5px 5px;
+  border: none;
+  border-radius: 10px;
   font-weight: 500;
+  width: fit-content;
+}
+
+.search-input {
+  font-family: var(--card-font);
+  font-size: var(--body-size);
+  padding: 5px 10px;
+  margin: 0px 5px 15px;
+  border-radius: 10px;
+  border: none;
+  font-weight: 500;
+  width: 50%;
+}
+
+.search-bar-instructions {
+  font-size: 12px;
+  color: gray;
+  font-family: var(--card-font);
+  font-weight: 500;
+  line-height: 22px;
+}
+
+.button-group {
+  margin: 30px 0px;
+}
+
+/* CREDITS */
+.end-header {
+  font-family: var(--card-font);
+  font-size: 16px;
+  color: var(--denied);
+  font-weight: 900;
 }
 
 /* MEDIA BREAKPOINTS */
@@ -1088,15 +1142,5 @@ export default {
     padding: 2% 0% 0%;
   }
 
-  /* .group-wrapper {
-    width: 90%;
-    height: 100%;
-    display: flex;
-    flex-direction: row;
-    align-items: flex-end;
-    margin: auto 10px;
-    overflow-y: auto;
-    padding: 15px;
-  } */
 }
 </style>

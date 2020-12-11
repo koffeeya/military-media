@@ -144,8 +144,7 @@ export default {
 }
 
 .film-gif {
-  width: 9%;
-  min-width: 150px;
+  width: 125px;
   filter: grayscale(100%);
   margin: 2% 0%;
   border-radius: 10px;
