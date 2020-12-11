@@ -295,6 +295,7 @@ export default {
 
 img {
   max-height: 300px;
+  max-width: 100px;
   margin: 0px 20px 10px 0px;
   border: 0.5px solid grey;
 }

@@ -58,6 +58,9 @@
                 work? What kinds of movies get military support? And what can we
                 learn from films that do — or don’t — make the cut?
               </h3>
+              <div>
+                But first, more about the data.
+              </div>
             </div>
           </div>
 
@@ -81,36 +84,36 @@
               Department of Defense
               <button
                 class="text1-btn1 waffle-btn waffle-approved-btn"
-                @click="onButtonClick(filmsWithStatus('APPROVED'))"
-                @mouseover="highlightFilms(filmsWithStatus('APPROVED'))"
-                @mouseout="highlightFilmsReset(filmsWithStatus('APPROVED'))"
+                @click="onButtonClick(getFilmsList('APPROVED', 'Status'))"
+                @mouseover="highlightFilms(getFilmsList('APPROVED', 'Status'))"
+                @mouseout="highlightFilmsReset(getFilmsList('APPROVED', 'Status'))"
               >
                 APPROVED
               </button>
               the production’s request for assistance, approved
               <button
                 class="text1-btn2 waffle-btn waffle-limited-btn"
-                @click="onButtonClick(filmsWithStatus('LIMITED'))"
-                @mouseover="highlightFilms(filmsWithStatus('LIMITED'))"
-                @mouseout="highlightFilmsReset(filmsWithStatus('LIMITED'))"
+                @click="onButtonClick(getFilmsList('LIMITED', 'Status'))"
+                @mouseover="highlightFilms(getFilmsList('LIMITED', 'Status'))"
+                @mouseout="highlightFilmsReset(getFilmsList('LIMITED', 'Status'))"
               >
                 LIMITED
               </button>
               assistance,
               <button
                 class="text1-btn3 waffle-btn waffle-denied-btn"
-                @click="onButtonClick(filmsWithStatus('DENIED'))"
-                @mouseover="highlightFilms(filmsWithStatus('DENIED'))"
-                @mouseout="highlightFilmsReset(filmsWithStatus('DENIED'))"
+                @click="onButtonClick(getFilmsList('DENIED', 'Status'))"
+                @mouseover="highlightFilms(getFilmsList('DENIED', 'Status'))"
+                @mouseout="highlightFilmsReset(getFilmsList('DENIED', 'Status'))"
               >
                 DENIED
               </button>
               assistance, or
               <button
                 class="text1-btn4 waffle-btn waffle-other-btn"
-                @click="onButtonClick(filmsWithStatus('OTHER'))"
-                @mouseover="highlightFilms(filmsWithStatus('OTHER'))"
-                @mouseout="highlightFilmsReset(filmsWithStatus('OTHER'))"
+                @click="onButtonClick(getFilmsList('OTHER', 'Status'))"
+                @mouseover="highlightFilms(getFilmsList('OTHER', 'Status'))"
+                @mouseout="highlightFilmsReset(getFilmsList('OTHER', 'Status'))"
               >
                 OTHER
               </button>
@@ -131,15 +134,15 @@
             </div>
           </div>
 
-          <!-- SECTION 5 -->
+          <!-- SECTION 5 starspangledbannerapproved -->
           <div class="waffle-text text5 hide">
             <div class="text-section">
               Take
-              <button
+              <button 
                 class="text1-btn1 waffle-btn waffle-approved-btn"
-                @click="onButtonClick(['starspangledbannerapproved'])"
-                @mouseover="highlightFilms(['starspangledbannerapproved'])"
-                @mouseout="highlightFilmsReset(['starspangledbannerapproved'])"
+                @click="onButtonClick(getFilmsList('starspangledbannerapproved', 'TitleClass'))"
+                @mouseover="highlightFilms(getFilmsList('starspangledbannerapproved', 'TitleClass'))"
+                @mouseout="highlightFilmsReset(getFilmsList('starspangledbannerapproved', 'TitleClass'))"
               >
                 THE STAR-SPANGLED BANNER</button
               >, a 1917 silent (but highly patriotic) film from Thomas Edison's
@@ -160,15 +163,15 @@
             </div>
           </div>
 
-          <!-- SECTION 6 -->
+          <!-- SECTION 6 topgunapproved-->
           <div class="waffle-text text6 hide">
             <div class="text-section">
               Seventy years later, the 1986 film
               <button
                 class="text1-btn1 waffle-btn waffle-approved-btn"
-                @click="onButtonClick(['topgunapproved'])"
-                @mouseover="highlightFilms(['topgunapproved'])"
-                @mouseout="highlightFilmsReset(['topgunapproved'])"
+                @click="onButtonClick(getFilmsList('topgunapproved', 'TitleClass'))"
+                @mouseover="highlightFilms(getFilmsList('topgunapproved', 'TitleClass'))"
+                @mouseout="highlightFilmsReset(getFilmsList('topgunapproved', 'TitleClass'))"
               >
                 TOP GUN
               </button>
@@ -191,9 +194,9 @@
               war films. In the DoD’s own remarks,
               <button
                 class="text1-btn1 waffle-btn waffle-approved-btn"
-                @click="onButtonClick(['topgunapproved'])"
-                @mouseover="highlightFilms(['topgunapproved'])"
-                @mouseout="highlightFilmsReset(['topgunapproved'])"
+                @click="onButtonClick(getFilmsList('topgunapproved', 'TitleClass'))"
+                @mouseover="highlightFilms(getFilmsList('topgunapproved', 'TitleClass'))"
+                @mouseout="highlightFilmsReset(getFilmsList('topgunapproved', 'TitleClass'))"
               >
                 TOP GUN
               </button>
@@ -210,9 +213,9 @@
             <div class="center">
               <div class='text-section'>
                 <button class='genre-btn waffle-btn waffle-approved-btn' v-for="genre in genreOptions" :key="genre"
-                  @click="onButtonClick(filmsWithGenre(`${genre}`))"
-                  @mouseover="highlightFilms(filmsWithGenre(`${genre}`))"
-                  @mouseout="highlightFilmsReset(filmsWithGenre(`${genre}`))"
+                  @click="onButtonClick(getFilmsList(`${genre}`, 'Genre'))"
+                  @mouseover="highlightFilms(getFilmsList(`${genre}`, 'Genre'))"
+                  @mouseout="highlightFilmsReset(getFilmsList(`${genre}`, 'Genre'))"
                 >{{ genre }}</button>
               </div>
             </div>
@@ -220,15 +223,33 @@
 
           <!-- SECTION 8 -->
           <div class="waffle-text text8 hide">
+              Search &nbsp;
+              <select class='search-location' v-model="searchLocation" placeholder='Remarks'>
+                <option>Remarks</option>
+                <option>Titles</option>
+              </select>
+              &nbsp;
+              for
+              <input class='searchInput' v-model='searchTerm' placeholder='Term'>
+          </div>
+
+          <!-- SECTION 9 -->
+          <div class="waffle-text text9 hide">
             <div class="text-section"></div>
           </div>
+
+          <!-- SECTION 10 -->
+          <div class="waffle-text text10 hide">
+            <div class="text-section"></div>
+          </div>
+
         </div>
       </div>
 
       <!-- CONTENT AREA -->
       <div class="row2">
         <!-- Waffle Chart -->
-        <div v-if="activeText > 2 && activeText != 4" class="group-wrapper" id='waffle-chart'>
+        <div v-if="activeText > 2 && activeText != 4 && activeText != 8 && activeText != textLength" class="group-wrapper" id='waffle-chart'>
           <!-- Waffle Items -->
             <div v-for="movie in filmsByYear" :key="movie">
               <WaffleItem
@@ -259,11 +280,11 @@
         </div>
         </div>
         <!-- Chart Label -->
-        <div v-if="activeText > 2 && activeText != 4" class="waffle-axis-title">
+        <div v-if="activeText > 2 && activeText != 4 && activeText != 8 && activeText != textLength" class="waffle-axis-title">
           FILMS IN THE DATABASE BY RELEASE YEAR
         </div>
         <!-- Bar Chart -->
-        <div v-if="activeText > 2 && activeText != 4 && activeText && 5 && activeText && 6" class='status-bar-chart'>
+        <div v-if="activeText > 2 && activeText != 4 && activeText != 8 && 5 && activeText && 6 && activeText != textLength" class='status-bar-chart'>
           <div class='status-bar-item approved-bar' :style="{width:`${defaultPercent.approved}%`}">{{percent.approved}}%</div>
           <div class='status-bar-item denied-bar' :style="{width:`${defaultPercent.denied}%`}">{{percent.denied}}%</div>
           <div class='status-bar-item limited-bar' :style="{width:`${defaultPercent.limited}%`}">{{percent.limited}}%</div>
@@ -278,6 +299,27 @@
           </button>
         </div>
 
+        <!-- Browse Films -->
+        <div v-if="activeText === 8" class='search-wrapper'>
+              <MovieCardChart :class="[`${movie.TitleClass}-search`, 'search-card']" v-for="movie in filteredFilms"
+                :key="movie.TitleClean + movie.Year + search"
+                :Title="movie.TitleClean"
+                :TitleClass="movie.TitleClass"
+                :Remarks="movie.Remarks"
+                :Year="movie.Year"
+                :FilmReleased="movie.FilmReleased"
+                :Genre="movie.Genre"
+                :ratingImdb="movie.ratingImdb"
+                :imdbVotes="movie.imdbVotes"
+                :Status="movie.Status"
+                :Poster="movie.Poster"
+                :Plot="movie.PlotShort"
+                :Awards="movie.Awards"
+                :Actors="movie.Actors"
+                :Director="movie.Director">
+              </MovieCardChart>
+            </div>
+
       </div>
     </div>
   </div>
@@ -288,6 +330,7 @@ import * as d3 from "d3";
 import WaffleItem from "../components/WaffleItem.vue";
 import AppTitle from "./AppTitle.vue";
 import GenreButton from "../components/GenreButton.vue";
+import MovieCardChart from "../components/MovieCardChart.vue"
 
 export default {
   name: "WaffleChart",
@@ -295,10 +338,12 @@ export default {
   data() {
     return {
       activeText: 1,
-      textLength: 8,
+      textLength: 10,
       clicked: false,
       previouslyClicked: null,
       genreData: null,
+      searchTerm: "ufo",
+      searchLocation: "Remarks",
       defaultPercent: {
         approved: 59,
         denied: 18,
@@ -366,6 +411,18 @@ export default {
           icon: "icon8",
           title: "",
         },
+        {
+          step: 9,
+          section: "text8",
+          icon: "icon9",
+          title: "",
+        },
+        {
+          step: 10,
+          section: "text8",
+          icon: "icon10",
+          title: "",
+        },
       ],
     };
   },
@@ -381,6 +438,32 @@ export default {
       });
       return remaining;
     },
+    filteredFilms() {
+      if (this.searchTerm === null) {
+        return this.rawData;
+      } else if (this.searchTerm != null) {
+        let term = new RegExp(this.searchTerm, 'i');
+        if (this.searchLocation === "Remarks") {
+          const filtered = this.rawData.filter((d) => {
+            if (d["Remarks"] != null) {
+              return d["Remarks"].match(term);
+            } else {
+              return;
+            }
+          })
+          return filtered;
+        } else if (this.searchLocation === "Titles") {
+          const filtered = this.rawData.filter((d) => {
+            if (d["Title"] != null) {
+              return d["Title"].match(term);
+            } else {
+              return;
+            }
+          })
+          return filtered;
+        }
+      }
+    }
   },
   methods: {
     navbarClick(step) {
@@ -477,30 +560,17 @@ export default {
       const sum = this.percent.approved + this.percent.denied + this.percent.limited
       this.percent.other = 100 - sum;
     },
-    filmsWithStatus(statusName) {
+    getFilmsList(filterName, field) {
       const filteredData = d3.filter(this.rawData, (d) => {
-        if (d.Status === null || d.TitleClass === null) {
+        if (d[`${field}`] === null || d.TitleClass === null) {
           return;
         } else {
-          return d.Status === statusName;
+          return d[`${field}`].includes(filterName);
         }
       })
       this.getStatusPercent(filteredData);
-      const statusArray = this.getColByName(filteredData, "TitleClass");
-      return statusArray;
-    },
-    filmsWithGenre(genreName) {
-      const filteredData = d3.filter(this.rawData, (d) => {
-        if (d.Genre === null || d.TitleClass === null) {
-          return;
-        } else {
-          return d.Genre.includes(genreName);
-        }
-      })
-      this.getStatusPercent(filteredData);
-      const genreArray = this.getColByName(filteredData, "TitleClass");
-      this.genreData = filteredData;
-      return genreArray;
+      const filmArr = this.getColByName(filteredData, "TitleClass");
+      return filmArr;
     },
     highlightFilms(arr) {
       if (this.clicked === true) {
@@ -527,7 +597,6 @@ export default {
           .transition()
           .duration(200)
           .style("width", `${this.percent.other}%`);
-
         // Highlight the right films
         d3.selectAll(".waffle-item")
           .transition()
@@ -545,33 +614,31 @@ export default {
       if (this.clicked === true) {
         return;
       } else if (this.clicked === false) {
+        // Transition the size of the bar
         d3.select('.approved-bar')
           .transition()
           .duration(200)
           .style("width", `${this.defaultPercent.approved}%`)
-
         d3.select('.denied-bar')
           .transition()
           .duration(200)
           .style("width", `${this.defaultPercent.denied}%`);
-
         d3.select('.limited-bar')
           .transition()
           .duration(200)
           .style("width", `${this.defaultPercent.limited}%`);
-        
         d3.select('.other-bar')
           .transition()
           .duration(200)
           .style("width", `${this.defaultPercent.other}%`);
-
+        // Reset the percentages
         this.percent = {
           approved: this.defaultPercent.approved,
           denied: this.defaultPercent.denied,
           limited: this.defaultPercent.limited,
           other: this.defaultPercent.other,
         }
-
+        // Reset the waffle highlights
         d3.selectAll(".waffle-item")
           .transition()
           .duration(200)
@@ -585,18 +652,6 @@ export default {
         col.push(value);
       }
       return col;
-    },
-    topGunMouseover() {
-      d3.select("#topGunHighlight")
-        .transition()
-        .duration(200)
-        .style("color", "var(--approved)");
-    },
-    topGunMouseout() {
-      d3.select("#topGunHighlight")
-        .transition()
-        .duration(200)
-        .style("color", "");
     },
     previousText() {
       this.clicked = false;
@@ -656,7 +711,8 @@ export default {
   components: {
     WaffleItem,
     AppTitle,
-    GenreButton
+    GenreButton,
+    MovieCardChart
   },
 };
 </script>
@@ -696,13 +752,17 @@ export default {
   margin: 0px auto;
   background-color: var(--bg-color);
   display: grid;
-  grid-template-columns: repeat(8, 1fr);
-  width: 45%;
+  grid-template-columns: repeat(10, 1fr);
+  width: 50%;
+  position: sticky;
+  top: 0px;
+  padding: 10px 0px;
+  border-bottom: 2px solid var(--accent);
 }
 
 .progress-icon {
   height: 10px;
-  margin: -5px;
+  margin: 0px;
   border-left: 1px solid var(--bg-color);
   border-right: 1px solid var(--bg-color);
   font-size: 15px;
@@ -755,7 +815,7 @@ export default {
 }
 
 .next-section-btn {
-  margin: 0px 0px 20px 0px;
+  margin: 0px 0px 10px 0px;
   padding: 5px 5px 0px;
   min-width: 80px;
   font-size: 12px;
@@ -785,7 +845,7 @@ export default {
 }
 
 .text-emphasis {
-  margin: 0px;
+  margin: 0px 0px 20px;
   padding: 10px 20px;
   background-color: var(--accent);
   font-family: var(--card-font);
@@ -980,14 +1040,39 @@ export default {
   opacity: 1;
 }
 
+/* SEARCH SECTION */
+.search-wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  margin: 0px auto;
+}
+
+.search-card {
+  line-height: 12px;
+  margin: 10px;
+}
+
+.searchInput {
+  padding: 10px 18px;
+  margin: 15px;
+  font-family: var(--body-font);
+  font-size: 18px;
+  font-weight: 500;
+  width: 100%;
+  border-radius: 20px;
+  border: none;
+}
+
+.search-location {
+  padding: 5px 10px;
+  font-family: var(--body-font);
+  font-size: 18px;
+  font-weight: 500;
+}
 
 /* MEDIA BREAKPOINTS */
 
 @media only screen and (max-width: 600px) {
-
-  .waffle-movie-card {
-    width: 80%;
-  }
 
   .next-section-btn {
     min-width: 60px;
