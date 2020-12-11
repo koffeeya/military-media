@@ -1044,7 +1044,7 @@ export default {
 .search-wrapper {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  margin: 0px auto;
+  margin: 0px 100px;
 }
 
 .search-card {
