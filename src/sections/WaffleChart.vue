@@ -921,7 +921,7 @@ export default {
 .next-section-btn {
   margin: 0px 0px 10px 0px;
   padding: 5px 5px 0px;
-  min-width: 80px;
+  width: 80px;
   font-size: 12px;
   font-family: var(--title-font);
   color: gray;
@@ -1204,7 +1204,7 @@ export default {
 @media only screen and (max-width: 600px) {
 
   .next-section-btn {
-    min-width: 60px;
+    width: 60px;
   }
 
   .waffle-text {

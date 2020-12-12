@@ -137,7 +137,7 @@ export default {
   font-family: var(--title-font);
   font-size: var(--h2-size);
   color: white;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 900;
   padding: 5px 0px;
   line-height: 23px;
@@ -164,18 +164,18 @@ export default {
 .movie-label {
   font-size: 12px;
   font-family: var(--card-font);
-  margin: 15px 0px 2px 0px;
+  margin: 0px 0px 2px 0px;
 }
 
 .movie-remarks, .movie-plot {
-  font-size: 12px;
+  font-size: 10px;
   font-family: var(--card-font);
   text-align: left;
 }
 
 img {
   width: auto;
-  height: 150px;
+  height: 160px;
   margin: 0px 20px 10px 0px;
   border: 0.5px solid grey;
 }

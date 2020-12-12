@@ -218,4 +218,11 @@ a:hover {
     --body-size: 18px;
   }
 }
+
+@media only screen and (max-width: 1300px) {
+
+  :root {
+    --root-size: 10px;
+  }
+}
 </style>

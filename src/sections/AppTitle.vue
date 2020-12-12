@@ -136,7 +136,7 @@ export default {
 <style scoped>
 
 .gif-message {
-  width: 350px;
+  width: 450px;
   position: absolute;
   margin: 0;
   text-align: left;
@@ -247,6 +247,23 @@ export default {
     min-width: 75px;
   }
 
+}
+
+@media only screen and (max-width: 1300px) {
+  .app-title {
+    font-size: 75px;
+    line-height: 60px;
+    top: 25%;
+  }
+
+  .app-subtitle {
+    font-size: 25px;
+     max-width: 75%;
+  }
+
+  .film-gif {
+    min-width: 75px;
+  }
 }
 
 </style>
