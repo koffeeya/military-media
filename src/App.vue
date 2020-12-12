@@ -59,12 +59,7 @@ export default {
       const mergedGenres = [];
       allGenres.map((value) => {
         if (value != null) {
-          const replaced = value
-            .replace(",", "")
-            .replace(",", "")
-            .replace(",", "")
-            .replace(",", "")
-            .replace(",", "");
+          const replaced = value.replaceAll(",", "")
           const split = replaced.split(" ");
           mergedGenres.push(...split);
         }

@@ -225,7 +225,6 @@
           <div class="waffle-text text8 hide">          
               <div class='text-section'>
                 <div class='search-bar'>
-                  <div class='search-bar-instructions'>Press enter to search</div>
                   Search
                   <select class='search-location' v-model="searchLocation" placeholder='Remarks'>
                     <option>Military Remarks</option>
@@ -234,25 +233,23 @@
                     <option>Actors</option>
                     <option>Directors</option>
                   </select> for  
-                  <input class='search-input' v-model='searchTerm' :placeholder="placeholderText" @change="highlightFilms(getFilmsList(`${searchTerm}`, `${searchCategory}`))">
+                  <input class='search-input' v-model='searchTerm' :placeholder="placeholderText">
+                  <button class='search-btn waffle-btn waffle-approved-btn' @click="onButtonClick(getFilmsList(`${searchTerm}`, `${searchCategory}`))">Search</button>
+                  <button class='clear-btn waffle-btn waffle-neutral-btn' @click="resetAll">Clear Highlight</button>
                 </div>
                 
                 <!-- WARS -->
                 <div class='button-group'>
-                  <div class='search-bar-instructions'>Highlight films released during major wars</div>
-                  <button :class='[`${currentWar}-btn`]' class='war-btn waffle-btn waffle-neutral-btn' v-for="currentWar in warOptions" :key="currentWar"
+                  <div class='search-bar-instructions'>HIGHLIGHT FILMS RELEASED DURING MAJOR WARS, OR AN INTRAWAR PERIOD</div>
+                  <button :class='[`${currentWar.toString().replaceAll(" ", "").replace("1", "One").replace("2", "Two")}-btn`]' class='war-btn waffle-btn waffle-neutral-btn' v-for="currentWar in warOptions" :key="currentWar"
                   @click="onButtonClick(getFilmsList(`${currentWar}`, 'CurrentWar'))"
-                  @mouseover="highlightFilms(getFilmsList(`${currentWar}`, 'CurrentWar'))"
-                  @mouseout="highlightFilmsReset(getFilmsList(`${currentWar}`, 'CurrentWar'))"
                   >{{ currentWar }}</button>
                 </div>
                 <!-- GENRES -->
                 <div class='button-group'>
-                  <div class='search-bar-instructions'>Highlight films by genre</div>
+                  <div class='search-bar-instructions'>HIGHLIGHT FILMS BY GENRE</div>
                   <button :class='[`${genre}-btn`]' class='genre-btn waffle-btn waffle-neutral-btn' v-for="genre in genreOptions" :key="genre"
                   @click="onButtonClick(getFilmsList(`${genre}`, 'Genre'))"
-                  @mouseover="highlightFilms(getFilmsList(`${genre}`, 'Genre'))"
-                  @mouseout="highlightFilmsReset(getFilmsList(`${genre}`, 'Genre'))"
                   >{{ genre }}</button>
                 </div>
               </div>
@@ -447,15 +444,15 @@ export default {
     },
     placeholderText() {
       if (this.searchLocation === "Military Remarks") {
-        return "recruitment, concerns, typical..."
+        return "negative, unrealistic, image..."
       } else if (this.searchLocation === "Titles") {
-        return "top gun, goldeneye, godzilla..."
+        return "transformers, francis, king kong..."
       } else if (this.searchLocation === "Plots") {
         return "vietnam, civil war, ufo..."
       } else if (this.searchLocation === "Directors") {
-        return "jerry bruckheimer, steven spielberg..."
+        return "michael bay, steven spielberg..."
       } else if (this.searchLocation === "Actors") {
-        return "tom cruise, tom hanks..."
+        return "john wayne, tom hanks..."
       } else {
         return "search"
       }
@@ -528,6 +525,13 @@ export default {
         this.highlightFilmsReset(arr);
       } else {
         this.clicked = true;
+        d3.select('.filmsNum')
+          .style('opacity', 0.5)
+          .transition()
+          .duration(200)
+          .style('opacity', 1)
+        this.activeFilmsNum = arr.length;
+
         d3.select(`.${thisBtn}`).style("border", "2px solid white");
         d3.selectAll(".waffle-item")
           .transition()
@@ -537,6 +541,29 @@ export default {
           .transition()
           .duration(200)
           .style("opacity", "0.1");
+
+        // Transition the size of the bar
+        d3.select('.approved-bar')
+          .style("width", `${this.defaultPercent.approved}%`)
+          .transition()
+          .duration(200)
+          .style("width", `${this.percent.approved}%`)
+        d3.select('.denied-bar')
+          .style("width", `${this.defaultPercent.denied}%`)
+          .transition()
+          .duration(200)
+          .style("width", `${this.percent.denied}%`);
+        d3.select('.limited-bar')
+          .style("width", `${this.defaultPercent.limited}%`)
+          .transition()
+          .duration(200)
+          .style("width", `${this.percent.limited}%`);
+        d3.select('.other-bar')
+          .style("width", `${this.defaultPercent.other}%`)
+          .transition()
+          .duration(200)
+          .style("width", `${this.percent.other}%`);
+
         arr.map((className) => {
           d3.selectAll(`.${className}`)
             .transition()
@@ -584,7 +611,6 @@ export default {
       if (this.clicked === true) {
         return;
       } else {
-
         d3.select('.filmsNum')
           .style('opacity', 0.5)
           .transition()
@@ -628,10 +654,59 @@ export default {
         });
       }
     },
+    resetAll() {
+      this.clicked = false;
+      this.previouslyClicked = null;
+      this.searchTerm = "";
+      d3.selectAll(`.waffle-btn`).style("border", "");
+        // Update the number of films
+        d3.select('.filmsNum')
+          .style('opacity', 1)
+          .transition()
+          .duration(200)
+          .style('opacity', 0.5)
+        const filmsWithYears = this.rawData.filter((d) => {
+            return (d.Year != null && d.Status != null);
+          })
+        this.activeFilmsNum = filmsWithYears.length;
+
+        // Transition the size of the bar
+        d3.select('.approved-bar')
+          .transition()
+          .duration(200)
+          .style("width", `${this.defaultPercent.approved}%`)
+        d3.select('.denied-bar')
+          .transition()
+          .duration(200)
+          .style("width", `${this.defaultPercent.denied}%`);
+        d3.select('.limited-bar')
+          .transition()
+          .duration(200)
+          .style("width", `${this.defaultPercent.limited}%`);
+        d3.select('.other-bar')
+          .transition()
+          .duration(200)
+          .style("width", `${this.defaultPercent.other}%`);
+        // Reset the percentages
+        this.percent = {
+          approved: this.defaultPercent.approved,
+          denied: this.defaultPercent.denied,
+          limited: this.defaultPercent.limited,
+          other: this.defaultPercent.other,
+        }
+        // Reset the waffle highlights
+        d3.selectAll(".waffle-item")
+          .transition()
+          .duration(200)
+          .style("opacity", "1");
+    
+    },
     highlightFilmsReset(arr) {
       if (this.clicked === true) {
+        this.searchTerm = "";
         return;
       } else if (this.clicked === false) {
+        this.searchTerm = "";
         // Update the number of films
         d3.select('.filmsNum')
           .style('opacity', 1)
@@ -1084,7 +1159,7 @@ export default {
 
 .search-location {
   font-family: var(--card-font);
-  font-size: var(--body-size);
+  font-size: 18px;
   padding: 5px 10px;
   margin: 0px 5px 5px;
   border: none;
@@ -1095,13 +1170,13 @@ export default {
 
 .search-input {
   font-family: var(--card-font);
-  font-size: var(--body-size);
+  font-size: 18px;
   padding: 5px 10px;
   margin: 0px 5px 15px;
   border-radius: 10px;
   border: none;
   font-weight: 500;
-  width: 50%;
+  width: 40%;
 }
 
 .search-bar-instructions {
