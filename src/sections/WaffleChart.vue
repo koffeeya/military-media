@@ -23,44 +23,31 @@
           <!-- SECTION 2 -->
           <div class="waffle-text text2 hide">
             <div class="text-section">
-              The United States military and Hollywood have been actively
-              collaborating since American cinema began over 100 years ago. The
-              relationship between the two industries is known as the
+              Any production company making a military-themed movie today can reach out to the U.S. Department of Defense (DoD) and <b style='font-family: var(--card-font); color: var(--denied);'>request access</b> to hard-to-get resources: weapons, planes, filming locations, advisors, and more.
+              <br>
+              <br>
+              In exchange, the DoD sets <b style='font-family: var(--card-font); color: var(--denied);'>conditions for acceptance</b> — that can even include changing aspects of the film's script — to present the armed forces, its personnel, and the country itself in a better light.
+              <br>
+              <br>
+              This project explores the
               <a
                 href="https://en.wikipedia.org/wiki/Military-entertainment_complex"
                 target="_blank"
                 rel="noopener noreferrer"
-                >military-entertainment complex.</a
-              >
-              <br />
-              <br />
-              This project takes a close look at a database of
+                >military-entertainment complex</a
+              > through a database of
               <a
                 href="https://docs.google.com/spreadsheets/d/1HwdmpiSpNXfoNoI_5ndwdQi3Z3lCXU8VthPYelr6ZqA/edit?usp=sharing"
                 target="_blank"
                 rel="noopener noreferrer"
                 >500+ film productions</a
               >
-              that requested assistance from the U.S. Department of Defense
-              (DoD) in the last century. The database was acquired in a
-              <a
-                href="https://www.spyculture.com/dod-hollywood-collaboration-database-excerpts/"
-                target="_blank"
-                rel="noopener noreferrer"
-                >2017 FOIA request</a
-              >
-              by the journalist Tom Secker, and for the first time it is
-              transcribed and merged with information from IMDb.
+              that have requested assistance from the DoD in the last 100 years.
               <br />
               <br />
-              <h3 class="text-emphasis">
-                How does the relationship between the military and Hollywood
-                work? What kinds of movies get military support? And what can we
-                learn from films that do — or don’t — make the cut?
-              </h3>
-              <div>
-                But first, more about the data.
-              </div>
+              <p class="text-emphasis">
+                What can the database tell us about why Hollywood and the military collaborate? What kinds of movies that get DoD support? And ultimately, how the military wants to be perceived in the minds of the public?
+              </p>
             </div>
           </div>
 
@@ -200,30 +187,19 @@
               >
                 TOP GUN
               </button>
-              went beyond recruiting to complete the “rehabilitation of the
-              military’s image, which had been savaged by the Vietnam War.”
+              went beyond recruiting to complete the "rehabilitation of the
+              military’s image, which had been savaged by the Vietnam War."
             </div>
             <div class="center">
             </div>
           </div>
 
           <!-- SECTION 7 -->
-          <div class="waffle-text text7 hide">
-            <div class="text-section">
-              Examining the data reveals that while the relationship between Hollywood and the military is mutual, it is not entirely equal.
-              <br>
-              <br>
-              Hollywood producers submit a request to the military for resources that would normally be out of reach, like shooting locations, equipment, stock footage, and expert advice. In exchange — and often as a prerequisite to approval — the DoD can <b>demand changes to the film’s script</b> that effectively guarantee positive advertising.
-              <br>
-              <br>
-              What kinds of films get approved or denied? Explore the data to learn more.
-            </div>
-
-          </div>
-
-          <!-- SECTION 8 -->
-          <div class="waffle-text text8 hide">          
+          <div class="waffle-text text7 hide">          
               <div class='text-section'>
+                We see that while the relationship between Hollywood and the military is mutual, it is not entirely equal. What kinds of films end up getting approved or denied support from the DoD? Explore the data to learn more.
+                <br>
+                <br>
                 <div class='search-bar'>
                   Search
                   <select class='search-location' v-model="searchLocation" placeholder='Remarks'>
@@ -240,14 +216,14 @@
                 
                 <!-- WARS -->
                 <div class='button-group'>
-                  <div class='search-bar-instructions'>HIGHLIGHT FILMS RELEASED DURING MAJOR WARS, OR AN INTRAWAR PERIOD</div>
+                  <div class='search-bar-instructions'>CLICK TO HIGHLIGHT FILMS RELEASED DURING MAJOR WARS, OR AN INTRAWAR PERIOD</div>
                   <button :class='[`${currentWar.toString().replaceAll(" ", "").replace("1", "One").replace("2", "Two")}-btn`]' class='war-btn waffle-btn waffle-neutral-btn' v-for="currentWar in warOptions" :key="currentWar"
                   @click="onButtonClick(getFilmsList(`${currentWar}`, 'CurrentWar'))"
                   >{{ currentWar }}</button>
                 </div>
                 <!-- GENRES -->
                 <div class='button-group'>
-                  <div class='search-bar-instructions'>HIGHLIGHT FILMS BY GENRE</div>
+                  <div class='search-bar-instructions'>CLICK TO HIGHLIGHT FILMS BY GENRE</div>
                   <button :class='[`${genre}-btn`]' class='genre-btn waffle-btn waffle-neutral-btn' v-for="genre in genreOptions" :key="genre"
                   @click="onButtonClick(getFilmsList(`${genre}`, 'Genre'))"
                   >{{ genre }}</button>
@@ -255,8 +231,8 @@
               </div>
           </div>
 
-          <!-- SECTION 9 -->
-          <div class="waffle-text text9 hide">
+          <!-- SECTION 8 -->
+          <div class="waffle-text text8 hide">
             <div class="text-section">
               <div class='end-header'>ABOUT THE DATA</div>
               The dataset for this project was originally downloaded as a <a href='https://drive.google.com/file/d/1NeDVYu_gvEhtdQVtSFPRIapHDxJx6842/view?usp=sharing' target="_blank" rel="noopener noreferrer">PDF file</a> from <a href='https://www.spyculture.com/' target="_blank" rel="noopener noreferrer">Spy Culture</a>, the website of the journalist Tom Secker, who acquired the file in a 2017 Freedom of Information request to the U.S. Pentagon.
@@ -269,7 +245,9 @@
               <br>
               <br>
               <div>
-                <a href='https://github.com/koffeeya/military-media' target="_blank" rel="noopener noreferrer">See the project on GitHub.</a>
+                <div class='end-header'>CONTACT ME</div>
+                <p>Made with ❤️ by Kavya Beheraj, as part of the <a href='https://www.gc.cuny.edu/Page-Elements/Academics-Research-Centers-Initiatives/Masters-Programs/Data-Analysis-and-Visualization' target="_blank" rel="noopener noreferrer">M.S. Data Analysis & Visualization</a> program at the CUNY Graduate Center.</p>
+                <p><a href='mailto:kavya.beheraj@gmail.com' target="_blank" rel="noopener noreferrer">Email</a> | <a href='https://www.linkedin.com/in/kavyabeheraj/' target="_blank" rel="noopener noreferrer">LinkedIn</a> | <a href='https://github.com/koffeeya' target="_blank" rel="noopener noreferrer">GitHub</a></p>
               </div>
             </div>
           </div>
@@ -281,7 +259,7 @@
       <div class="row2">
         <!-- Waffle Chart -->
         
-        <div v-if="activeText > 2 && activeText != 4 && activeText != 7 && activeText != textLength" class="group-wrapper" id='waffle-chart'>
+        <div v-if="activeText > 2 && activeText != textLength" class="group-wrapper" id='waffle-chart'>
           <div class='filmsNum ww1'>Showing {{ activeFilmsNum }} {{ filmPlural }}</div>
           <!-- Waffle Items -->
             <div v-for="movie in filmsByYear" :key="movie">
@@ -313,11 +291,11 @@
         </div>
         </div>
         <!-- Chart Label -->
-        <div v-if="activeText > 2 && activeText != 4 && activeText != 7 && activeText != textLength" class="waffle-axis-title">
+        <div v-if="activeText > 2 && activeText != textLength" class="waffle-axis-title">
           FILMS IN THE DATABASE BY RELEASE YEAR
         </div>
         <!-- Bar Chart -->
-        <div v-if="activeText > 2 && activeText != 4 && activeText != 7 && activeText != textLength" class='status-bar-chart'>
+        <div v-if="activeText > 2 && activeText != textLength" class='status-bar-chart'>
           <div class='status-bar-item approved-bar' :style="{width:`${defaultPercent.approved}%`}">{{percent.approved}}%</div>
           <div class='status-bar-item denied-bar' :style="{width:`${defaultPercent.denied}%`}">{{percent.denied}}%</div>
           <div class='status-bar-item limited-bar' :style="{width:`${defaultPercent.limited}%`}">{{percent.limited}}%</div>
@@ -350,7 +328,7 @@ export default {
   data() {
     return {
       activeText: 1,
-      textLength: 9,
+      textLength: 8,
       clicked: false,
       previouslyClicked: null,
       genreData: null,
@@ -444,15 +422,15 @@ export default {
     },
     placeholderText() {
       if (this.searchLocation === "Military Remarks") {
-        return "negative, unrealistic, image..."
+        return "negative, image..."
       } else if (this.searchLocation === "Titles") {
-        return "transformers, francis, king kong..."
+        return "king kong, francis..."
       } else if (this.searchLocation === "Plots") {
-        return "vietnam, civil war, ufo..."
+        return "vietnam, ufo..."
       } else if (this.searchLocation === "Directors") {
-        return "michael bay, steven spielberg..."
+        return "steven spielberg..."
       } else if (this.searchLocation === "Actors") {
-        return "john wayne, tom hanks..."
+        return "john wayne..."
       } else {
         return "search"
       }
@@ -856,7 +834,7 @@ export default {
   margin: 0px auto;
   background-color: var(--bg-color);
   display: grid;
-  grid-template-columns: repeat(9, 1fr);
+  grid-template-columns: repeat(8, 1fr);
   width: 50%;
   position: sticky;
   top: 0px;
@@ -949,9 +927,9 @@ export default {
 }
 
 .text-emphasis {
-  margin: 0px 0px 20px;
+  margin: 0px;
   padding: 10px 20px;
-  background-color: var(--accent);
+  background-color: rgb(32, 32, 32);
   font-family: var(--card-font);
   font-weight: 500;
   font-size: var(--body-font);
@@ -1159,24 +1137,23 @@ export default {
 
 .search-location {
   font-family: var(--card-font);
-  font-size: 18px;
   padding: 5px 10px;
   margin: 0px 5px 5px;
   border: none;
   border-radius: 10px;
   font-weight: 500;
   width: fit-content;
+
 }
 
 .search-input {
   font-family: var(--card-font);
-  font-size: 18px;
   padding: 5px 10px;
   margin: 0px 5px 15px;
   border-radius: 10px;
   border: none;
   font-weight: 500;
-  width: 40%;
+  width: 30%;
 }
 
 .search-bar-instructions {
