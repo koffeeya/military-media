@@ -9,6 +9,7 @@
         :carouselData="carouselData"
         :genreOptions="genreOptions"
         :warOptions="warOptions"
+        :imdbOptions="imdbOptions"
       ></WaffleChart>
     </div>
   </div>
@@ -27,6 +28,7 @@ export default {
       statusOptions: [],
       genreOptions: [],
       warOptions: [],
+      imdbOptions: [],
       carouselData: [],
       filmsByYear: {},
     };
@@ -39,7 +41,7 @@ export default {
           return el.Status != null && el.TitleForSorting != null;
         })
         .sort((a, b) => {
-          return a.TitleForSorting - b.TitleForSorting;
+          d3.descending(a.TitleForSorting - b.TitleForSorting);
         });
 
       // Status Options
@@ -53,6 +55,12 @@ export default {
         new Set(this.getColByName(this.movies, "CurrentWar"))
       );
       this.warOptions = warOptions.filter(d => d != null);
+
+      // IMDb Category Options
+      const imdbOptions = Array.from(
+        new Set(this.getColByName(this.movies, "ratingImdbCategory"))
+      );
+      this.imdbOptions = imdbOptions.filter(d => d != null).sort(d3.ascending);
 
       // Genres
       const allGenres = this.getColByName(this.movies, "Genre");

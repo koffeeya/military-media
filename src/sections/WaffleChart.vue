@@ -215,19 +215,35 @@
                 </div>
                 
                 <!-- WARS -->
-                <div class='button-group'>
-                  <div class='search-bar-instructions'>CLICK TO HIGHLIGHT FILMS RELEASED DURING MAJOR WARS, OR AN INTRAWAR PERIOD</div>
-                  <button :class='[`${currentWar.toString().replaceAll(" ", "").replace("1", "One").replace("2", "Two")}-btn`]' class='war-btn waffle-btn waffle-neutral-btn' v-for="currentWar in warOptions" :key="currentWar"
-                  @click="onButtonClick(getFilmsList(`${currentWar}`, 'CurrentWar'))"
-                  >{{ currentWar }}</button>
+                <div class='button-categories'>
+                  <div class='button-group'>
+                    <div class='search-bar-instructions'>CLICK TO HIGHLIGHT FILMS RELEASED DURING MAJOR WARS, OR AN INTRAWAR PERIOD</div>
+                    <button :class='[`${currentWar.toString().replaceAll(" ", "").replace("1", "One").replace("2", "Two")}-btn`]' class='war-btn waffle-btn waffle-neutral-btn' v-for="currentWar in warOptions" :key="currentWar"
+                    @click="onButtonClick(getFilmsList(`${currentWar}`, 'CurrentWar'))"
+                    >{{ currentWar }}</button>
+                  </div>
+                  <!-- GENRES -->
+                  <div class='button-group'>
+                    <div class='search-bar-instructions'>FILMS BY GENRE</div>
+                    <button :class='[`${genre}-btn`]' class='genre-btn waffle-btn waffle-neutral-btn' v-for="genre in genreOptions" :key="genre"
+                    @click="onButtonClick(getFilmsList(`${genre}`, 'Genre'))"
+                    >{{ genre }}</button>
+                  </div>
+                  <!-- WON AWARDS -->
+                  <div class='button-group'>
+                    <div class='search-bar-instructions'>AWARD-WINNING FILMS</div>
+                    <button :class='[`won-award-btn`]' class='award-btn waffle-btn waffle-neutral-btn' @click="onButtonClick(getFilmsList(`Won Award`, 'WonAward'))">Won Award</button>
+                    <button :class='[`no-award-btn`]' class='award-btn waffle-btn waffle-neutral-btn' @click="onButtonClick(getFilmsList(`No Award Given`, 'WonAward'))">No Award Given</button>
+                  </div>
+                  <!-- iMDB Rating -->
+                  <!-- <div class='button-group'>
+                    <div class='search-bar-instructions'>IMDB RATING (OUT OF 10)</div>
+                    <button :class='[`cat${imdbOption.toString().replaceAll(".", "").replaceAll(" ", "")}-btn`]' class='imdb-btn waffle-btn waffle-neutral-btn' v-for="imdbOption in imdbOptions" :key="imdbOption"
+                    @click="onButtonClick(getFilmsList(`${imdbOption}`, 'ratingImdbCategory'))"
+                    >{{ imdbOption }}</button>
+                  </div> -->
                 </div>
-                <!-- GENRES -->
-                <div class='button-group'>
-                  <div class='search-bar-instructions'>CLICK TO HIGHLIGHT FILMS BY GENRE</div>
-                  <button :class='[`${genre}-btn`]' class='genre-btn waffle-btn waffle-neutral-btn' v-for="genre in genreOptions" :key="genre"
-                  @click="onButtonClick(getFilmsList(`${genre}`, 'Genre'))"
-                  >{{ genre }}</button>
-                </div>
+                
               </div>
           </div>
 
@@ -324,7 +340,7 @@ import MovieCardChart from "../components/MovieCardChart.vue"
 
 export default {
   name: "WaffleChart",
-  props: ["filmsByYear", "rawData", "carouselData", "genreOptions", "warOptions"],
+  props: ["filmsByYear", "rawData", "carouselData", "genreOptions", "warOptions", "imdbOptions"],
   data() {
     return {
       activeText: 1,
@@ -1179,6 +1195,10 @@ export default {
 /* MEDIA BREAKPOINTS */
 
 @media only screen and (max-width: 600px) {
+
+  .button-group {
+    margin: 10px 0px;
+  }
 
   .next-section-btn {
     width: 60px;
