@@ -196,8 +196,10 @@ export default {
 
 .waffle-item {
   height: 12px;
-  border: 0.5px solid var(--bg-color);
-  margin: 0px 4px 0px -1px;
+  border-top: 2px solid var(--bg-color);
+  border-left: 2px solid var(--bg-color);
+  border-right: 2px solid var(--bg-color);
+  margin: 0px;
 }
 
 .waffle-item:hover {
@@ -226,16 +228,17 @@ export default {
   display: none;
 }
 
-@media only screen and (max-width: 600px) {
-  .waffle-movie-card {
-    width: 80%;
-  }
+@media only screen and (max-width: 900px) {
   
   .waffle-item {
     height: 10px;
-    min-width: 5px;
-    border: 0.5px solid var(--bg-color);
-    margin: 0px 4px 0px -1px;
+    border: 1px solid var(--bg-color);
+  }
+
+  .waffle-movie-card {
+    width: 100%;
+    top: -110%;
+    left: 0%;
   }
 }
 </style>

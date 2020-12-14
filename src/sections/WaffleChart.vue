@@ -482,22 +482,26 @@ export default {
       });
     },
     yearValueClass(year) {
+      const element = document.querySelector("#body-wrapper")
+      const elWidth = element.getBoundingClientRect().width;
       const mod = year % 10;
       const minYear = 1911;
       const maxYear = 2016;
       if (year === minYear || year === maxYear) {
         return "yearVisible";
-      } else if (mod === 0) {
+      } else if (elWidth > 600 && mod === 0) {
         return "yearVisible";
       } else return "yearInvisible";
     },
     yearValue(year) {
+      const element = document.querySelector("#body-wrapper")
+      const elWidth = element.getBoundingClientRect().width;
       const mod = year % 10;
       const minYear = 1911;
       const maxYear = 2016;
       if (year === minYear || year === maxYear) {
         return year;
-      } else if (mod === 0) {
+      } else if (elWidth > 600 && mod === 0) {
         return year;
       } else return ` _ _ `;
     },
@@ -1195,6 +1199,18 @@ export default {
 /* MEDIA BREAKPOINTS */
 
 @media only screen and (max-width: 600px) {
+
+  .group-wrapper {
+    width: 90%;
+  }
+
+  .status-bar-chart {
+    width: 90%;
+  }
+
+  .filmsNum {
+    left: 3vw;
+  }
 
   .button-group {
     margin: 10px 0px;

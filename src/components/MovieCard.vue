@@ -318,5 +318,25 @@ img {
   margin: 15px 3px;
 }
 
+@media only screen and (max-width: 600px) {
+  img {
+    max-height: 150px;
+    margin: 0px 20px 10px 0px;
+    border: 0.5px solid grey;
+  }
+
+  .movie-card {
+    padding: 10px;
+    margin: 10px;
+    max-height: 500px;
+    display: grid;
+    grid-template-columns: 1fr;
+    background-color: var(--accent);
+    color: var(--text);
+    border-radius: 5px;
+    overflow: auto;
+  }
+}
+
 
 </style>
