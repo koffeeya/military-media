@@ -23,30 +23,30 @@
           <!-- SECTION 2 -->
           <div class="waffle-text text2 hide">
             <div class="text-section">
-              Any production company making a military-themed movie today can reach out to the U.S. Department of Defense (DoD) and <b style='font-family: var(--card-font); color: var(--denied);'>request access</b> to hard-to-get resources: weapons, planes, filming locations, advisors, and more.
+              Hollywood and the U.S. Department of Defense (DoD) have been actively collaborating since the dawn of American cinema <b style='font-family: var(--card-font); color: var(--denied);'>over 100 years ago</b>. The nature of their relationship has remained pretty much unchanged in that time.
               <br>
               <br>
-              In exchange, the DoD sets <b style='font-family: var(--card-font); color: var(--denied);'>conditions for acceptance</b> — that can even include changing aspects of the film's script — to present the armed forces, its personnel, and the country itself in a better light.
+              <b style='font-family: var(--card-font); color: white;'>How does it work?</b> A film production company reaches out to the DoD with a <b style='font-family: var(--card-font); color: var(--denied);'>request for assistance</b> — usually access to resources like weapons, planes, or locations. In exchange, the DoD can set <b style='font-family: var(--card-font); color: var(--denied);'>conditions for acceptance</b> — such as changes to the film's script — that present the armed forces, its personnel, and the country itself in the best possible light.
               <br>
               <br>
-              This project explores the
+              This project explores their relationship, an example of the
               <a
                 href="https://en.wikipedia.org/wiki/Military-entertainment_complex"
                 target="_blank"
                 rel="noopener noreferrer"
                 >military-entertainment complex</a
-              > through a database of
+              >, through a database of
               <a
                 href="https://docs.google.com/spreadsheets/d/1HwdmpiSpNXfoNoI_5ndwdQi3Z3lCXU8VthPYelr6ZqA/edit?usp=sharing"
                 target="_blank"
                 rel="noopener noreferrer"
                 >500+ film productions</a
               >
-              that have requested assistance from the DoD in the last 100 years.
+              that have requested assistance from the DoD in the last century.
               <br />
-              <br />
+              <br>
               <p class="text-emphasis">
-                What can the database tell us about why Hollywood and the military collaborate? What kinds of movies that get DoD support? And ultimately, how the military wants to be perceived in the minds of the public?
+                Why do Hollywood and the military collaborate? What kinds of movies get DoD support? And ultimately, what does the data reveal about how the military wants to be perceived in the minds of the public?
               </p>
             </div>
           </div>
@@ -197,7 +197,7 @@
           <!-- SECTION 7 -->
           <div class="waffle-text text7 hide">          
               <div class='text-section'>
-                We see that while the relationship between Hollywood and the military is mutual, it is not entirely equal. What kinds of films end up getting approved or denied support from the DoD? Explore the data to learn more.
+                We see that while the relationship between Hollywood and the military is mutual and long-lasting, it is not entirely equal. What kinds of films end up getting approved or denied support from the DoD? Explore the data to learn more.
                 <br>
                 <br>
                 <div class='search-bar'>
@@ -926,6 +926,7 @@ export default {
   border: none;
   border-radius: 20px;
   background-color: var(--bg-color);
+  transform: translateY(-25px);
   font-weight: 900;
 }
 
