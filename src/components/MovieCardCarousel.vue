@@ -99,6 +99,7 @@ export default {
   background-color: var(--accent);
   color: var(--text);
   border-radius: 5px;
+  z-index: 500;
 }
 
 .approved {

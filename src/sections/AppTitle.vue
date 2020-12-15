@@ -141,6 +141,7 @@ export default {
   margin: 0;
   text-align: left;
   border: 3px solid var(--bg-color);
+  z-index: 100;
 }
 
 .film-gif {

@@ -925,9 +925,10 @@ export default {
   color: gray;
   border: none;
   border-radius: 20px;
-  background-color: var(--bg-color);
+  background-color: transparent;
   transform: translateY(-25px);
   font-weight: 900;
+  z-index: 1;
 }
 
 .next-section-btn:hover {
