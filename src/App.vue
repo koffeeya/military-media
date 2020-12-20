@@ -231,6 +231,7 @@ a:hover {
 
   :root {
     --root-size: 10px;
+    --body-size: 18px;
   }
 }
 </style>
