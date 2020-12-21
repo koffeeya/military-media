@@ -263,7 +263,7 @@
               <div>
                 <div class='end-header'>CONTACT ME</div>
                 <p>Made with ❤️ by Kavya Beheraj, as part of the <a href='https://www.gc.cuny.edu/Page-Elements/Academics-Research-Centers-Initiatives/Masters-Programs/Data-Analysis-and-Visualization' target="_blank" rel="noopener noreferrer">M.S. Data Analysis & Visualization</a> program at the CUNY Graduate Center.</p>
-                <p><a href='mailto:kavya.beheraj@gmail.com' target="_blank" rel="noopener noreferrer">Email</a> | <a href='https://www.linkedin.com/in/kavyabeheraj/' target="_blank" rel="noopener noreferrer">LinkedIn</a> | <a href='https://github.com/koffeeya' target="_blank" rel="noopener noreferrer">GitHub</a></p>
+                <p><a href='mailto:kavya.beheraj@gmail.com' target="_blank" rel="noopener noreferrer">Email</a> | <a href='https://www.linkedin.com/in/kavyabeheraj/' target="_blank" rel="noopener noreferrer">LinkedIn</a> | <a href='https://github.com/koffeeya' target="_blank" rel="noopener noreferrer">GitHub</a> | <a href='https://koffeeya.github.io/portfolio/index.html' target="_blank" rel="noopener noreferrer">Website</a></p>
               </div>
             </div>
           </div>
