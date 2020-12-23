@@ -66,7 +66,7 @@
                 learn more about it.
               </p>
               <br />
-              The chart below shows all 509 films in the database by release
+              The chart below shows all 518 films in the database by release
               year. Each square represents one film, colored by whether the
               Department of Defense
               <button
@@ -251,19 +251,19 @@
           <div class="waffle-text text8 hide">
             <div class="text-section">
               <div class='end-header'>ABOUT THE DATA</div>
-              The dataset for this project was originally downloaded as a <a href='https://drive.google.com/file/d/1NeDVYu_gvEhtdQVtSFPRIapHDxJx6842/view?usp=sharing' target="_blank" rel="noopener noreferrer">PDF file</a> from <a href='https://www.spyculture.com/' target="_blank" rel="noopener noreferrer">Spy Culture</a>, the website of the journalist Tom Secker, who acquired the file in a 2017 Freedom of Information request to the U.S. Pentagon.
+              The dataset for this project was originally downloaded as a <a href='https://drive.google.com/file/d/1NeDVYu_gvEhtdQVtSFPRIapHDxJx6842/view?usp=sharing' target="_blank" rel="noopener noreferrer">PDF file</a> from <a href='https://www.spyculture.com/' target="_blank" rel="noopener noreferrer">Spy Culture</a>, the website of the journalist Tom Secker, who acquired the file in a 2017 Freedom of Information Act (FOIA) request to the U.S. Pentagon. I later acquired limited data up to 2019 in a <a href='https://drive.google.com/file/d/1T8VGZBlStX5I0mhcNiN2qzNBMMFq-QkY/view?usp=sharing' target="_blank" rel="noopener noreferrer">second FOIA request</a> to the DoD.
               <br>
               <br>
-              With the help of some very patient friends, the PDF file was manually transcribed into a spreadsheet of 865 TV episodes and films. This project focused on the <a href='https://docs.google.com/spreadsheets/d/1HwdmpiSpNXfoNoI_5ndwdQi3Z3lCXU8VthPYelr6ZqA/edit?usp=sharing' target="_blank" rel="noopener noreferrer">509 films</a> in the database with confirmed release dates on IMDb. Some of the DoD's remarks were edited for spelling and clarity.
+              With the help of some very patient friends, the PDF files were manually transcribed into a spreadsheet of 865 TV episodes and films. This project focused on the <a href='https://docs.google.com/spreadsheets/d/1HwdmpiSpNXfoNoI_5ndwdQi3Z3lCXU8VthPYelr6ZqA/edit?usp=sharing' target="_blank" rel="noopener noreferrer">518 films</a> in the database with confirmed release dates on IMDb. Some of the DoD's remarks were edited for spelling and clarity.
               <br>
               <br>
-              The data does not encompass every single film that collaborated with the DoD in the last century — it is limited by what the Pentagon chose to release in the 2017 FOIA request and what I could find on IMDb.
+              The data does not encompass every single film that collaborated with the DoD in the last century — it is limited by what the Pentagon chose to release in the 2017 and 2020 FOIA requests and what I could find on IMDb.
               <br>
               <br>
               <div>
                 <div class='end-header'>CONTACT ME</div>
                 <p>Made with ❤️ by Kavya Beheraj, as part of the <a href='https://www.gc.cuny.edu/Page-Elements/Academics-Research-Centers-Initiatives/Masters-Programs/Data-Analysis-and-Visualization' target="_blank" rel="noopener noreferrer">M.S. Data Analysis & Visualization</a> program at the CUNY Graduate Center.</p>
-                <p><a href='mailto:kavya.beheraj@gmail.com' target="_blank" rel="noopener noreferrer">Email</a> | <a href='https://www.linkedin.com/in/kavyabeheraj/' target="_blank" rel="noopener noreferrer">LinkedIn</a> | <a href='https://github.com/koffeeya' target="_blank" rel="noopener noreferrer">GitHub</a> | <a href='https://koffeeya.github.io/portfolio/index.html' target="_blank" rel="noopener noreferrer">Website</a></p>
+                <p><a href='mailto:kavya.beheraj@gmail.com' target="_blank" rel="noopener noreferrer">Email</a> | <a href='https://www.linkedin.com/in/kavyabeheraj/' target="_blank" rel="noopener noreferrer">LinkedIn</a> | <a href='https://github.com/koffeeya/military-media' target="_blank" rel="noopener noreferrer">GitHub</a> | <a href='https://koffeeya.github.io/portfolio/index.html' target="_blank" rel="noopener noreferrer">Website</a></p>
               </div>
             </div>
           </div>
@@ -351,24 +351,24 @@ export default {
       searchTerm: "",
       searchLocation: "Military Remarks",
       searchLocationClean: "Remarks",
-      activeFilmsNum: 509,
+      activeFilmsNum: 518,
       defaultPercent: {
-        approved: 59,
-        denied: 18,
+        approved: 62,
+        denied: 17,
         limited: 12,
-        other: 11,
+        other: 9,
       },
       percent: {
-        approved: 59,
-        denied: 18,
+        approved: 62,
+        denied: 17,
         limited: 12,
-        other: 11,
+        other: 9,
       },
       prevPercent: {
-        approved: 59,
-        denied: 18,
+        approved: 62,
+        denied: 17,
         limited: 12,
-        other: 11,
+        other: 9,
       },
       stepList: [
         {
@@ -486,7 +486,7 @@ export default {
       const elWidth = element.getBoundingClientRect().width;
       const mod = year % 10;
       const minYear = 1911;
-      const maxYear = 2016;
+      const maxYear = 2019;
       if (year === minYear || year === maxYear) {
         return "yearVisible";
       } else if (elWidth > 600 && mod === 0) {
@@ -498,7 +498,7 @@ export default {
       const elWidth = element.getBoundingClientRect().width;
       const mod = year % 10;
       const minYear = 1911;
-      const maxYear = 2016;
+      const maxYear = 2019;
       if (year === minYear || year === maxYear) {
         return year;
       } else if (elWidth > 600 && mod === 0) {
